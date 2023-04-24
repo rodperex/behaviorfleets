@@ -28,7 +28,7 @@ id_("test")
   status_pub_ = create_publisher<bf_msgs::msg::MissionStatus>("/" + id_ +"/mission_status", 10);
 
   tree_ = create_tree();
- 
+  
   timer_ = create_wall_timer(50ms, std::bind(&Test::control_cycle, this));
 }
 
@@ -57,8 +57,8 @@ Test::control_cycle(){
     status_pub_->publish(msg);
     if(!stop)
       rclcpp::spin_some(node_);
-    else
-      rclcpp::shutdown();   
+    //else
+      //  rclcpp::shutdown();   
 }
 
 BT::Tree
