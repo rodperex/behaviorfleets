@@ -1,0 +1,187 @@
+[0.428s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build', '--symlink-install', '--packages-select', 'bt4_bumpgo']
+[0.428s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=True, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=8, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=['bt4_bumpgo'], packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0x7f1361d44640>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x7f13625bf880>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x7f13625bf880>>)
+[0.480s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.480s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.481s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.481s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.481s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[0.481s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.481s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/rod/ros_ws/behaviorfleets'
+[0.481s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.481s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[0.481s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[0.481s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[0.481s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[0.482s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[0.482s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[0.482s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[0.482s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[0.496s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[0.496s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[0.496s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[0.496s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[0.496s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[0.496s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.497s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[0.497s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[0.497s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.497s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[0.497s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[0.497s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.498s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[0.498s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[0.498s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ignore', 'ignore_ament_install']
+[0.498s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore'
+[0.498s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore_ament_install'
+[0.498s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_pkg']
+[0.498s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_pkg'
+[0.498s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_meta']
+[0.498s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_meta'
+[0.498s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ros']
+[0.498s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ros'
+[0.498s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['cmake', 'python']
+[0.499s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'cmake'
+[0.499s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python'
+[0.499s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['python_setup_py']
+[0.499s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python_setup_py'
+[0.499s] Level 1:colcon.colcon_core.package_identification:_identify(src/behaviorfleets) by extensions ['ignore', 'ignore_ament_install']
+[0.499s] Level 1:colcon.colcon_core.package_identification:_identify(src/behaviorfleets) by extension 'ignore'
+[0.499s] Level 1:colcon.colcon_core.package_identification:_identify(src/behaviorfleets) ignored
+[0.499s] Level 1:colcon.colcon_core.package_identification:_identify(src/bf_msgs) by extensions ['ignore', 'ignore_ament_install']
+[0.499s] Level 1:colcon.colcon_core.package_identification:_identify(src/bf_msgs) by extension 'ignore'
+[0.499s] Level 1:colcon.colcon_core.package_identification:_identify(src/bf_msgs) by extension 'ignore_ament_install'
+[0.500s] Level 1:colcon.colcon_core.package_identification:_identify(src/bf_msgs) by extensions ['colcon_pkg']
+[0.500s] Level 1:colcon.colcon_core.package_identification:_identify(src/bf_msgs) by extension 'colcon_pkg'
+[0.500s] Level 1:colcon.colcon_core.package_identification:_identify(src/bf_msgs) by extensions ['colcon_meta']
+[0.500s] Level 1:colcon.colcon_core.package_identification:_identify(src/bf_msgs) by extension 'colcon_meta'
+[0.500s] Level 1:colcon.colcon_core.package_identification:_identify(src/bf_msgs) by extensions ['ros']
+[0.500s] Level 1:colcon.colcon_core.package_identification:_identify(src/bf_msgs) by extension 'ros'
+[0.502s] DEBUG:colcon.colcon_core.package_identification:Package 'src/bf_msgs' with type 'ros.ament_cmake' and name 'bf_msgs'
+[0.503s] Level 1:colcon.colcon_core.package_identification:_identify(src/bt4_bumpgo) by extensions ['ignore', 'ignore_ament_install']
+[0.503s] Level 1:colcon.colcon_core.package_identification:_identify(src/bt4_bumpgo) by extension 'ignore'
+[0.503s] Level 1:colcon.colcon_core.package_identification:_identify(src/bt4_bumpgo) by extension 'ignore_ament_install'
+[0.503s] Level 1:colcon.colcon_core.package_identification:_identify(src/bt4_bumpgo) by extensions ['colcon_pkg']
+[0.503s] Level 1:colcon.colcon_core.package_identification:_identify(src/bt4_bumpgo) by extension 'colcon_pkg'
+[0.503s] Level 1:colcon.colcon_core.package_identification:_identify(src/bt4_bumpgo) by extensions ['colcon_meta']
+[0.503s] Level 1:colcon.colcon_core.package_identification:_identify(src/bt4_bumpgo) by extension 'colcon_meta'
+[0.503s] Level 1:colcon.colcon_core.package_identification:_identify(src/bt4_bumpgo) by extensions ['ros']
+[0.503s] Level 1:colcon.colcon_core.package_identification:_identify(src/bt4_bumpgo) by extension 'ros'
+[0.504s] DEBUG:colcon.colcon_core.package_identification:Package 'src/bt4_bumpgo' with type 'ros.ament_cmake' and name 'bt4_bumpgo'
+[0.505s] Level 1:colcon.colcon_core.package_identification:_identify(src/thirdparty) by extensions ['ignore', 'ignore_ament_install']
+[0.505s] Level 1:colcon.colcon_core.package_identification:_identify(src/thirdparty) by extension 'ignore'
+[0.505s] Level 1:colcon.colcon_core.package_identification:_identify(src/thirdparty) by extension 'ignore_ament_install'
+[0.505s] Level 1:colcon.colcon_core.package_identification:_identify(src/thirdparty) by extensions ['colcon_pkg']
+[0.505s] Level 1:colcon.colcon_core.package_identification:_identify(src/thirdparty) by extension 'colcon_pkg'
+[0.505s] Level 1:colcon.colcon_core.package_identification:_identify(src/thirdparty) by extensions ['colcon_meta']
+[0.505s] Level 1:colcon.colcon_core.package_identification:_identify(src/thirdparty) by extension 'colcon_meta'
+[0.505s] Level 1:colcon.colcon_core.package_identification:_identify(src/thirdparty) by extensions ['ros']
+[0.505s] Level 1:colcon.colcon_core.package_identification:_identify(src/thirdparty) by extension 'ros'
+[0.505s] Level 1:colcon.colcon_core.package_identification:_identify(src/thirdparty) by extensions ['cmake', 'python']
+[0.505s] Level 1:colcon.colcon_core.package_identification:_identify(src/thirdparty) by extension 'cmake'
+[0.505s] Level 1:colcon.colcon_core.package_identification:_identify(src/thirdparty) by extension 'python'
+[0.505s] Level 1:colcon.colcon_core.package_identification:_identify(src/thirdparty) by extensions ['python_setup_py']
+[0.506s] Level 1:colcon.colcon_core.package_identification:_identify(src/thirdparty) by extension 'python_setup_py'
+[0.506s] Level 1:colcon.colcon_core.package_identification:_identify(src/thirdparty/behaviortree_cpp) by extensions ['ignore', 'ignore_ament_install']
+[0.506s] Level 1:colcon.colcon_core.package_identification:_identify(src/thirdparty/behaviortree_cpp) by extension 'ignore'
+[0.506s] Level 1:colcon.colcon_core.package_identification:_identify(src/thirdparty/behaviortree_cpp) by extension 'ignore_ament_install'
+[0.506s] Level 1:colcon.colcon_core.package_identification:_identify(src/thirdparty/behaviortree_cpp) by extensions ['colcon_pkg']
+[0.506s] Level 1:colcon.colcon_core.package_identification:_identify(src/thirdparty/behaviortree_cpp) by extension 'colcon_pkg'
+[0.506s] Level 1:colcon.colcon_core.package_identification:_identify(src/thirdparty/behaviortree_cpp) by extensions ['colcon_meta']
+[0.506s] Level 1:colcon.colcon_core.package_identification:_identify(src/thirdparty/behaviortree_cpp) by extension 'colcon_meta'
+[0.506s] Level 1:colcon.colcon_core.package_identification:_identify(src/thirdparty/behaviortree_cpp) by extensions ['ros']
+[0.506s] Level 1:colcon.colcon_core.package_identification:_identify(src/thirdparty/behaviortree_cpp) by extension 'ros'
+[0.515s] DEBUG:colcon.colcon_core.package_identification:Package 'src/thirdparty/behaviortree_cpp' with type 'ros.ament_cmake' and name 'behaviortree_cpp'
+[0.515s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[0.515s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[0.515s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[0.515s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[0.515s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[0.540s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'behaviortree_cpp' in 'src/thirdparty/behaviortree_cpp'
+[0.540s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'bf_msgs' in 'src/bf_msgs'
+[0.541s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[0.541s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[0.545s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 438 installed packages in /opt/ros/humble
+[0.547s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[0.629s] Level 5:colcon.colcon_core.verb:set package 'bt4_bumpgo' build argument 'cmake_args' from command line to 'None'
+[0.629s] Level 5:colcon.colcon_core.verb:set package 'bt4_bumpgo' build argument 'cmake_target' from command line to 'None'
+[0.629s] Level 5:colcon.colcon_core.verb:set package 'bt4_bumpgo' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.629s] Level 5:colcon.colcon_core.verb:set package 'bt4_bumpgo' build argument 'cmake_clean_cache' from command line to 'False'
+[0.629s] Level 5:colcon.colcon_core.verb:set package 'bt4_bumpgo' build argument 'cmake_clean_first' from command line to 'False'
+[0.629s] Level 5:colcon.colcon_core.verb:set package 'bt4_bumpgo' build argument 'cmake_force_configure' from command line to 'False'
+[0.629s] Level 5:colcon.colcon_core.verb:set package 'bt4_bumpgo' build argument 'ament_cmake_args' from command line to 'None'
+[0.629s] Level 5:colcon.colcon_core.verb:set package 'bt4_bumpgo' build argument 'catkin_cmake_args' from command line to 'None'
+[0.629s] Level 5:colcon.colcon_core.verb:set package 'bt4_bumpgo' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.629s] DEBUG:colcon.colcon_core.verb:Building package 'bt4_bumpgo' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo', 'merge_install': False, 'path': '/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo', 'symlink_install': True, 'test_result_base': None}
+[0.630s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[0.633s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[0.634s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo' with build type 'ament_cmake'
+[0.634s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo'
+[0.638s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.638s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.638s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.652s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo': AMENT_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble LD_LIBRARY_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/lib:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins PATH=/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/bin:${PATH} PYTHONPATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo -- -j8 -l8
+[11.944s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo' returned '0': AMENT_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble LD_LIBRARY_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/lib:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins PATH=/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/bin:${PATH} PYTHONPATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo -- -j8 -l8
+[11.985s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo': AMENT_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble LD_LIBRARY_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/lib:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins PATH=/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/bin:${PATH} PYTHONPATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo
+[12.005s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(bt4_bumpgo)
+[12.006s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo' returned '0': AMENT_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble LD_LIBRARY_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/lib:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins PATH=/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/bin:${PATH} PYTHONPATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo
+[12.010s] Level 1:colcon.colcon_core.environment:checking '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo' for CMake module files
+[12.011s] Level 1:colcon.colcon_core.environment:checking '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo' for CMake config files
+[12.011s] Level 1:colcon.colcon_core.shell:create_environment_hook('bt4_bumpgo', 'cmake_prefix_path')
+[12.013s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/hook/cmake_prefix_path.ps1'
+[12.013s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/hook/cmake_prefix_path.dsv'
+[12.014s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/hook/cmake_prefix_path.sh'
+[12.014s] Level 1:colcon.colcon_core.environment:checking '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/lib'
+[12.015s] Level 1:colcon.colcon_core.shell:create_environment_hook('bt4_bumpgo', 'ld_library_path_lib')
+[12.016s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/hook/ld_library_path_lib.ps1'
+[12.016s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/hook/ld_library_path_lib.dsv'
+[12.017s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/hook/ld_library_path_lib.sh'
+[12.017s] Level 1:colcon.colcon_core.environment:checking '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/bin'
+[12.017s] Level 1:colcon.colcon_core.environment:checking '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/lib/pkgconfig/bt4_bumpgo.pc'
+[12.017s] Level 1:colcon.colcon_core.environment:checking '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/lib/python3.10/site-packages'
+[12.018s] Level 1:colcon.colcon_core.environment:checking '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/bin'
+[12.019s] INFO:colcon.colcon_core.shell:Creating package script '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/package.ps1'
+[12.020s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/package.dsv'
+[12.021s] INFO:colcon.colcon_core.shell:Creating package script '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/package.sh'
+[12.022s] INFO:colcon.colcon_core.shell:Creating package script '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/package.bash'
+[12.022s] INFO:colcon.colcon_core.shell:Creating package script '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/package.zsh'
+[12.023s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/colcon-core/packages/bt4_bumpgo)
+[12.057s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(bt4_bumpgo)
+[12.059s] Level 1:colcon.colcon_core.environment:checking '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo' for CMake module files
+[12.059s] Level 1:colcon.colcon_core.environment:checking '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo' for CMake config files
+[12.059s] Level 1:colcon.colcon_core.shell:create_environment_hook('bt4_bumpgo', 'cmake_prefix_path')
+[12.061s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/hook/cmake_prefix_path.ps1'
+[12.061s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/hook/cmake_prefix_path.dsv'
+[12.061s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/hook/cmake_prefix_path.sh'
+[12.062s] Level 1:colcon.colcon_core.environment:checking '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/lib'
+[12.062s] Level 1:colcon.colcon_core.shell:create_environment_hook('bt4_bumpgo', 'ld_library_path_lib')
+[12.063s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/hook/ld_library_path_lib.ps1'
+[12.064s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/hook/ld_library_path_lib.dsv'
+[12.064s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/hook/ld_library_path_lib.sh'
+[12.064s] Level 1:colcon.colcon_core.environment:checking '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/bin'
+[12.064s] Level 1:colcon.colcon_core.environment:checking '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/lib/pkgconfig/bt4_bumpgo.pc'
+[12.064s] Level 1:colcon.colcon_core.environment:checking '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/lib/python3.10/site-packages'
+[12.065s] Level 1:colcon.colcon_core.environment:checking '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/bin'
+[12.066s] INFO:colcon.colcon_core.shell:Creating package script '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/package.ps1'
+[12.067s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/package.dsv'
+[12.067s] INFO:colcon.colcon_core.shell:Creating package script '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/package.sh'
+[12.067s] INFO:colcon.colcon_core.shell:Creating package script '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/package.bash'
+[12.068s] INFO:colcon.colcon_core.shell:Creating package script '/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/package.zsh'
+[12.068s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/colcon-core/packages/bt4_bumpgo)
+[12.069s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[12.069s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[12.069s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[12.069s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[12.074s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[12.074s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[12.074s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[12.085s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[12.087s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/rod/ros_ws/behaviorfleets/install/local_setup.ps1'
+[12.088s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/rod/ros_ws/behaviorfleets/install/_local_setup_util_ps1.py'
+[12.089s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/rod/ros_ws/behaviorfleets/install/setup.ps1'
+[12.090s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/rod/ros_ws/behaviorfleets/install/local_setup.sh'
+[12.091s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/rod/ros_ws/behaviorfleets/install/_local_setup_util_sh.py'
+[12.091s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/rod/ros_ws/behaviorfleets/install/setup.sh'
+[12.092s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/rod/ros_ws/behaviorfleets/install/local_setup.bash'
+[12.093s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/rod/ros_ws/behaviorfleets/install/setup.bash'
+[12.094s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/rod/ros_ws/behaviorfleets/install/local_setup.zsh'
+[12.095s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/rod/ros_ws/behaviorfleets/install/setup.zsh'

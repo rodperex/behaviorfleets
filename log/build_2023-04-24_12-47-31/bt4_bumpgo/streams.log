@@ -1,0 +1,82 @@
+[0.018s] Invoking command in '/home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo': AMENT_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble LD_LIBRARY_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/lib:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins PATH=/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/bin:${PATH} PYTHONPATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo -- -j8 -l8
+[0.038s] -- Found ament_cmake: 1.3.3 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.184s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[0.191s] -- Found rclcpp: 16.0.3 (/opt/ros/humble/share/rclcpp/cmake)
+[0.222s] -- Found rosidl_generator_c: 3.1.4 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.224s] -- Found rosidl_adapter: 3.1.4 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.230s] -- Found rosidl_generator_cpp: 3.1.4 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.241s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.257s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.315s] -- Found rmw_implementation_cmake: 6.1.1 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.316s] -- Found rmw_fastrtps_cpp: 6.2.2 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[0.444s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.605s] -- Found behaviortree_cpp: 4.1.1 (/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/share/behaviortree_cpp/cmake)
+[0.607s] -- Found sensor_msgs: 4.2.3 (/opt/ros/humble/share/sensor_msgs/cmake)
+[0.736s] -- Found backward_ros: 1.0.2 (/opt/ros/humble/share/backward_ros/cmake)
+[0.740s] -- Could NOT find libbfd (missing: LIBBFD_LIBRARY LIBBFD_INCLUDE_DIR) 
+[0.740s] -- BACKWARD_HAS_UNWIND=1
+[0.740s] -- BACKWARD_HAS_BACKTRACE=0
+[0.740s] -- BACKWARD_HAS_BACKTRACE_SYMBOL=0
+[0.740s] -- BACKWARD_HAS_DW=1
+[0.740s] -- BACKWARD_HAS_BFD=0
+[0.741s] -- Found Backward: /opt/ros/humble/share/backward_ros/cmake  
+[0.741s] -- Found bf_msgs: 0.2.0 (/home/rod/ros_ws/behaviorfleets/install/bf_msgs/share/bf_msgs/cmake)
+[0.776s] -- ZeroMQ found.
+[0.779s] -- Found ament_lint_auto: 0.12.5 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[0.846s] -- Found gtest sources under '/opt/ros/humble/src/gtest_vendor': C++ tests using 'Google Test' will be built
+[0.857s] -- Added test 'copyright' to check source files copyright and LICENSE
+[0.858s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[0.859s] -- Configured cppcheck include dirs: /home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/include
+[0.859s] -- Configured cppcheck exclude dirs and/or files: 
+[0.860s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[0.860s] -- Configured cpplint exclude dirs and/or files: 
+[0.860s] -- Added test 'flake8' to check Python code syntax and style conventions
+[0.861s] -- Added test 'lint_cmake' to check CMake code style
+[0.861s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[0.862s] -- Added test 'uncrustify' to check C / C++ code style
+[0.862s] -- Configured uncrustify additional arguments: 
+[0.863s] -- Added test 'xmllint' to check XML markup files
+[0.864s] -- Configuring done
+[0.885s] -- Generating done
+[0.887s] -- Build files have been written to: /home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo
+[0.909s] [35m[1mConsolidate compiler generated dependencies of target gtest_main[0m
+[0.910s] [35m[1mConsolidate compiler generated dependencies of target gtest[0m
+[0.910s] [35m[1mConsolidate compiler generated dependencies of target bt_forward[0m
+[0.910s] [35m[1mConsolidate compiler generated dependencies of target delegation_node[0m
+[0.921s] [ 20%] Built target gtest_main
+[0.921s] [ 40%] Built target gtest
+[0.926s] [ 60%] Built target bt_forward
+[0.930s] [ 80%] Built target delegation_node
+[0.931s] [35m[1mConsolidate compiler generated dependencies of target bt_action_test[0m
+[0.946s] [100%] Built target bt_action_test
+[0.956s] Invoked command in '/home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo' returned '0': AMENT_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble LD_LIBRARY_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/lib:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins PATH=/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/bin:${PATH} PYTHONPATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo -- -j8 -l8
+[0.984s] Invoking command in '/home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo': AMENT_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble LD_LIBRARY_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/lib:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins PATH=/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/bin:${PATH} PYTHONPATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo
+[0.990s] -- Install configuration: ""
+[0.990s] -- Execute custom install script
+[0.990s] -- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/lib/libdelegation_node.so
+[0.991s] -- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/launch/bt4_bumpgo.launch.py
+[0.991s] -- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/include//bt4_bumpgo/Back.hpp
+[0.991s] -- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/include//bt4_bumpgo/DelegationNode.hpp
+[0.991s] -- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/include//bt4_bumpgo/Forward.hpp
+[0.991s] -- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/include//bt4_bumpgo/IsObstacle.hpp
+[0.991s] -- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/include//bt4_bumpgo/Turn.hpp
+[0.991s] -- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/behavior_tree_xml/bumpgo.xml
+[0.992s] -- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/lib/bt4_bumpgo/bt_forward
+[0.992s] -- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/ament_index/resource_index/package_run_dependencies/bt4_bumpgo
+[0.992s] -- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/ament_index/resource_index/parent_prefix_path/bt4_bumpgo
+[0.992s] -- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/environment/ament_prefix_path.sh
+[0.992s] -- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/environment/ament_prefix_path.dsv
+[0.992s] -- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/environment/path.sh
+[0.992s] -- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/environment/path.dsv
+[0.993s] -- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/local_setup.bash
+[0.993s] -- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/local_setup.sh
+[0.993s] -- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/local_setup.zsh
+[0.993s] -- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/local_setup.dsv
+[0.993s] -- Symlinking: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/package.dsv
+[1.000s] -- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/ament_index/resource_index/packages/bt4_bumpgo
+[1.000s] -- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/cmake/ament_cmake_export_include_directories-extras.cmake
+[1.001s] -- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/cmake/ament_cmake_export_dependencies-extras.cmake
+[1.001s] -- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/cmake/bt4_bumpgoConfig.cmake
+[1.001s] -- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/cmake/bt4_bumpgoConfig-version.cmake
+[1.001s] -- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/package.xml
+[1.003s] Invoked command in '/home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo' returned '0': AMENT_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble LD_LIBRARY_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/lib:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins PATH=/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/bin:${PATH} PYTHONPATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo

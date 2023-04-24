@@ -1,0 +1,7 @@
+[ 10%] Built target turn_node
+[ 20%] Built target gtest
+[ 30%] Built target forward_node
+[ 45%] Built target bt4_bumpgo
+[ 55%] Built target is_obstacle_node
+[ 60%] Built target back_node
+[ 70%] Built target gtest_main

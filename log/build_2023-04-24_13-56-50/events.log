@@ -1,0 +1,115 @@
+[0.000000] (-) TimerEvent: {}
+[0.000147] (-) JobUnselected: {'identifier': 'behaviorfleets'}
+[0.000191] (-) JobUnselected: {'identifier': 'behaviortree_cpp'}
+[0.000221] (-) JobUnselected: {'identifier': 'bf_msgs'}
+[0.000271] (bf_example) JobQueued: {'identifier': 'bf_example', 'dependencies': OrderedDict([('behaviortree_cpp', '/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp'), ('bf_msgs', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs'), ('behaviorfleets', '/home/rod/ros_ws/behaviorfleets/install/behaviorfleets')])}
+[0.000301] (bf_example) JobStarted: {'identifier': 'bf_example'}
+[0.016751] (bf_example) JobProgress: {'identifier': 'bf_example', 'progress': 'cmake'}
+[0.017444] (bf_example) JobProgress: {'identifier': 'bf_example', 'progress': 'build'}
+[0.018485] (bf_example) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/rod/ros_ws/behaviorfleets/build/bf_example', '--', '-j8', '-l8'], 'cwd': '/home/rod/ros_ws/behaviorfleets/build/bf_example', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'rod'), ('LC_TIME', 'es_ES.UTF-8'), ('XDG_SESSION_TYPE', 'wayland'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/rod/ros_ws/behaviorfleets/install/behaviorfleets/lib:/home/rod/ros_ws/behaviorfleets/install/bf_msgs/lib:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins'), ('HOME', '/home/rod'), ('DESKTOP_SESSION', 'ubuntu'), ('GAZEBO_MASTER_URI', 'http://localhost:11345'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'es_ES.UTF-8'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '2433'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=3324fab7412aeb92672021c264463894'), ('COLORTERM', 'truecolor'), ('IM_CONFIG_PHASE', '1'), ('WAYLAND_DISPLAY', 'wayland-0'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'rod'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'rod'), ('TERM', 'xterm-256color'), ('GAZEBO_MODEL_PATH', '/usr/share/gazebo/../../share/gazebo-11/models:'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('OGRE_RESOURCE_PATH', '/usr/lib/x86_64-linux-gnu/OGRE-1.9.0'), ('PATH', '/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/vega:@/tmp/.ICE-unix/2433,unix/vega:/tmp/.ICE-unix/2433'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'es_ES.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/797cb12a_af35_4ddb_9cf3_31500a602d52'), ('GNOME_SETUP_DISPLAY', ':1'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'es_ES.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/.mutter-Xwaylandauth.M8CW31'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.2075'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/rod/ros_ws/behaviorfleets/install/behaviorfleets:/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'es_ES.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'es_ES.UTF-8'), ('GAZEBO_RESOURCE_PATH', '/usr/share/gazebo/../../share/gazebo-11:'), ('LC_IDENTIFICATION', 'es_ES.UTF-8'), ('GAZEBO_MODEL_DATABASE_URI', 'http://models.gazebosim.org'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/rod/ros_ws/behaviorfleets/build/bf_example'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('GAZEBO_PLUGIN_PATH', '/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins:'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=3324fab7412aeb92672021c264463894'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'es_ES.UTF-8'), ('LC_PAPER', 'es_ES.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/rod/ros_ws/behaviorfleets/install/behaviorfleets:/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble')]), 'shell': False}
+[0.058918] (bf_example) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target bf_example\x1b[0m\n'}
+[0.078285] (bf_example) StdoutLine: {'line': b'[ 33%] \x1b[32mBuilding CXX object CMakeFiles/bf_example.dir/src/Test.cpp.o\x1b[0m\n'}
+[0.098608] (-) TimerEvent: {}
+[0.198902] (-) TimerEvent: {}
+[0.299251] (-) TimerEvent: {}
+[0.399724] (-) TimerEvent: {}
+[0.500131] (-) TimerEvent: {}
+[0.600426] (-) TimerEvent: {}
+[0.700704] (-) TimerEvent: {}
+[0.800992] (-) TimerEvent: {}
+[0.901253] (-) TimerEvent: {}
+[1.001550] (-) TimerEvent: {}
+[1.101839] (-) TimerEvent: {}
+[1.202327] (-) TimerEvent: {}
+[1.302687] (-) TimerEvent: {}
+[1.402960] (-) TimerEvent: {}
+[1.503257] (-) TimerEvent: {}
+[1.603527] (-) TimerEvent: {}
+[1.703836] (-) TimerEvent: {}
+[1.804151] (-) TimerEvent: {}
+[1.904470] (-) TimerEvent: {}
+[2.004785] (-) TimerEvent: {}
+[2.105121] (-) TimerEvent: {}
+[2.205464] (-) TimerEvent: {}
+[2.305822] (-) TimerEvent: {}
+[2.406155] (-) TimerEvent: {}
+[2.506501] (-) TimerEvent: {}
+[2.606783] (-) TimerEvent: {}
+[2.707064] (-) TimerEvent: {}
+[2.807338] (-) TimerEvent: {}
+[2.907593] (-) TimerEvent: {}
+[3.007863] (-) TimerEvent: {}
+[3.108114] (-) TimerEvent: {}
+[3.208406] (-) TimerEvent: {}
+[3.308698] (-) TimerEvent: {}
+[3.409018] (-) TimerEvent: {}
+[3.509317] (-) TimerEvent: {}
+[3.609599] (-) TimerEvent: {}
+[3.709897] (-) TimerEvent: {}
+[3.810185] (-) TimerEvent: {}
+[3.910491] (-) TimerEvent: {}
+[4.010820] (-) TimerEvent: {}
+[4.111084] (-) TimerEvent: {}
+[4.211401] (-) TimerEvent: {}
+[4.311716] (-) TimerEvent: {}
+[4.412029] (-) TimerEvent: {}
+[4.512312] (-) TimerEvent: {}
+[4.612604] (-) TimerEvent: {}
+[4.712885] (-) TimerEvent: {}
+[4.813167] (-) TimerEvent: {}
+[4.913463] (-) TimerEvent: {}
+[5.013752] (-) TimerEvent: {}
+[5.114016] (-) TimerEvent: {}
+[5.214363] (-) TimerEvent: {}
+[5.314657] (-) TimerEvent: {}
+[5.414997] (-) TimerEvent: {}
+[5.515287] (-) TimerEvent: {}
+[5.615704] (-) TimerEvent: {}
+[5.716056] (-) TimerEvent: {}
+[5.816343] (-) TimerEvent: {}
+[5.916628] (-) TimerEvent: {}
+[6.016910] (-) TimerEvent: {}
+[6.117178] (-) TimerEvent: {}
+[6.217471] (-) TimerEvent: {}
+[6.317781] (-) TimerEvent: {}
+[6.418059] (-) TimerEvent: {}
+[6.518397] (-) TimerEvent: {}
+[6.618694] (-) TimerEvent: {}
+[6.718989] (-) TimerEvent: {}
+[6.819246] (-) TimerEvent: {}
+[6.919545] (-) TimerEvent: {}
+[7.019836] (-) TimerEvent: {}
+[7.120150] (-) TimerEvent: {}
+[7.220458] (-) TimerEvent: {}
+[7.320762] (-) TimerEvent: {}
+[7.421065] (-) TimerEvent: {}
+[7.521369] (-) TimerEvent: {}
+[7.621658] (-) TimerEvent: {}
+[7.721967] (-) TimerEvent: {}
+[7.822269] (-) TimerEvent: {}
+[7.922564] (-) TimerEvent: {}
+[8.022869] (-) TimerEvent: {}
+[8.123175] (-) TimerEvent: {}
+[8.223512] (-) TimerEvent: {}
+[8.323769] (-) TimerEvent: {}
+[8.424010] (-) TimerEvent: {}
+[8.524289] (-) TimerEvent: {}
+[8.624582] (-) TimerEvent: {}
+[8.724869] (-) TimerEvent: {}
+[8.825162] (-) TimerEvent: {}
+[8.925477] (-) TimerEvent: {}
+[9.001006] (bf_example) StdoutLine: {'line': b'[ 66%] \x1b[32m\x1b[1mLinking CXX executable bf_example\x1b[0m\n'}
+[9.025607] (-) TimerEvent: {}
+[9.125919] (-) TimerEvent: {}
+[9.226246] (-) TimerEvent: {}
+[9.326515] (-) TimerEvent: {}
+[9.426775] (-) TimerEvent: {}
+[9.432196] (bf_example) StderrLine: {'line': b"/usr/bin/ld: CMakeFiles/bf_example.dir/src/Test.cpp.o: in function `bf_example::Test::Test()':\n"}
+[9.432396] (bf_example) StderrLine: {'line': b"Test.cpp:(.text+0x21e): undefined reference to `bf_example::Test::mission_callback(std::unique_ptr<bf_msgs::msg::MissionCommand_<std::allocator<void> >, std::default_delete<bf_msgs::msg::MissionCommand_<std::allocator<void> > > >)'\n"}
+[9.475091] (bf_example) StderrLine: {'line': b'collect2: error: ld returned 1 exit status\n'}
+[9.476436] (bf_example) StderrLine: {'line': b'gmake[2]: *** [CMakeFiles/bf_example.dir/build.make:187: bf_example] Error 1\n'}
+[9.476648] (bf_example) StderrLine: {'line': b'gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/bf_example.dir/all] Error 2\n'}
+[9.476860] (bf_example) StderrLine: {'line': b'gmake: *** [Makefile:146: all] Error 2\n'}
+[9.478500] (bf_example) CommandEnded: {'returncode': 2}
+[9.511233] (bf_example) JobEnded: {'identifier': 'bf_example', 'rc': 2}
+[9.521816] (-) EventReactorShutdown: {}

@@ -1,0 +1,46 @@
+[0.016s] Invoking command in '/home/rod/ros_ws/behaviorfleets/build/behaviorfleets': AMENT_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble LD_LIBRARY_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/lib:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins PATH=/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/bin:${PATH} PYTHONPATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake /home/rod/ros_ws/behaviorfleets/src/behaviorfleets -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/rod/ros_ws/behaviorfleets/install/behaviorfleets
+[0.062s] -- The C compiler identification is GNU 11.3.0
+[0.111s] -- The CXX compiler identification is GNU 11.3.0
+[0.117s] -- Detecting C compiler ABI info
+[0.175s] -- Detecting C compiler ABI info - done
+[0.183s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.183s] -- Detecting C compile features
+[0.183s] -- Detecting C compile features - done
+[0.186s] -- Detecting CXX compiler ABI info
+[0.252s] -- Detecting CXX compiler ABI info - done
+[0.260s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.260s] -- Detecting CXX compile features
+[0.261s] -- Detecting CXX compile features - done
+[0.263s] -- Found ament_cmake: 1.3.3 (/opt/ros/humble/share/ament_cmake/cmake)
+[1.021s] -- Found Python3: /usr/bin/python3.10 (found version "3.10.6") found components: Interpreter 
+[1.085s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[1.116s] -- Found rclcpp: 16.0.3 (/opt/ros/humble/share/rclcpp/cmake)
+[1.162s] -- Found rosidl_generator_c: 3.1.4 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[1.168s] -- Found rosidl_adapter: 3.1.4 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[1.177s] -- Found rosidl_generator_cpp: 3.1.4 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[1.191s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.211s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.283s] -- Found rmw_implementation_cmake: 6.1.1 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[1.286s] -- Found rmw_fastrtps_cpp: 6.2.2 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[1.373s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[1.400s] -- Found FastRTPS: /opt/ros/humble/include  
+[1.448s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[1.459s] -- Looking for pthread.h
+[1.518s] -- Looking for pthread.h - found
+[1.518s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[1.578s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[1.579s] -- Found Threads: TRUE  
+[1.749s] -- Found behaviortree_cpp: 4.1.1 (/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/share/behaviortree_cpp/cmake)
+[1.751s] -- Found bf_msgs: 0.2.0 (/home/rod/ros_ws/behaviorfleets/install/bf_msgs/share/bf_msgs/cmake)
+[1.847s] [31mCMake Error at /opt/ros/humble/share/ament_cmake_core/cmake/core/ament_package_xml.cmake:53 (message):
+[1.847s]   ament_package_xml() package name 'behaviorfleets' in '/package.xml' does
+[1.847s]   not match current PROJECT_NAME 'bt4_bumpgo'.  You must call project() with
+[1.847s]   the same package name before.
+[1.847s] Call Stack (most recent call first):
+[1.847s]   /opt/ros/humble/share/ament_cmake_core/cmake/core/ament_package.cmake:63 (ament_package_xml)
+[1.847s]   CMakeLists.txt:50 (ament_package)
+[1.847s] 
+[1.847s] [0m
+[1.847s] -- Configuring incomplete, errors occurred!
+[1.847s] See also "/home/rod/ros_ws/behaviorfleets/build/behaviorfleets/CMakeFiles/CMakeOutput.log".
+[1.857s] Invoked command in '/home/rod/ros_ws/behaviorfleets/build/behaviorfleets' returned '1': AMENT_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble LD_LIBRARY_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/lib:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins PATH=/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/bin:${PATH} PYTHONPATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake /home/rod/ros_ws/behaviorfleets/src/behaviorfleets -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/rod/ros_ws/behaviorfleets/install/behaviorfleets

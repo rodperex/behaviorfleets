@@ -1,0 +1,176 @@
+[0.000000] (-) TimerEvent: {}
+[0.000108] (-) JobUnselected: {'identifier': 'behaviortree_cpp'}
+[0.000135] (-) JobUnselected: {'identifier': 'bf_msgs'}
+[0.000166] (bt4_bumpgo) JobQueued: {'identifier': 'bt4_bumpgo', 'dependencies': OrderedDict([('behaviortree_cpp', '/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp'), ('bf_msgs', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs')])}
+[0.000211] (bt4_bumpgo) JobStarted: {'identifier': 'bt4_bumpgo'}
+[0.013765] (bt4_bumpgo) JobProgress: {'identifier': 'bt4_bumpgo', 'progress': 'cmake'}
+[0.014497] (bt4_bumpgo) JobProgress: {'identifier': 'bt4_bumpgo', 'progress': 'build'}
+[0.015264] (bt4_bumpgo) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo', '--', '-j8', '-l8'], 'cwd': '/home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'rod'), ('LC_TIME', 'es_ES.UTF-8'), ('XDG_SESSION_TYPE', 'wayland'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs/lib:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins'), ('HOME', '/home/rod'), ('OLDPWD', '/home/rod/ros_ws/behaviorfleets/src'), ('DESKTOP_SESSION', 'ubuntu'), ('GAZEBO_MASTER_URI', 'http://localhost:11345'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'es_ES.UTF-8'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '2433'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=3324fab7412aeb92672021c264463894'), ('COLORTERM', 'truecolor'), ('IM_CONFIG_PHASE', '1'), ('WAYLAND_DISPLAY', 'wayland-0'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'rod'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'rod'), ('TERM', 'xterm-256color'), ('GAZEBO_MODEL_PATH', '/usr/share/gazebo/../../share/gazebo-11/models:'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('OGRE_RESOURCE_PATH', '/usr/lib/x86_64-linux-gnu/OGRE-1.9.0'), ('PATH', '/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/vega:@/tmp/.ICE-unix/2433,unix/vega:/tmp/.ICE-unix/2433'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'es_ES.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/53f5cc08_ff06_4916_9175_aed2a28cc306'), ('GNOME_SETUP_DISPLAY', ':1'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'es_ES.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/.mutter-Xwaylandauth.M8CW31'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.183'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'es_ES.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'es_ES.UTF-8'), ('GAZEBO_RESOURCE_PATH', '/usr/share/gazebo/../../share/gazebo-11:'), ('LC_IDENTIFICATION', 'es_ES.UTF-8'), ('GAZEBO_MODEL_DATABASE_URI', 'http://models.gazebosim.org'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('GAZEBO_PLUGIN_PATH', '/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins:'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=3324fab7412aeb92672021c264463894'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'es_ES.UTF-8'), ('LC_PAPER', 'es_ES.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble')]), 'shell': False}
+[0.038101] (bt4_bumpgo) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.3 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[0.098917] (-) TimerEvent: {}
+[0.171152] (bt4_bumpgo) StdoutLine: {'line': b'-- Override CMake install command with custom implementation using symlinks instead of copying resources\n'}
+[0.177776] (bt4_bumpgo) StdoutLine: {'line': b'-- Found rclcpp: 16.0.3 (/opt/ros/humble/share/rclcpp/cmake)\n'}
+[0.199038] (-) TimerEvent: {}
+[0.207676] (bt4_bumpgo) StdoutLine: {'line': b'-- Found rosidl_generator_c: 3.1.4 (/opt/ros/humble/share/rosidl_generator_c/cmake)\n'}
+[0.210108] (bt4_bumpgo) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.4 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[0.215971] (bt4_bumpgo) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 3.1.4 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)\n'}
+[0.227536] (bt4_bumpgo) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[0.243433] (bt4_bumpgo) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[0.299172] (-) TimerEvent: {}
+[0.299853] (bt4_bumpgo) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 6.1.1 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)\n'}
+[0.301100] (bt4_bumpgo) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 6.2.2 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)\n'}
+[0.399285] (-) TimerEvent: {}
+[0.420196] (bt4_bumpgo) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[0.499378] (-) TimerEvent: {}
+[0.587415] (bt4_bumpgo) StdoutLine: {'line': b'-- Found behaviortree_cpp: 4.1.1 (/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/share/behaviortree_cpp/cmake)\n'}
+[0.589281] (bt4_bumpgo) StdoutLine: {'line': b'-- Found bf_msgs: 0.2.0 (/home/rod/ros_ws/behaviorfleets/install/bf_msgs/share/bf_msgs/cmake)\n'}
+[0.599478] (-) TimerEvent: {}
+[0.623310] (bt4_bumpgo) StdoutLine: {'line': b'-- Found ament_lint_auto: 0.12.5 (/opt/ros/humble/share/ament_lint_auto/cmake)\n'}
+[0.690567] (bt4_bumpgo) StdoutLine: {'line': b"-- Found gtest sources under '/opt/ros/humble/src/gtest_vendor': C++ tests using 'Google Test' will be built\n"}
+[0.699595] (-) TimerEvent: {}
+[0.699875] (bt4_bumpgo) StdoutLine: {'line': b"-- Added test 'copyright' to check source files copyright and LICENSE\n"}
+[0.700860] (bt4_bumpgo) StdoutLine: {'line': b"-- Added test 'cppcheck' to perform static code analysis on C / C++ code\n"}
+[0.701052] (bt4_bumpgo) StdoutLine: {'line': b'-- Configured cppcheck include dirs: /home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/include\n'}
+[0.701171] (bt4_bumpgo) StdoutLine: {'line': b'-- Configured cppcheck exclude dirs and/or files: \n'}
+[0.701901] (bt4_bumpgo) StdoutLine: {'line': b"-- Added test 'cpplint' to check C / C++ code against the Google style\n"}
+[0.702040] (bt4_bumpgo) StdoutLine: {'line': b'-- Configured cpplint exclude dirs and/or files: \n'}
+[0.702477] (bt4_bumpgo) StdoutLine: {'line': b"-- Added test 'lint_cmake' to check CMake code style\n"}
+[0.703441] (bt4_bumpgo) StdoutLine: {'line': b"-- Added test 'uncrustify' to check C / C++ code style\n"}
+[0.703581] (bt4_bumpgo) StdoutLine: {'line': b'-- Configured uncrustify additional arguments: \n'}
+[0.703776] (bt4_bumpgo) StdoutLine: {'line': b"-- Added test 'xmllint' to check XML markup files\n"}
+[0.705846] (bt4_bumpgo) StdoutLine: {'line': b'-- Configuring done\n'}
+[0.725987] (bt4_bumpgo) StdoutLine: {'line': b'-- Generating done\n'}
+[0.728097] (bt4_bumpgo) StdoutLine: {'line': b'-- Build files have been written to: /home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo\n'}
+[0.751371] (bt4_bumpgo) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target gtest_main\x1b[0m\n'}
+[0.751571] (bt4_bumpgo) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target gtest\x1b[0m\n'}
+[0.751736] (bt4_bumpgo) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target delegation_node\x1b[0m\n'}
+[0.751887] (bt4_bumpgo) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target bt_forward\x1b[0m\n'}
+[0.765200] (bt4_bumpgo) StdoutLine: {'line': b'[ 20%] \x1b[32mBuilding CXX object gtest/CMakeFiles/gtest.dir/src/gtest-all.cc.o\x1b[0m\n'}
+[0.765442] (bt4_bumpgo) StdoutLine: {'line': b'[ 20%] \x1b[32mBuilding CXX object gtest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o\x1b[0m\n'}
+[0.767489] (bt4_bumpgo) StdoutLine: {'line': b'[ 30%] \x1b[32mBuilding CXX object CMakeFiles/delegation_node.dir/src/bt4_bumpgo/DelegationNode.cpp.o\x1b[0m\n'}
+[0.771127] (bt4_bumpgo) StdoutLine: {'line': b'[ 40%] \x1b[32mBuilding CXX object tests/CMakeFiles/bt_forward.dir/bt_forward_main.cpp.o\x1b[0m\n'}
+[0.799696] (-) TimerEvent: {}
+[0.899997] (-) TimerEvent: {}
+[1.000336] (-) TimerEvent: {}
+[1.100718] (-) TimerEvent: {}
+[1.201081] (-) TimerEvent: {}
+[1.301438] (-) TimerEvent: {}
+[1.401775] (-) TimerEvent: {}
+[1.502136] (-) TimerEvent: {}
+[1.602506] (-) TimerEvent: {}
+[1.702842] (-) TimerEvent: {}
+[1.803200] (-) TimerEvent: {}
+[1.903558] (-) TimerEvent: {}
+[1.992632] (bt4_bumpgo) StdoutLine: {'line': b'[ 50%] \x1b[32m\x1b[1mLinking CXX static library libgtest_main.a\x1b[0m\n'}
+[2.003684] (-) TimerEvent: {}
+[2.020666] (bt4_bumpgo) StdoutLine: {'line': b'[ 50%] Built target gtest_main\n'}
+[2.103796] (-) TimerEvent: {}
+[2.204123] (-) TimerEvent: {}
+[2.304466] (-) TimerEvent: {}
+[2.404804] (-) TimerEvent: {}
+[2.505165] (-) TimerEvent: {}
+[2.605500] (-) TimerEvent: {}
+[2.705820] (-) TimerEvent: {}
+[2.806151] (-) TimerEvent: {}
+[2.906488] (-) TimerEvent: {}
+[3.006819] (-) TimerEvent: {}
+[3.107178] (-) TimerEvent: {}
+[3.207556] (-) TimerEvent: {}
+[3.307889] (-) TimerEvent: {}
+[3.408226] (-) TimerEvent: {}
+[3.508572] (-) TimerEvent: {}
+[3.608909] (-) TimerEvent: {}
+[3.709260] (-) TimerEvent: {}
+[3.809604] (-) TimerEvent: {}
+[3.909934] (-) TimerEvent: {}
+[4.010354] (-) TimerEvent: {}
+[4.110670] (-) TimerEvent: {}
+[4.211016] (-) TimerEvent: {}
+[4.213141] (bt4_bumpgo) StdoutLine: {'line': b'[ 60%] \x1b[32m\x1b[1mLinking CXX static library libgtest.a\x1b[0m\n'}
+[4.271070] (bt4_bumpgo) StdoutLine: {'line': b'[ 60%] Built target gtest\n'}
+[4.280736] (bt4_bumpgo) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target bt_action_test\x1b[0m\n'}
+[4.297545] (bt4_bumpgo) StdoutLine: {'line': b'[ 70%] \x1b[32mBuilding CXX object tests/CMakeFiles/bt_action_test.dir/bt_action_test.cpp.o\x1b[0m\n'}
+[4.311110] (-) TimerEvent: {}
+[4.411433] (-) TimerEvent: {}
+[4.418985] (bt4_bumpgo) StderrLine: {'line': b'\x1b[01m\x1b[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/tests/bt_action_test.cpp:27:10:\x1b[m\x1b[K \x1b[01;31m\x1b[Kfatal error: \x1b[m\x1b[Kgeometry_msgs/msg/twist.hpp: No such file or directory\n'}
+[4.419248] (bt4_bumpgo) StderrLine: {'line': b'   27 | #include \x1b[01;31m\x1b[K"geometry_msgs/msg/twist.hpp"\x1b[m\x1b[K\n'}
+[4.419392] (bt4_bumpgo) StderrLine: {'line': b'      |          \x1b[01;31m\x1b[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[4.419500] (bt4_bumpgo) StderrLine: {'line': b'compilation terminated.\n'}
+[4.425649] (bt4_bumpgo) StderrLine: {'line': b'gmake[2]: *** [tests/CMakeFiles/bt_action_test.dir/build.make:76: tests/CMakeFiles/bt_action_test.dir/bt_action_test.cpp.o] Error 1\n'}
+[4.425904] (bt4_bumpgo) StderrLine: {'line': b'gmake[1]: *** [CMakeFiles/Makefile2:201: tests/CMakeFiles/bt_action_test.dir/all] Error 2\n'}
+[4.426033] (bt4_bumpgo) StderrLine: {'line': b'gmake[1]: *** Waiting for unfinished jobs....\n'}
+[4.511558] (-) TimerEvent: {}
+[4.611963] (-) TimerEvent: {}
+[4.712344] (-) TimerEvent: {}
+[4.812705] (-) TimerEvent: {}
+[4.913069] (-) TimerEvent: {}
+[5.013375] (-) TimerEvent: {}
+[5.113708] (-) TimerEvent: {}
+[5.214071] (-) TimerEvent: {}
+[5.310805] (bt4_bumpgo) StdoutLine: {'line': b'[ 80%] \x1b[32m\x1b[1mLinking CXX executable bt_forward\x1b[0m\n'}
+[5.314169] (-) TimerEvent: {}
+[5.414507] (-) TimerEvent: {}
+[5.485978] (bt4_bumpgo) StdoutLine: {'line': b'[ 80%] Built target bt_forward\n'}
+[5.514607] (-) TimerEvent: {}
+[5.614925] (-) TimerEvent: {}
+[5.715246] (-) TimerEvent: {}
+[5.815567] (-) TimerEvent: {}
+[5.915883] (-) TimerEvent: {}
+[6.016181] (-) TimerEvent: {}
+[6.116496] (-) TimerEvent: {}
+[6.216801] (-) TimerEvent: {}
+[6.317109] (-) TimerEvent: {}
+[6.417411] (-) TimerEvent: {}
+[6.517749] (-) TimerEvent: {}
+[6.618130] (-) TimerEvent: {}
+[6.718520] (-) TimerEvent: {}
+[6.818911] (-) TimerEvent: {}
+[6.919217] (-) TimerEvent: {}
+[7.019511] (-) TimerEvent: {}
+[7.119803] (-) TimerEvent: {}
+[7.220097] (-) TimerEvent: {}
+[7.320387] (-) TimerEvent: {}
+[7.420678] (-) TimerEvent: {}
+[7.520977] (-) TimerEvent: {}
+[7.621284] (-) TimerEvent: {}
+[7.721586] (-) TimerEvent: {}
+[7.821877] (-) TimerEvent: {}
+[7.922186] (-) TimerEvent: {}
+[8.022503] (-) TimerEvent: {}
+[8.122807] (-) TimerEvent: {}
+[8.223093] (-) TimerEvent: {}
+[8.323394] (-) TimerEvent: {}
+[8.423691] (-) TimerEvent: {}
+[8.523988] (-) TimerEvent: {}
+[8.624281] (-) TimerEvent: {}
+[8.724588] (-) TimerEvent: {}
+[8.824920] (-) TimerEvent: {}
+[8.925300] (-) TimerEvent: {}
+[9.025656] (-) TimerEvent: {}
+[9.126033] (-) TimerEvent: {}
+[9.226477] (-) TimerEvent: {}
+[9.326889] (-) TimerEvent: {}
+[9.427231] (-) TimerEvent: {}
+[9.527540] (-) TimerEvent: {}
+[9.627844] (-) TimerEvent: {}
+[9.728137] (-) TimerEvent: {}
+[9.828427] (-) TimerEvent: {}
+[9.928728] (-) TimerEvent: {}
+[10.029023] (-) TimerEvent: {}
+[10.129336] (-) TimerEvent: {}
+[10.229650] (-) TimerEvent: {}
+[10.329955] (-) TimerEvent: {}
+[10.430285] (-) TimerEvent: {}
+[10.530598] (-) TimerEvent: {}
+[10.630904] (-) TimerEvent: {}
+[10.669314] (bt4_bumpgo) StdoutLine: {'line': b'[ 90%] \x1b[32m\x1b[1mLinking CXX shared library libdelegation_node.so\x1b[0m\n'}
+[10.731036] (-) TimerEvent: {}
+[10.831425] (-) TimerEvent: {}
+[10.931798] (-) TimerEvent: {}
+[11.032097] (-) TimerEvent: {}
+[11.080338] (bt4_bumpgo) StdoutLine: {'line': b'[ 90%] Built target delegation_node\n'}
+[11.081461] (bt4_bumpgo) StderrLine: {'line': b'gmake: *** [Makefile:146: all] Error 2\n'}
+[11.083409] (bt4_bumpgo) CommandEnded: {'returncode': 2}
+[11.125242] (bt4_bumpgo) JobEnded: {'identifier': 'bt4_bumpgo', 'rc': 2}
+[11.132274] (-) TimerEvent: {}
+[11.135772] (-) EventReactorShutdown: {}

@@ -1,0 +1,19 @@
+[35m[1mConsolidate compiler generated dependencies of target gtest_main[0m
+[35m[1mConsolidate compiler generated dependencies of target back_node[0m
+[35m[1mConsolidate compiler generated dependencies of target turn_node[0m
+[35m[1mConsolidate compiler generated dependencies of target gtest[0m
+[35m[1mConsolidate compiler generated dependencies of target is_obstacle_node[0m
+[35m[1mConsolidate compiler generated dependencies of target bt4_bumpgo[0m
+[35m[1mConsolidate compiler generated dependencies of target forward_node[0m
+[  5%] [32mBuilding CXX object CMakeFiles/delegation_node.dir/src/decorators/DelegationNode.cpp.o[0m
+[ 25%] Built target gtest_main
+[ 35%] Built target bt4_bumpgo
+[ 25%] Built target gtest
+[ 45%] Built target is_obstacle_node
+[ 55%] Built target forward_node
+[ 65%] Built target back_node
+[ 75%] Built target turn_node
+[ 85%] [32mBuilding CXX object tests/CMakeFiles/bt_action_test.dir/bt_action_test.cpp.o[0m
+[ 85%] [32mBuilding CXX object tests/CMakeFiles/bt_forward.dir/bt_forward_main.cpp.o[0m
+[ 90%] [32m[1mLinking CXX executable bt_action_test[0m
+[ 90%] Built target bt_action_test

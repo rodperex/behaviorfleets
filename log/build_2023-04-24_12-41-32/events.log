@@ -1,0 +1,180 @@
+[0.000000] (-) TimerEvent: {}
+[0.000511] (-) JobUnselected: {'identifier': 'behaviortree_cpp'}
+[0.000550] (-) JobUnselected: {'identifier': 'bf_msgs'}
+[0.000574] (bt4_bumpgo) JobQueued: {'identifier': 'bt4_bumpgo', 'dependencies': OrderedDict([('behaviortree_cpp', '/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp'), ('bf_msgs', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs')])}
+[0.000786] (bt4_bumpgo) JobStarted: {'identifier': 'bt4_bumpgo'}
+[0.015460] (bt4_bumpgo) JobProgress: {'identifier': 'bt4_bumpgo', 'progress': 'cmake'}
+[0.016099] (bt4_bumpgo) JobProgress: {'identifier': 'bt4_bumpgo', 'progress': 'build'}
+[0.016801] (bt4_bumpgo) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo', '--', '-j8', '-l8'], 'cwd': '/home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'rod'), ('LC_TIME', 'es_ES.UTF-8'), ('XDG_SESSION_TYPE', 'wayland'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs/lib:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins'), ('HOME', '/home/rod'), ('OLDPWD', '/home/rod/ros_ws/behaviorfleets/src'), ('DESKTOP_SESSION', 'ubuntu'), ('GAZEBO_MASTER_URI', 'http://localhost:11345'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'es_ES.UTF-8'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '2433'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=3324fab7412aeb92672021c264463894'), ('COLORTERM', 'truecolor'), ('IM_CONFIG_PHASE', '1'), ('WAYLAND_DISPLAY', 'wayland-0'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'rod'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'rod'), ('TERM', 'xterm-256color'), ('GAZEBO_MODEL_PATH', '/usr/share/gazebo/../../share/gazebo-11/models:'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('OGRE_RESOURCE_PATH', '/usr/lib/x86_64-linux-gnu/OGRE-1.9.0'), ('PATH', '/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/vega:@/tmp/.ICE-unix/2433,unix/vega:/tmp/.ICE-unix/2433'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'es_ES.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/53f5cc08_ff06_4916_9175_aed2a28cc306'), ('GNOME_SETUP_DISPLAY', ':1'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'es_ES.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/.mutter-Xwaylandauth.M8CW31'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.183'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'es_ES.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'es_ES.UTF-8'), ('GAZEBO_RESOURCE_PATH', '/usr/share/gazebo/../../share/gazebo-11:'), ('LC_IDENTIFICATION', 'es_ES.UTF-8'), ('GAZEBO_MODEL_DATABASE_URI', 'http://models.gazebosim.org'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('GAZEBO_PLUGIN_PATH', '/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins:'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=3324fab7412aeb92672021c264463894'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'es_ES.UTF-8'), ('LC_PAPER', 'es_ES.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble')]), 'shell': False}
+[0.061025] (bt4_bumpgo) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target delegation_node\x1b[0m\n'}
+[0.074315] (bt4_bumpgo) StdoutLine: {'line': b'[ 15%] Built target gtest_main\n'}
+[0.074672] (bt4_bumpgo) StdoutLine: {'line': b'[ 15%] \x1b[32m\x1b[1mLinking CXX shared library libback_node.so\x1b[0m\n'}
+[0.075551] (bt4_bumpgo) StdoutLine: {'line': b'[ 20%] \x1b[32m\x1b[1mLinking CXX shared library libforward_node.so\x1b[0m\n'}
+[0.077025] (bt4_bumpgo) StdoutLine: {'line': b'[ 30%] Built target gtest\n'}
+[0.078115] (bt4_bumpgo) StdoutLine: {'line': b'[ 35%] \x1b[32m\x1b[1mLinking CXX shared library libturn_node.so\x1b[0m\n'}
+[0.079209] (bt4_bumpgo) StdoutLine: {'line': b'[ 40%] \x1b[32m\x1b[1mLinking CXX shared library libis_obstacle_node.so\x1b[0m\n'}
+[0.085267] (bt4_bumpgo) StdoutLine: {'line': b'[ 45%] \x1b[32m\x1b[1mLinking CXX executable bt4_bumpgo\x1b[0m\n'}
+[0.090214] (bt4_bumpgo) StdoutLine: {'line': b'[ 50%] \x1b[32mBuilding CXX object CMakeFiles/delegation_node.dir/src/bt4_bumpgo/DelegationNode.cpp.o\x1b[0m\n'}
+[0.100039] (-) TimerEvent: {}
+[0.109324] (bt4_bumpgo) StdoutLine: {'line': b'[ 55%] \x1b[32m\x1b[1mLinking CXX executable bt_action_test\x1b[0m\n'}
+[0.114787] (bt4_bumpgo) StdoutLine: {'line': b'[ 60%] \x1b[32m\x1b[1mLinking CXX executable bt_forward\x1b[0m\n'}
+[0.202038] (-) TimerEvent: {}
+[0.303490] (-) TimerEvent: {}
+[0.406981] (-) TimerEvent: {}
+[0.509914] (-) TimerEvent: {}
+[0.618473] (-) TimerEvent: {}
+[0.719272] (-) TimerEvent: {}
+[0.820638] (-) TimerEvent: {}
+[0.921822] (-) TimerEvent: {}
+[1.022815] (-) TimerEvent: {}
+[1.122840] (bt4_bumpgo) StdoutLine: {'line': b'[ 65%] Built target turn_node\n'}
+[1.123277] (-) TimerEvent: {}
+[1.154513] (bt4_bumpgo) StdoutLine: {'line': b'[ 70%] Built target bt_forward\n'}
+[1.166470] (bt4_bumpgo) StdoutLine: {'line': b'[ 75%] Built target bt4_bumpgo\n'}
+[1.170707] (bt4_bumpgo) StdoutLine: {'line': b'[ 80%] Built target back_node\n'}
+[1.226412] (-) TimerEvent: {}
+[1.292478] (bt4_bumpgo) StdoutLine: {'line': b'[ 85%] Built target forward_node\n'}
+[1.326529] (-) TimerEvent: {}
+[1.427071] (-) TimerEvent: {}
+[1.527565] (-) TimerEvent: {}
+[1.628229] (-) TimerEvent: {}
+[1.730361] (-) TimerEvent: {}
+[1.759010] (bt4_bumpgo) StdoutLine: {'line': b'[ 90%] Built target is_obstacle_node\n'}
+[1.830465] (-) TimerEvent: {}
+[1.931275] (-) TimerEvent: {}
+[1.956695] (bt4_bumpgo) StdoutLine: {'line': b'[ 95%] Built target bt_action_test\n'}
+[2.031357] (-) TimerEvent: {}
+[2.131655] (-) TimerEvent: {}
+[2.231927] (-) TimerEvent: {}
+[2.332245] (-) TimerEvent: {}
+[2.432576] (-) TimerEvent: {}
+[2.532994] (-) TimerEvent: {}
+[2.633270] (-) TimerEvent: {}
+[2.733555] (-) TimerEvent: {}
+[2.833842] (-) TimerEvent: {}
+[2.934127] (-) TimerEvent: {}
+[3.034430] (-) TimerEvent: {}
+[3.134791] (-) TimerEvent: {}
+[3.235300] (-) TimerEvent: {}
+[3.335604] (-) TimerEvent: {}
+[3.435902] (-) TimerEvent: {}
+[3.536258] (-) TimerEvent: {}
+[3.636906] (-) TimerEvent: {}
+[3.737178] (-) TimerEvent: {}
+[3.837456] (-) TimerEvent: {}
+[3.937747] (-) TimerEvent: {}
+[4.038031] (-) TimerEvent: {}
+[4.138330] (-) TimerEvent: {}
+[4.238589] (-) TimerEvent: {}
+[4.338885] (-) TimerEvent: {}
+[4.439179] (-) TimerEvent: {}
+[4.539460] (-) TimerEvent: {}
+[4.639801] (-) TimerEvent: {}
+[4.740114] (-) TimerEvent: {}
+[4.840577] (-) TimerEvent: {}
+[4.940948] (-) TimerEvent: {}
+[5.041244] (-) TimerEvent: {}
+[5.141529] (-) TimerEvent: {}
+[5.241822] (-) TimerEvent: {}
+[5.342106] (-) TimerEvent: {}
+[5.442373] (-) TimerEvent: {}
+[5.542654] (-) TimerEvent: {}
+[5.642934] (-) TimerEvent: {}
+[5.743228] (-) TimerEvent: {}
+[5.843509] (-) TimerEvent: {}
+[5.943802] (-) TimerEvent: {}
+[6.044095] (-) TimerEvent: {}
+[6.144402] (-) TimerEvent: {}
+[6.244652] (-) TimerEvent: {}
+[6.344934] (-) TimerEvent: {}
+[6.445216] (-) TimerEvent: {}
+[6.545502] (-) TimerEvent: {}
+[6.645781] (-) TimerEvent: {}
+[6.746076] (-) TimerEvent: {}
+[6.846395] (-) TimerEvent: {}
+[6.946742] (-) TimerEvent: {}
+[7.047143] (-) TimerEvent: {}
+[7.147639] (-) TimerEvent: {}
+[7.247924] (-) TimerEvent: {}
+[7.348380] (-) TimerEvent: {}
+[7.448840] (-) TimerEvent: {}
+[7.549219] (-) TimerEvent: {}
+[7.649470] (-) TimerEvent: {}
+[7.749781] (-) TimerEvent: {}
+[7.850042] (-) TimerEvent: {}
+[7.950324] (-) TimerEvent: {}
+[8.050584] (-) TimerEvent: {}
+[8.150855] (-) TimerEvent: {}
+[8.251131] (-) TimerEvent: {}
+[8.351392] (-) TimerEvent: {}
+[8.451651] (-) TimerEvent: {}
+[8.551924] (-) TimerEvent: {}
+[8.652194] (-) TimerEvent: {}
+[8.752482] (-) TimerEvent: {}
+[8.852923] (-) TimerEvent: {}
+[8.953198] (-) TimerEvent: {}
+[9.053480] (-) TimerEvent: {}
+[9.153797] (-) TimerEvent: {}
+[9.254110] (-) TimerEvent: {}
+[9.354468] (-) TimerEvent: {}
+[9.454822] (-) TimerEvent: {}
+[9.555171] (-) TimerEvent: {}
+[9.655455] (-) TimerEvent: {}
+[9.755728] (-) TimerEvent: {}
+[9.856015] (-) TimerEvent: {}
+[9.956302] (-) TimerEvent: {}
+[10.056570] (-) TimerEvent: {}
+[10.156844] (-) TimerEvent: {}
+[10.257110] (-) TimerEvent: {}
+[10.357372] (-) TimerEvent: {}
+[10.457660] (-) TimerEvent: {}
+[10.557936] (-) TimerEvent: {}
+[10.658252] (-) TimerEvent: {}
+[10.758621] (-) TimerEvent: {}
+[10.843178] (bt4_bumpgo) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX shared library libdelegation_node.so\x1b[0m\n'}
+[10.858753] (-) TimerEvent: {}
+[10.959051] (-) TimerEvent: {}
+[11.059387] (-) TimerEvent: {}
+[11.159697] (-) TimerEvent: {}
+[11.259987] (-) TimerEvent: {}
+[11.301291] (bt4_bumpgo) StdoutLine: {'line': b'[100%] Built target delegation_node\n'}
+[11.310808] (bt4_bumpgo) CommandEnded: {'returncode': 0}
+[11.343568] (bt4_bumpgo) JobProgress: {'identifier': 'bt4_bumpgo', 'progress': 'install'}
+[11.351780] (bt4_bumpgo) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo'], 'cwd': '/home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'rod'), ('LC_TIME', 'es_ES.UTF-8'), ('XDG_SESSION_TYPE', 'wayland'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs/lib:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins'), ('HOME', '/home/rod'), ('OLDPWD', '/home/rod/ros_ws/behaviorfleets/src'), ('DESKTOP_SESSION', 'ubuntu'), ('GAZEBO_MASTER_URI', 'http://localhost:11345'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'es_ES.UTF-8'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '2433'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=3324fab7412aeb92672021c264463894'), ('COLORTERM', 'truecolor'), ('IM_CONFIG_PHASE', '1'), ('WAYLAND_DISPLAY', 'wayland-0'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'rod'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'rod'), ('TERM', 'xterm-256color'), ('GAZEBO_MODEL_PATH', '/usr/share/gazebo/../../share/gazebo-11/models:'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('OGRE_RESOURCE_PATH', '/usr/lib/x86_64-linux-gnu/OGRE-1.9.0'), ('PATH', '/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/vega:@/tmp/.ICE-unix/2433,unix/vega:/tmp/.ICE-unix/2433'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'es_ES.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/53f5cc08_ff06_4916_9175_aed2a28cc306'), ('GNOME_SETUP_DISPLAY', ':1'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'es_ES.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/.mutter-Xwaylandauth.M8CW31'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.183'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'es_ES.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'es_ES.UTF-8'), ('GAZEBO_RESOURCE_PATH', '/usr/share/gazebo/../../share/gazebo-11:'), ('LC_IDENTIFICATION', 'es_ES.UTF-8'), ('GAZEBO_MODEL_DATABASE_URI', 'http://models.gazebosim.org'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('GAZEBO_PLUGIN_PATH', '/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins:'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=3324fab7412aeb92672021c264463894'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'es_ES.UTF-8'), ('LC_PAPER', 'es_ES.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble')]), 'shell': False}
+[11.357637] (bt4_bumpgo) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[11.358111] (bt4_bumpgo) StdoutLine: {'line': b'-- Execute custom install script\n'}
+[11.358562] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/lib/libforward_node.so\n'}
+[11.358695] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/lib/libback_node.so\n'}
+[11.358806] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/lib/libturn_node.so\n'}
+[11.358978] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/lib/libis_obstacle_node.so\n'}
+[11.359115] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/lib/libdelegation_node.so\n'}
+[11.359222] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/lib/bt4_bumpgo/bt4_bumpgo\n'}
+[11.359497] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/launch/bt4_bumpgo.launch.py\n'}
+[11.359790] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/include//bt4_bumpgo/Back.hpp\n'}
+[11.359893] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/include//bt4_bumpgo/DelegationNode.hpp\n'}
+[11.359994] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/include//bt4_bumpgo/Forward.hpp\n'}
+[11.360063] (-) TimerEvent: {}
+[11.360170] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/include//bt4_bumpgo/IsObstacle.hpp\n'}
+[11.360332] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/include//bt4_bumpgo/Turn.hpp\n'}
+[11.360449] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/behavior_tree_xml/bumpgo.xml\n'}
+[11.360686] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/lib/bt4_bumpgo/bt_forward\n'}
+[11.360864] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/ament_index/resource_index/package_run_dependencies/bt4_bumpgo\n'}
+[11.361017] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/ament_index/resource_index/parent_prefix_path/bt4_bumpgo\n'}
+[11.361168] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/environment/ament_prefix_path.sh\n'}
+[11.361355] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/environment/ament_prefix_path.dsv\n'}
+[11.361477] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/environment/path.sh\n'}
+[11.361633] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/environment/path.dsv\n'}
+[11.361773] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/local_setup.bash\n'}
+[11.361912] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/local_setup.sh\n'}
+[11.362050] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/local_setup.zsh\n'}
+[11.362186] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/local_setup.dsv\n'}
+[11.362370] (bt4_bumpgo) StdoutLine: {'line': b'-- Symlinking: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/package.dsv\n'}
+[11.369889] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/ament_index/resource_index/packages/bt4_bumpgo\n'}
+[11.370074] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[11.370168] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[11.370288] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/cmake/bt4_bumpgoConfig.cmake\n'}
+[11.370442] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/cmake/bt4_bumpgoConfig-version.cmake\n'}
+[11.370638] (bt4_bumpgo) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/bt4_bumpgo/share/bt4_bumpgo/package.xml\n'}
+[11.372329] (bt4_bumpgo) CommandEnded: {'returncode': 0}
+[11.435623] (bt4_bumpgo) JobEnded: {'identifier': 'bt4_bumpgo', 'rc': 0}
+[11.436251] (-) EventReactorShutdown: {}

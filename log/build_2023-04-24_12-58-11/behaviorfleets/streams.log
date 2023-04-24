@@ -1,0 +1,35 @@
+[0.017s] Invoking command in '/home/rod/ros_ws/behaviorfleets/build/behaviorfleets': AMENT_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble LD_LIBRARY_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/lib:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins PATH=/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/bin:${PATH} PYTHONPATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/rod/ros_ws/behaviorfleets/build/behaviorfleets -- -j8 -l8
+[0.050s] [35m[1mConsolidate compiler generated dependencies of target delegation_node[0m
+[0.066s] [ 50%] [32mBuilding CXX object CMakeFiles/delegation_node.dir/src/DelegationNode.cpp.o[0m
+[2.618s] [01m[K/home/rod/ros_ws/behaviorfleets/src/behaviorfleets/src/DelegationNode.cpp:[m[K In function ‘[01m[Kvoid BT_RegisterNodesFromPlugin(BT::BehaviorTreeFactory&)[m[K’:
+[2.618s] [01m[K/home/rod/ros_ws/behaviorfleets/src/behaviorfleets/src/DelegationNode.cpp:62:28:[m[K [01;31m[Kerror: [m[K‘[01m[Kbt4_bumpgo[m[K’ was not declared in this scope
+[2.618s]    62 |   factory.registerNodeType<[01;31m[Kbt4_bumpgo[m[K::Forward>("Delegation");
+[2.618s]       |                            [01;31m[K^~~~~~~~~~[m[K
+[2.618s] [01m[K/home/rod/ros_ws/behaviorfleets/src/behaviorfleets/src/DelegationNode.cpp:62:11:[m[K [01;31m[Kerror: [m[Kparse error in template argument list
+[2.618s]    62 |   factory.[01;31m[KregisterNodeType<bt4_bumpgo::Forward>[m[K("Delegation");
+[2.618s]       |           [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[2.618s] [01m[K/home/rod/ros_ws/behaviorfleets/src/behaviorfleets/src/DelegationNode.cpp:62:48:[m[K [01;31m[Kerror: [m[Kno matching function for call to ‘[01m[KBT::BehaviorTreeFactory::registerNodeType<<expression error> >(const char [11])[m[K’
+[2.618s]    62 |   [01;31m[Kfactory.registerNodeType<bt4_bumpgo::Forward>("Delegation")[m[K;
+[2.618s]       |   [01;31m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~[m[K
+[2.619s] In file included from [01m[K/home/rod/ros_ws/behaviorfleets/src/behaviorfleets/include/DelegationNode.hpp:7[m[K,
+[2.619s]                  from [01m[K/home/rod/ros_ws/behaviorfleets/src/behaviorfleets/src/DelegationNode.cpp:5[m[K:
+[2.619s] [01m[K/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/include/behaviortree_cpp/bt_factory.h:314:8:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Ktemplate<class T, class ... ExtraArgs> void BT::BehaviorTreeFactory::registerNodeType(const string&, const PortsList&, ExtraArgs ...)[m[K’
+[2.619s]   314 |   void [01;36m[KregisterNodeType[m[K(const std::string& ID, const PortsList& ports, ExtraArgs... args)
+[2.619s]       |        [01;36m[K^~~~~~~~~~~~~~~~[m[K
+[2.619s] [01m[K/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/include/behaviortree_cpp/bt_factory.h:314:8:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[2.619s] [01m[K/home/rod/ros_ws/behaviorfleets/src/behaviorfleets/src/DelegationNode.cpp:62:48:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+[2.619s]    62 |   [01;31m[Kfactory.registerNodeType<bt4_bumpgo::Forward>("Delegation")[m[K;
+[2.619s]       |   [01;31m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~[m[K
+[2.619s] In file included from [01m[K/home/rod/ros_ws/behaviorfleets/src/behaviorfleets/include/DelegationNode.hpp:7[m[K,
+[2.619s]                  from [01m[K/home/rod/ros_ws/behaviorfleets/src/behaviorfleets/src/DelegationNode.cpp:5[m[K:
+[2.619s] [01m[K/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/include/behaviortree_cpp/bt_factory.h:350:8:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Ktemplate<class T, class ... ExtraArgs> void BT::BehaviorTreeFactory::registerNodeType(const string&, ExtraArgs ...)[m[K’
+[2.619s]   350 |   void [01;36m[KregisterNodeType[m[K(const std::string& ID, ExtraArgs... args)
+[2.619s]       |        [01;36m[K^~~~~~~~~~~~~~~~[m[K
+[2.619s] [01m[K/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/include/behaviortree_cpp/bt_factory.h:350:8:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[2.619s] [01m[K/home/rod/ros_ws/behaviorfleets/src/behaviorfleets/src/DelegationNode.cpp:62:48:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+[2.620s]    62 |   [01;31m[Kfactory.registerNodeType<bt4_bumpgo::Forward>("Delegation")[m[K;
+[2.620s]       |   [01;31m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~[m[K
+[4.280s] gmake[2]: *** [CMakeFiles/delegation_node.dir/build.make:76: CMakeFiles/delegation_node.dir/src/DelegationNode.cpp.o] Interrupt
+[4.280s] gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/delegation_node.dir/all] Interrupt
+[4.280s] gmake: *** [Makefile:146: all] Interrupt
+[4.301s] Invoked command in '/home/rod/ros_ws/behaviorfleets/build/behaviorfleets' returned '-2': AMENT_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble LD_LIBRARY_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/lib:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins PATH=/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/bin:${PATH} PYTHONPATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/rod/ros_ws/behaviorfleets/build/behaviorfleets -- -j8 -l8

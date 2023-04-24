@@ -1,0 +1,50 @@
+[35m[1mConsolidate compiler generated dependencies of target delegation_node[0m
+[ 20%] Built target gtest_main
+[ 20%] Built target gtest
+[ 40%] Built target forward_node
+[ 40%] Built target bt4_bumpgo
+[ 60%] Built target back_node
+[ 60%] Built target is_obstacle_node
+[ 70%] Built target turn_node
+[ 75%] [32mBuilding CXX object CMakeFiles/delegation_node.dir/src/bt4_bumpgo/DelegationNode.cpp.o[0m
+[ 85%] Built target bt_forward
+[ 95%] Built target bt_action_test
+In file included from [01m[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/src/bt4_bumpgo/DelegationNode.cpp:5[m[K:
+[01m[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/include/bt4_bumpgo/DelegationNode.hpp:30:30:[m[K [01;31m[Kerror: [m[K‘[01m[Kstd_msgs[m[K’ has not been declared
+   30 |   void child_status_callback([01;31m[Kstd_msgs[m[K::msg::String::UniquePtr msg);
+      |                              [01;31m[K^~~~~~~~[m[K
+[01m[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/include/bt4_bumpgo/DelegationNode.hpp:30:63:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K,[m[K’ or ‘[01m[K...[m[K’ before ‘[01m[Kmsg[m[K’
+   30 |   void child_status_callback(std_msgs::msg::String::UniquePtr [01;31m[Kmsg[m[K);
+      |                                                               [01;31m[K^~~[m[K
+[01m[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/include/bt4_bumpgo/DelegationNode.hpp:38:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kstd_msgs[m[K’ does not name a type
+   38 |   [01;31m[Kstd_msgs[m[K::msg::String::UniquePtr child_status_;
+      |   [01;31m[K^~~~~~~~[m[K
+[01m[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/src/bt4_bumpgo/DelegationNode.cpp:14:63:[m[K [01;31m[Kerror: [m[K‘[01m[KNodeConfig[m[K’ does not name a type
+   14 | DelegationNode::DelegationNode(const std::string &name, const [01;31m[KNodeConfig[m[K &config) :
+      |                                                               [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/src/bt4_bumpgo/DelegationNode.cpp:14:1:[m[K [01;31m[Kerror: [m[Kno declaration matches ‘[01m[Kbt4_bumpgo::DelegationNode::DelegationNode(const string&, const int&)[m[K’
+   14 | [01;31m[KDelegationNode[m[K::DelegationNode(const std::string &name, const NodeConfig &config) :
+      | [01;31m[K^~~~~~~~~~~~~~[m[K
+In file included from [01m[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/src/bt4_bumpgo/DelegationNode.cpp:5[m[K:
+[01m[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/include/bt4_bumpgo/DelegationNode.hpp:17:7:[m[K [01;36m[Knote: [m[Kcandidates are: ‘[01m[Kbt4_bumpgo::DelegationNode::DelegationNode(const bt4_bumpgo::DelegationNode&)[m[K’
+   17 | class [01;36m[KDelegationNode[m[K : public BT::DecoratorNode
+      |       [01;36m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/include/bt4_bumpgo/DelegationNode.hpp:21:3:[m[K [01;36m[Knote: [m[K                ‘[01m[Kbt4_bumpgo::DelegationNode::DelegationNode(const string&, const BT::NodeConfig&)[m[K’
+   21 |   [01;36m[KDelegationNode[m[K(const std::string& name, const BT::NodeConfig& config);
+      |   [01;36m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/include/bt4_bumpgo/DelegationNode.hpp:17:7:[m[K [01;36m[Knote: [m[K‘[01m[Kclass bt4_bumpgo::DelegationNode[m[K’ defined here
+   17 | class [01;36m[KDelegationNode[m[K : public BT::DecoratorNode
+      |       [01;36m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/src/bt4_bumpgo/DelegationNode.cpp:28:1:[m[K [01;31m[Kerror: [m[Kno declaration matches ‘[01m[Kvoid bt4_bumpgo::DelegationNode::child_status_callback(bf_msgs::msg::MissionStatus_<std::allocator<void> >::UniquePtr)[m[K’
+   28 | [01;31m[KDelegationNode[m[K::child_status_callback(bf_msgs::msg::MissionStatus::UniquePtr msg)
+      | [01;31m[K^~~~~~~~~~~~~~[m[K
+In file included from [01m[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/src/bt4_bumpgo/DelegationNode.cpp:5[m[K:
+[01m[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/include/bt4_bumpgo/DelegationNode.hpp:30:8:[m[K [01;36m[Knote: [m[Kcandidate is: ‘[01m[Kvoid bt4_bumpgo::DelegationNode::child_status_callback(int)[m[K’
+   30 |   void [01;36m[Kchild_status_callback[m[K(std_msgs::msg::String::UniquePtr msg);
+      |        [01;36m[K^~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/include/bt4_bumpgo/DelegationNode.hpp:17:7:[m[K [01;36m[Knote: [m[K‘[01m[Kclass bt4_bumpgo::DelegationNode[m[K’ defined here
+   17 | class [01;36m[KDelegationNode[m[K : public BT::DecoratorNode
+      |       [01;36m[K^~~~~~~~~~~~~~[m[K
+gmake[2]: *** [CMakeFiles/delegation_node.dir/build.make:76: CMakeFiles/delegation_node.dir/src/bt4_bumpgo/DelegationNode.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:288: CMakeFiles/delegation_node.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

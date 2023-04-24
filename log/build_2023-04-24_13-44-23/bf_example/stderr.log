@@ -1,0 +1,6 @@
+/usr/bin/ld: CMakeFiles/bf_example.dir/src/Test.cpp.o: in function `bf_example::Test::Test()':
+Test.cpp:(.text+0x209): undefined reference to `bf_example::Test::mission_callback(std::unique_ptr<bf_msgs::msg::MissionCommand_<std::allocator<void> >, std::default_delete<bf_msgs::msg::MissionCommand_<std::allocator<void> > > >)'
+collect2: error: ld returned 1 exit status
+gmake[2]: *** [CMakeFiles/bf_example.dir/build.make:187: bf_example] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/bf_example.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

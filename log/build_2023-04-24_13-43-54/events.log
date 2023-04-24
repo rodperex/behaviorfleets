@@ -1,0 +1,165 @@
+[0.000000] (-) TimerEvent: {}
+[0.000975] (-) JobUnselected: {'identifier': 'behaviortree_cpp'}
+[0.002045] (-) JobUnselected: {'identifier': 'bf_example'}
+[0.002096] (-) JobUnselected: {'identifier': 'bf_msgs'}
+[0.002129] (behaviorfleets) JobQueued: {'identifier': 'behaviorfleets', 'dependencies': OrderedDict([('behaviortree_cpp', '/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp'), ('bf_msgs', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs')])}
+[0.002167] (behaviorfleets) JobStarted: {'identifier': 'behaviorfleets'}
+[0.013558] (behaviorfleets) JobProgress: {'identifier': 'behaviorfleets', 'progress': 'cmake'}
+[0.014559] (behaviorfleets) JobProgress: {'identifier': 'behaviorfleets', 'progress': 'build'}
+[0.014610] (behaviorfleets) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/rod/ros_ws/behaviorfleets/build/behaviorfleets', '--', '-j8', '-l8'], 'cwd': '/home/rod/ros_ws/behaviorfleets/build/behaviorfleets', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'rod'), ('LC_TIME', 'es_ES.UTF-8'), ('XDG_SESSION_TYPE', 'wayland'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs/lib:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins'), ('HOME', '/home/rod'), ('DESKTOP_SESSION', 'ubuntu'), ('GAZEBO_MASTER_URI', 'http://localhost:11345'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'es_ES.UTF-8'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '2433'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=3324fab7412aeb92672021c264463894'), ('COLORTERM', 'truecolor'), ('IM_CONFIG_PHASE', '1'), ('WAYLAND_DISPLAY', 'wayland-0'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'rod'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'rod'), ('TERM', 'xterm-256color'), ('GAZEBO_MODEL_PATH', '/usr/share/gazebo/../../share/gazebo-11/models:'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('OGRE_RESOURCE_PATH', '/usr/lib/x86_64-linux-gnu/OGRE-1.9.0'), ('PATH', '/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/vega:@/tmp/.ICE-unix/2433,unix/vega:/tmp/.ICE-unix/2433'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'es_ES.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/797cb12a_af35_4ddb_9cf3_31500a602d52'), ('GNOME_SETUP_DISPLAY', ':1'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'es_ES.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/.mutter-Xwaylandauth.M8CW31'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.2075'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'es_ES.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'es_ES.UTF-8'), ('GAZEBO_RESOURCE_PATH', '/usr/share/gazebo/../../share/gazebo-11:'), ('LC_IDENTIFICATION', 'es_ES.UTF-8'), ('GAZEBO_MODEL_DATABASE_URI', 'http://models.gazebosim.org'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/rod/ros_ws/behaviorfleets/build/behaviorfleets'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('GAZEBO_PLUGIN_PATH', '/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins:'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=3324fab7412aeb92672021c264463894'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'es_ES.UTF-8'), ('LC_PAPER', 'es_ES.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble')]), 'shell': False}
+[0.036381] (behaviorfleets) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.3 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[0.099070] (-) TimerEvent: {}
+[0.169115] (behaviorfleets) StdoutLine: {'line': b'-- Override CMake install command with custom implementation using symlinks instead of copying resources\n'}
+[0.176530] (behaviorfleets) StdoutLine: {'line': b'-- Found rclcpp: 16.0.3 (/opt/ros/humble/share/rclcpp/cmake)\n'}
+[0.199206] (-) TimerEvent: {}
+[0.206836] (behaviorfleets) StdoutLine: {'line': b'-- Found rosidl_generator_c: 3.1.4 (/opt/ros/humble/share/rosidl_generator_c/cmake)\n'}
+[0.209364] (behaviorfleets) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.4 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[0.215411] (behaviorfleets) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 3.1.4 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)\n'}
+[0.226663] (behaviorfleets) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[0.242317] (behaviorfleets) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[0.298827] (behaviorfleets) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 6.1.1 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)\n'}
+[0.299265] (-) TimerEvent: {}
+[0.300093] (behaviorfleets) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 6.2.2 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)\n'}
+[0.399365] (-) TimerEvent: {}
+[0.418357] (behaviorfleets) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[0.499494] (-) TimerEvent: {}
+[0.581082] (behaviorfleets) StdoutLine: {'line': b'-- Found behaviortree_cpp: 4.1.1 (/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/share/behaviortree_cpp/cmake)\n'}
+[0.582946] (behaviorfleets) StdoutLine: {'line': b'-- Found bf_msgs: 0.2.0 (/home/rod/ros_ws/behaviorfleets/install/bf_msgs/share/bf_msgs/cmake)\n'}
+[0.599609] (-) TimerEvent: {}
+[0.680995] (behaviorfleets) StdoutLine: {'line': b'-- Configuring done\n'}
+[0.689124] (behaviorfleets) StdoutLine: {'line': b'-- Generating done\n'}
+[0.690694] (behaviorfleets) StdoutLine: {'line': b'-- Build files have been written to: /home/rod/ros_ws/behaviorfleets/build/behaviorfleets\n'}
+[0.699739] (-) TimerEvent: {}
+[0.711717] (behaviorfleets) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target delegation_node\x1b[0m\n'}
+[0.730076] (behaviorfleets) StdoutLine: {'line': b'[ 50%] \x1b[32mBuilding CXX object CMakeFiles/delegation_node.dir/src/DelegationNode.cpp.o\x1b[0m\n'}
+[0.799879] (-) TimerEvent: {}
+[0.900161] (-) TimerEvent: {}
+[1.000452] (-) TimerEvent: {}
+[1.100733] (-) TimerEvent: {}
+[1.201017] (-) TimerEvent: {}
+[1.301312] (-) TimerEvent: {}
+[1.401588] (-) TimerEvent: {}
+[1.501870] (-) TimerEvent: {}
+[1.602162] (-) TimerEvent: {}
+[1.702452] (-) TimerEvent: {}
+[1.802745] (-) TimerEvent: {}
+[1.903052] (-) TimerEvent: {}
+[2.003344] (-) TimerEvent: {}
+[2.103589] (-) TimerEvent: {}
+[2.203835] (-) TimerEvent: {}
+[2.304090] (-) TimerEvent: {}
+[2.404393] (-) TimerEvent: {}
+[2.504714] (-) TimerEvent: {}
+[2.605062] (-) TimerEvent: {}
+[2.705374] (-) TimerEvent: {}
+[2.805687] (-) TimerEvent: {}
+[2.906041] (-) TimerEvent: {}
+[3.006348] (-) TimerEvent: {}
+[3.106664] (-) TimerEvent: {}
+[3.206992] (-) TimerEvent: {}
+[3.307261] (-) TimerEvent: {}
+[3.407557] (-) TimerEvent: {}
+[3.507873] (-) TimerEvent: {}
+[3.608186] (-) TimerEvent: {}
+[3.708495] (-) TimerEvent: {}
+[3.808811] (-) TimerEvent: {}
+[3.909161] (-) TimerEvent: {}
+[4.009484] (-) TimerEvent: {}
+[4.109833] (-) TimerEvent: {}
+[4.210129] (-) TimerEvent: {}
+[4.310441] (-) TimerEvent: {}
+[4.410736] (-) TimerEvent: {}
+[4.511026] (-) TimerEvent: {}
+[4.611316] (-) TimerEvent: {}
+[4.711603] (-) TimerEvent: {}
+[4.811880] (-) TimerEvent: {}
+[4.912172] (-) TimerEvent: {}
+[5.012412] (-) TimerEvent: {}
+[5.112696] (-) TimerEvent: {}
+[5.212990] (-) TimerEvent: {}
+[5.313280] (-) TimerEvent: {}
+[5.413569] (-) TimerEvent: {}
+[5.513848] (-) TimerEvent: {}
+[5.614136] (-) TimerEvent: {}
+[5.714413] (-) TimerEvent: {}
+[5.814712] (-) TimerEvent: {}
+[5.915001] (-) TimerEvent: {}
+[6.015327] (-) TimerEvent: {}
+[6.115627] (-) TimerEvent: {}
+[6.215993] (-) TimerEvent: {}
+[6.316293] (-) TimerEvent: {}
+[6.416600] (-) TimerEvent: {}
+[6.516905] (-) TimerEvent: {}
+[6.617179] (-) TimerEvent: {}
+[6.717479] (-) TimerEvent: {}
+[6.817788] (-) TimerEvent: {}
+[6.918085] (-) TimerEvent: {}
+[7.018384] (-) TimerEvent: {}
+[7.118681] (-) TimerEvent: {}
+[7.218980] (-) TimerEvent: {}
+[7.319242] (-) TimerEvent: {}
+[7.419545] (-) TimerEvent: {}
+[7.519847] (-) TimerEvent: {}
+[7.620145] (-) TimerEvent: {}
+[7.720457] (-) TimerEvent: {}
+[7.820762] (-) TimerEvent: {}
+[7.921069] (-) TimerEvent: {}
+[8.021334] (-) TimerEvent: {}
+[8.121692] (-) TimerEvent: {}
+[8.222044] (-) TimerEvent: {}
+[8.322429] (-) TimerEvent: {}
+[8.422843] (-) TimerEvent: {}
+[8.523253] (-) TimerEvent: {}
+[8.623623] (-) TimerEvent: {}
+[8.723919] (-) TimerEvent: {}
+[8.824212] (-) TimerEvent: {}
+[8.924516] (-) TimerEvent: {}
+[9.024806] (-) TimerEvent: {}
+[9.125109] (-) TimerEvent: {}
+[9.225371] (-) TimerEvent: {}
+[9.325700] (-) TimerEvent: {}
+[9.426001] (-) TimerEvent: {}
+[9.526271] (-) TimerEvent: {}
+[9.626558] (-) TimerEvent: {}
+[9.726821] (-) TimerEvent: {}
+[9.827130] (-) TimerEvent: {}
+[9.927405] (-) TimerEvent: {}
+[10.027714] (-) TimerEvent: {}
+[10.128017] (-) TimerEvent: {}
+[10.228392] (-) TimerEvent: {}
+[10.263866] (behaviorfleets) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX shared library libdelegation_node.so\x1b[0m\n'}
+[10.328535] (-) TimerEvent: {}
+[10.428992] (-) TimerEvent: {}
+[10.529620] (-) TimerEvent: {}
+[10.630020] (-) TimerEvent: {}
+[10.730321] (-) TimerEvent: {}
+[10.830652] (-) TimerEvent: {}
+[10.851395] (behaviorfleets) StdoutLine: {'line': b'[100%] Built target delegation_node\n'}
+[10.861628] (behaviorfleets) CommandEnded: {'returncode': 0}
+[10.882146] (behaviorfleets) JobProgress: {'identifier': 'behaviorfleets', 'progress': 'install'}
+[10.889874] (behaviorfleets) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/rod/ros_ws/behaviorfleets/build/behaviorfleets'], 'cwd': '/home/rod/ros_ws/behaviorfleets/build/behaviorfleets', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'rod'), ('LC_TIME', 'es_ES.UTF-8'), ('XDG_SESSION_TYPE', 'wayland'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs/lib:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins'), ('HOME', '/home/rod'), ('DESKTOP_SESSION', 'ubuntu'), ('GAZEBO_MASTER_URI', 'http://localhost:11345'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'es_ES.UTF-8'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '2433'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=3324fab7412aeb92672021c264463894'), ('COLORTERM', 'truecolor'), ('IM_CONFIG_PHASE', '1'), ('WAYLAND_DISPLAY', 'wayland-0'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'rod'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'rod'), ('TERM', 'xterm-256color'), ('GAZEBO_MODEL_PATH', '/usr/share/gazebo/../../share/gazebo-11/models:'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('OGRE_RESOURCE_PATH', '/usr/lib/x86_64-linux-gnu/OGRE-1.9.0'), ('PATH', '/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/vega:@/tmp/.ICE-unix/2433,unix/vega:/tmp/.ICE-unix/2433'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'es_ES.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/797cb12a_af35_4ddb_9cf3_31500a602d52'), ('GNOME_SETUP_DISPLAY', ':1'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'es_ES.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/.mutter-Xwaylandauth.M8CW31'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.2075'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'es_ES.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'es_ES.UTF-8'), ('GAZEBO_RESOURCE_PATH', '/usr/share/gazebo/../../share/gazebo-11:'), ('LC_IDENTIFICATION', 'es_ES.UTF-8'), ('GAZEBO_MODEL_DATABASE_URI', 'http://models.gazebosim.org'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/rod/ros_ws/behaviorfleets/build/behaviorfleets'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('GAZEBO_PLUGIN_PATH', '/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins:'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=3324fab7412aeb92672021c264463894'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'es_ES.UTF-8'), ('LC_PAPER', 'es_ES.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble')]), 'shell': False}
+[10.896102] (behaviorfleets) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[10.896483] (behaviorfleets) StdoutLine: {'line': b'-- Execute custom install script\n'}
+[10.896780] (behaviorfleets) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/behaviorfleets/lib/libdelegation_node.so\n'}
+[10.897069] (behaviorfleets) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/behaviorfleets/include//DelegationNode.hpp\n'}
+[10.897223] (behaviorfleets) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/behaviorfleets/share/ament_index/resource_index/package_run_dependencies/behaviorfleets\n'}
+[10.897378] (behaviorfleets) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/behaviorfleets/share/ament_index/resource_index/parent_prefix_path/behaviorfleets\n'}
+[10.897534] (behaviorfleets) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/behaviorfleets/share/behaviorfleets/environment/ament_prefix_path.sh\n'}
+[10.897693] (behaviorfleets) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/behaviorfleets/share/behaviorfleets/environment/ament_prefix_path.dsv\n'}
+[10.897838] (behaviorfleets) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/behaviorfleets/share/behaviorfleets/environment/path.sh\n'}
+[10.898009] (behaviorfleets) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/behaviorfleets/share/behaviorfleets/environment/path.dsv\n'}
+[10.898139] (behaviorfleets) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/behaviorfleets/share/behaviorfleets/local_setup.bash\n'}
+[10.898260] (behaviorfleets) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/behaviorfleets/share/behaviorfleets/local_setup.sh\n'}
+[10.898379] (behaviorfleets) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/behaviorfleets/share/behaviorfleets/local_setup.zsh\n'}
+[10.898504] (behaviorfleets) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/behaviorfleets/share/behaviorfleets/local_setup.dsv\n'}
+[10.898643] (behaviorfleets) StdoutLine: {'line': b'-- Symlinking: /home/rod/ros_ws/behaviorfleets/install/behaviorfleets/share/behaviorfleets/package.dsv\n'}
+[10.905910] (behaviorfleets) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/behaviorfleets/share/ament_index/resource_index/packages/behaviorfleets\n'}
+[10.906157] (behaviorfleets) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/behaviorfleets/share/behaviorfleets/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[10.906288] (behaviorfleets) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/behaviorfleets/share/behaviorfleets/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[10.906439] (behaviorfleets) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/behaviorfleets/share/behaviorfleets/cmake/behaviorfleetsConfig.cmake\n'}
+[10.906577] (behaviorfleets) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/behaviorfleets/share/behaviorfleets/cmake/behaviorfleetsConfig-version.cmake\n'}
+[10.906688] (behaviorfleets) StdoutLine: {'line': b'-- Up-to-date symlink: /home/rod/ros_ws/behaviorfleets/install/behaviorfleets/share/behaviorfleets/package.xml\n'}
+[10.908131] (behaviorfleets) CommandEnded: {'returncode': 0}
+[10.930783] (-) TimerEvent: {}
+[10.957236] (behaviorfleets) JobEnded: {'identifier': 'behaviorfleets', 'rc': 0}
+[10.957910] (-) EventReactorShutdown: {}

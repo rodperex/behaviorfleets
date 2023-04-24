@@ -1,0 +1,4 @@
+gmake[2]: *** No rule to make target '/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/src/decorators/DelegationNode.cpp', needed by 'CMakeFiles/delegation_node.dir/src/decorators/DelegationNode.cpp.o'.  Stop.
+gmake[1]: *** [CMakeFiles/Makefile2:288: CMakeFiles/delegation_node.dir/all] Error 2
+gmake[1]: *** Waiting for unfinished jobs....
+gmake: *** [Makefile:146: all] Error 2

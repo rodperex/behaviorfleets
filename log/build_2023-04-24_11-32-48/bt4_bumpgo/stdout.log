@@ -1,0 +1,13 @@
+[35m[1mConsolidate compiler generated dependencies of target back_node[0m
+[  5%] [32mBuilding CXX object CMakeFiles/delegation_node.dir/src/bt4_bumpgo/DelegationNode.cpp.o[0m
+[ 25%] Built target gtest
+[ 25%] Built target gtest_main
+[ 35%] Built target turn_node
+[ 45%] Built target forward_node
+[ 55%] Built target is_obstacle_node
+[ 70%] Built target bt4_bumpgo
+[ 70%] [32mBuilding CXX object CMakeFiles/back_node.dir/src/bt4_bumpgo/Back.cpp.o[0m
+[ 80%] Built target bt_forward
+[ 90%] Built target bt_action_test
+[ 95%] [32m[1mLinking CXX shared library libback_node.so[0m
+[ 95%] Built target back_node

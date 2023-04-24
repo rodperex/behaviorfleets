@@ -1,0 +1,8 @@
+[  5%] [32mBuilding CXX object CMakeFiles/delegation_node.dir/src/decorators/DelegationNode.cpp.o[0m
+[ 15%] Built target turn_node
+[ 25%] Built target back_node
+[ 35%] Built target is_obstacle_node
+[ 55%] Built target forward_node
+[ 55%] Built target bt4_bumpgo
+[ 65%] Built target gtest
+[ 75%] Built target gtest_main

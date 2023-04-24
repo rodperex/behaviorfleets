@@ -1,0 +1,9 @@
+In file included from [01m[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/src/bt4_bumpgo/DelegationNode.cpp:5[m[K:
+[01m[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/include/bt4_bumpgo/DelegationNode.hpp:7:10:[m[K [01;31m[Kfatal error: [m[Kbehaviortree_cpp/decorator_node.h: No such file or directory
+    7 | #include [01;31m[K"behaviortree_cpp/decorator_node.h"[m[K
+      |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+compilation terminated.
+gmake[2]: *** [CMakeFiles/delegation_node.dir/build.make:76: CMakeFiles/delegation_node.dir/src/bt4_bumpgo/DelegationNode.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:288: CMakeFiles/delegation_node.dir/all] Error 2
+gmake[1]: *** Waiting for unfinished jobs....
+gmake: *** [Makefile:146: all] Error 2

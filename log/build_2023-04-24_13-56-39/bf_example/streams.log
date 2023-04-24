@@ -1,0 +1,22 @@
+[0.019s] Invoking command in '/home/rod/ros_ws/behaviorfleets/build/bf_example': AMENT_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/behaviorfleets:/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/behaviorfleets:/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble LD_LIBRARY_PATH=/home/rod/ros_ws/behaviorfleets/install/behaviorfleets/lib:/home/rod/ros_ws/behaviorfleets/install/bf_msgs/lib:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins PATH=/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/bin:${PATH} PYTHONPATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/rod/ros_ws/behaviorfleets/build/bf_example -- -j8 -l8
+[0.053s] [35m[1mConsolidate compiler generated dependencies of target bf_example[0m
+[0.071s] [ 33%] [32mBuilding CXX object CMakeFiles/bf_example.dir/src/Test.cpp.o[0m
+[2.606s] [01m[K/home/rod/ros_ws/behaviorfleets/src/bf_example/src/Test.cpp:[m[K In function ‘[01m[Kvoid bf_example::mission_callback(bf_msgs::msg::MissionCommand_<std::allocator<void> >::UniquePtr)[m[K’:
+[2.606s] [01m[K/home/rod/ros_ws/behaviorfleets/src/bf_example/src/Test.cpp:41:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kbf_msgs::msg::MissionCommand_<std::allocator<void> >::UniquePtr bf_example::Test::mission_[m[K’ is private within this context
+[2.607s]    41 |   Test::[01;31m[Kmission_[m[K = std::move(msg);
+[2.607s]       |         [01;31m[K^~~~~~~~[m[K
+[2.607s] In file included from [01m[K/home/rod/ros_ws/behaviorfleets/src/bf_example/src/Test.cpp:19[m[K:
+[2.607s] [01m[K/home/rod/ros_ws/behaviorfleets/src/bf_example/include/Test.hpp:36:43:[m[K [01;36m[Knote: [m[Kdeclared private here
+[2.607s]    36 |   bf_msgs::msg::MissionCommand::UniquePtr [01;36m[Kmission_[m[K;
+[2.607s]       |                                           [01;36m[K^~~~~~~~[m[K
+[2.607s] [01m[K/home/rod/ros_ws/behaviorfleets/src/bf_example/src/Test.cpp:41:9:[m[K [01;31m[Kerror: [m[Kinvalid use of non-static data member ‘[01m[Kbf_example::Test::mission_[m[K’
+[2.607s]    41 |   Test::[01;31m[Kmission_[m[K = std::move(msg);
+[2.607s]       |         [01;31m[K^~~~~~~~[m[K
+[2.608s] In file included from [01m[K/home/rod/ros_ws/behaviorfleets/src/bf_example/src/Test.cpp:19[m[K:
+[2.608s] [01m[K/home/rod/ros_ws/behaviorfleets/src/bf_example/include/Test.hpp:36:43:[m[K [01;36m[Knote: [m[Kdeclared here
+[2.608s]    36 |   bf_msgs::msg::MissionCommand::UniquePtr [01;36m[Kmission_[m[K;
+[2.608s]       |                                           [01;36m[K^~~~~~~~[m[K
+[5.452s] gmake[2]: *** [CMakeFiles/bf_example.dir/build.make:90: CMakeFiles/bf_example.dir/src/Test.cpp.o] Error 1
+[5.452s] gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/bf_example.dir/all] Error 2
+[5.452s] gmake: *** [Makefile:146: all] Error 2
+[5.454s] Invoked command in '/home/rod/ros_ws/behaviorfleets/build/bf_example' returned '2': AMENT_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/behaviorfleets:/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/behaviorfleets:/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble LD_LIBRARY_PATH=/home/rod/ros_ws/behaviorfleets/install/behaviorfleets/lib:/home/rod/ros_ws/behaviorfleets/install/bf_msgs/lib:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins PATH=/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/bin:${PATH} PYTHONPATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/rod/ros_ws/behaviorfleets/build/bf_example -- -j8 -l8

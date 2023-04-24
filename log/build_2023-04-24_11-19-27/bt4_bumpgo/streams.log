@@ -1,0 +1,21 @@
+[0.018s] Invoking command in '/home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo': AMENT_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble LD_LIBRARY_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/lib:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins PATH=/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/bin:${PATH} PYTHONPATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo -- -j8 -l8
+[0.067s] [  5%] [32mBuilding CXX object CMakeFiles/delegation_node.dir/src/decorators/DelegationNode.cpp.o[0m
+[0.070s] [ 15%] Built target gtest_main
+[0.071s] [ 25%] Built target gtest
+[0.076s] [ 55%] Built target back_node
+[0.077s] [ 55%] Built target turn_node
+[0.077s] [ 55%] Built target is_obstacle_node
+[0.077s] In file included from [01m[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/src/decorators/DelegationNode.cpp:1[m[K:
+[0.077s] [01m[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/include/decorators/DelegationNode.h:4:10:[m[K [01;31m[Kfatal error: [m[Kbf_msgs/msg/mission_command.hpp: No such file or directory
+[0.077s]     4 | #include [01;31m[K"bf_msgs/msg/mission_command.hpp"[m[K
+[0.077s]       |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[0.078s] compilation terminated.
+[0.079s] gmake[2]: *** [CMakeFiles/delegation_node.dir/build.make:76: CMakeFiles/delegation_node.dir/src/decorators/DelegationNode.cpp.o] Error 1
+[0.079s] gmake[1]: *** [CMakeFiles/Makefile2:288: CMakeFiles/delegation_node.dir/all] Error 2
+[0.079s] gmake[1]: *** Waiting for unfinished jobs....
+[0.079s] [ 65%] Built target forward_node
+[0.079s] [ 75%] Built target bt4_bumpgo
+[0.096s] [ 90%] Built target bt_action_test
+[0.096s] [ 95%] Built target bt_forward
+[0.097s] gmake: *** [Makefile:146: all] Error 2
+[0.099s] Invoked command in '/home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo' returned '2': AMENT_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble LD_LIBRARY_PATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/lib:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins PATH=/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/bin:${PATH} PYTHONPATH=/home/rod/ros_ws/behaviorfleets/install/bf_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo -- -j8 -l8

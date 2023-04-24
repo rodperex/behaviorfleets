@@ -1,0 +1,99 @@
+[0.000000] (-) TimerEvent: {}
+[0.000136] (-) JobUnselected: {'identifier': 'behaviortree_cpp'}
+[0.000187] (-) JobUnselected: {'identifier': 'bf_msgs'}
+[0.000214] (bt4_bumpgo) JobQueued: {'identifier': 'bt4_bumpgo', 'dependencies': OrderedDict([('behaviortree_cpp', '/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp'), ('bf_msgs', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs')])}
+[0.000242] (bt4_bumpgo) JobStarted: {'identifier': 'bt4_bumpgo'}
+[0.013578] (bt4_bumpgo) JobProgress: {'identifier': 'bt4_bumpgo', 'progress': 'cmake'}
+[0.014931] (bt4_bumpgo) JobProgress: {'identifier': 'bt4_bumpgo', 'progress': 'build'}
+[0.014970] (bt4_bumpgo) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo', '--', '-j8', '-l8'], 'cwd': '/home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'rod'), ('LC_TIME', 'es_ES.UTF-8'), ('XDG_SESSION_TYPE', 'wayland'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs/lib:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins'), ('HOME', '/home/rod'), ('OLDPWD', '/home/rod/ros_ws/behaviorfleets/src'), ('DESKTOP_SESSION', 'ubuntu'), ('GAZEBO_MASTER_URI', 'http://localhost:11345'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'es_ES.UTF-8'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '2433'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=3324fab7412aeb92672021c264463894'), ('COLORTERM', 'truecolor'), ('IM_CONFIG_PHASE', '1'), ('WAYLAND_DISPLAY', 'wayland-0'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'rod'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'rod'), ('TERM', 'xterm-256color'), ('GAZEBO_MODEL_PATH', '/usr/share/gazebo/../../share/gazebo-11/models:'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('OGRE_RESOURCE_PATH', '/usr/lib/x86_64-linux-gnu/OGRE-1.9.0'), ('PATH', '/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/vega:@/tmp/.ICE-unix/2433,unix/vega:/tmp/.ICE-unix/2433'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'es_ES.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/53f5cc08_ff06_4916_9175_aed2a28cc306'), ('GNOME_SETUP_DISPLAY', ':1'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'es_ES.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/.mutter-Xwaylandauth.M8CW31'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.183'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'es_ES.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'es_ES.UTF-8'), ('GAZEBO_RESOURCE_PATH', '/usr/share/gazebo/../../share/gazebo-11:'), ('LC_IDENTIFICATION', 'es_ES.UTF-8'), ('GAZEBO_MODEL_DATABASE_URI', 'http://models.gazebosim.org'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/rod/ros_ws/behaviorfleets/build/bt4_bumpgo'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('GAZEBO_PLUGIN_PATH', '/usr/share/gazebo/../../lib/x86_64-linux-gnu/gazebo-11/plugins:'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=3324fab7412aeb92672021c264463894'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'es_ES.UTF-8'), ('LC_PAPER', 'es_ES.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/rod/ros_ws/behaviorfleets/install/bf_msgs:/home/rod/ros_ws/behaviorfleets/install/behaviortree_cpp:/opt/ros/humble')]), 'shell': False}
+[0.057586] (bt4_bumpgo) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target delegation_node\x1b[0m\n'}
+[0.069381] (bt4_bumpgo) StdoutLine: {'line': b'[ 20%] Built target gtest_main\n'}
+[0.069612] (bt4_bumpgo) StdoutLine: {'line': b'[ 20%] Built target gtest\n'}
+[0.073477] (bt4_bumpgo) StdoutLine: {'line': b'[ 40%] Built target forward_node\n'}
+[0.073692] (bt4_bumpgo) StdoutLine: {'line': b'[ 40%] Built target bt4_bumpgo\n'}
+[0.074345] (bt4_bumpgo) StdoutLine: {'line': b'[ 60%] Built target back_node\n'}
+[0.074497] (bt4_bumpgo) StdoutLine: {'line': b'[ 60%] Built target is_obstacle_node\n'}
+[0.079686] (bt4_bumpgo) StdoutLine: {'line': b'[ 70%] Built target turn_node\n'}
+[0.079944] (bt4_bumpgo) StdoutLine: {'line': b'[ 75%] \x1b[32mBuilding CXX object CMakeFiles/delegation_node.dir/src/bt4_bumpgo/DelegationNode.cpp.o\x1b[0m\n'}
+[0.092842] (bt4_bumpgo) StdoutLine: {'line': b'[ 85%] Built target bt_forward\n'}
+[0.097964] (-) TimerEvent: {}
+[0.098215] (bt4_bumpgo) StdoutLine: {'line': b'[ 95%] Built target bt_action_test\n'}
+[0.198075] (-) TimerEvent: {}
+[0.298402] (-) TimerEvent: {}
+[0.398730] (-) TimerEvent: {}
+[0.499073] (-) TimerEvent: {}
+[0.599406] (-) TimerEvent: {}
+[0.699798] (-) TimerEvent: {}
+[0.800185] (-) TimerEvent: {}
+[0.900576] (-) TimerEvent: {}
+[1.000965] (-) TimerEvent: {}
+[1.101349] (-) TimerEvent: {}
+[1.201738] (-) TimerEvent: {}
+[1.302069] (-) TimerEvent: {}
+[1.402425] (-) TimerEvent: {}
+[1.502777] (-) TimerEvent: {}
+[1.603120] (-) TimerEvent: {}
+[1.703456] (-) TimerEvent: {}
+[1.803827] (-) TimerEvent: {}
+[1.904183] (-) TimerEvent: {}
+[2.004597] (-) TimerEvent: {}
+[2.104943] (-) TimerEvent: {}
+[2.205292] (-) TimerEvent: {}
+[2.305627] (-) TimerEvent: {}
+[2.405946] (-) TimerEvent: {}
+[2.506347] (-) TimerEvent: {}
+[2.606692] (-) TimerEvent: {}
+[2.621458] (bt4_bumpgo) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/src/bt4_bumpgo/DelegationNode.cpp:5\x1b[m\x1b[K:\n'}
+[2.621730] (bt4_bumpgo) StderrLine: {'line': b'\x1b[01m\x1b[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/include/bt4_bumpgo/DelegationNode.hpp:30:30:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kstd_msgs\x1b[m\x1b[K\xe2\x80\x99 has not been declared\n'}
+[2.621880] (bt4_bumpgo) StderrLine: {'line': b'   30 |   void child_status_callback(\x1b[01;31m\x1b[Kstd_msgs\x1b[m\x1b[K::msg::String::UniquePtr msg);\n'}
+[2.622003] (bt4_bumpgo) StderrLine: {'line': b'      |                              \x1b[01;31m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.622124] (bt4_bumpgo) StderrLine: {'line': b'\x1b[01m\x1b[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/include/bt4_bumpgo/DelegationNode.hpp:30:63:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kexpected \xe2\x80\x98\x1b[01m\x1b[K,\x1b[m\x1b[K\xe2\x80\x99 or \xe2\x80\x98\x1b[01m\x1b[K...\x1b[m\x1b[K\xe2\x80\x99 before \xe2\x80\x98\x1b[01m\x1b[Kmsg\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.622246] (bt4_bumpgo) StderrLine: {'line': b'   30 |   void child_status_callback(std_msgs::msg::String::UniquePtr \x1b[01;31m\x1b[Kmsg\x1b[m\x1b[K);\n'}
+[2.622364] (bt4_bumpgo) StderrLine: {'line': b'      |                                                               \x1b[01;31m\x1b[K^~~\x1b[m\x1b[K\n'}
+[2.671029] (bt4_bumpgo) StderrLine: {'line': b'\x1b[01m\x1b[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/include/bt4_bumpgo/DelegationNode.hpp:38:3:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kstd_msgs\x1b[m\x1b[K\xe2\x80\x99 does not name a type\n'}
+[2.671281] (bt4_bumpgo) StderrLine: {'line': b'   38 |   \x1b[01;31m\x1b[Kstd_msgs\x1b[m\x1b[K::msg::String::UniquePtr child_status_;\n'}
+[2.671409] (bt4_bumpgo) StderrLine: {'line': b'      |   \x1b[01;31m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[2.674018] (bt4_bumpgo) StderrLine: {'line': b'\x1b[01m\x1b[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/src/bt4_bumpgo/DelegationNode.cpp:14:63:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[KNodeConfig\x1b[m\x1b[K\xe2\x80\x99 does not name a type\n'}
+[2.674206] (bt4_bumpgo) StderrLine: {'line': b'   14 | DelegationNode::DelegationNode(const std::string &name, const \x1b[01;31m\x1b[KNodeConfig\x1b[m\x1b[K &config) :\n'}
+[2.674407] (bt4_bumpgo) StderrLine: {'line': b'      |                                                               \x1b[01;31m\x1b[K^~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.674511] (bt4_bumpgo) StderrLine: {'line': b'\x1b[01m\x1b[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/src/bt4_bumpgo/DelegationNode.cpp:14:1:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kno declaration matches \xe2\x80\x98\x1b[01m\x1b[Kbt4_bumpgo::DelegationNode::DelegationNode(const string&, const int&)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.674613] (bt4_bumpgo) StderrLine: {'line': b'   14 | \x1b[01;31m\x1b[KDelegationNode\x1b[m\x1b[K::DelegationNode(const std::string &name, const NodeConfig &config) :\n'}
+[2.674716] (bt4_bumpgo) StderrLine: {'line': b'      | \x1b[01;31m\x1b[K^~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.674828] (bt4_bumpgo) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/src/bt4_bumpgo/DelegationNode.cpp:5\x1b[m\x1b[K:\n'}
+[2.674947] (bt4_bumpgo) StderrLine: {'line': b'\x1b[01m\x1b[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/include/bt4_bumpgo/DelegationNode.hpp:17:7:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidates are: \xe2\x80\x98\x1b[01m\x1b[Kbt4_bumpgo::DelegationNode::DelegationNode(const bt4_bumpgo::DelegationNode&)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.675068] (bt4_bumpgo) StderrLine: {'line': b'   17 | class \x1b[01;36m\x1b[KDelegationNode\x1b[m\x1b[K : public BT::DecoratorNode\n'}
+[2.675187] (bt4_bumpgo) StderrLine: {'line': b'      |       \x1b[01;36m\x1b[K^~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.675321] (bt4_bumpgo) StderrLine: {'line': b'\x1b[01m\x1b[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/include/bt4_bumpgo/DelegationNode.hpp:21:3:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K                \xe2\x80\x98\x1b[01m\x1b[Kbt4_bumpgo::DelegationNode::DelegationNode(const string&, const BT::NodeConfig&)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.675445] (bt4_bumpgo) StderrLine: {'line': b'   21 |   \x1b[01;36m\x1b[KDelegationNode\x1b[m\x1b[K(const std::string& name, const BT::NodeConfig& config);\n'}
+[2.675574] (bt4_bumpgo) StderrLine: {'line': b'      |   \x1b[01;36m\x1b[K^~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.675689] (bt4_bumpgo) StderrLine: {'line': b'\x1b[01m\x1b[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/include/bt4_bumpgo/DelegationNode.hpp:17:7:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kclass bt4_bumpgo::DelegationNode\x1b[m\x1b[K\xe2\x80\x99 defined here\n'}
+[2.675807] (bt4_bumpgo) StderrLine: {'line': b'   17 | class \x1b[01;36m\x1b[KDelegationNode\x1b[m\x1b[K : public BT::DecoratorNode\n'}
+[2.675925] (bt4_bumpgo) StderrLine: {'line': b'      |       \x1b[01;36m\x1b[K^~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.676042] (bt4_bumpgo) StderrLine: {'line': b'\x1b[01m\x1b[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/src/bt4_bumpgo/DelegationNode.cpp:28:1:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kno declaration matches \xe2\x80\x98\x1b[01m\x1b[Kvoid bt4_bumpgo::DelegationNode::child_status_callback(bf_msgs::msg::MissionStatus_<std::allocator<void> >::UniquePtr)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.676164] (bt4_bumpgo) StderrLine: {'line': b'   28 | \x1b[01;31m\x1b[KDelegationNode\x1b[m\x1b[K::child_status_callback(bf_msgs::msg::MissionStatus::UniquePtr msg)\n'}
+[2.676282] (bt4_bumpgo) StderrLine: {'line': b'      | \x1b[01;31m\x1b[K^~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.676399] (bt4_bumpgo) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/src/bt4_bumpgo/DelegationNode.cpp:5\x1b[m\x1b[K:\n'}
+[2.676880] (bt4_bumpgo) StderrLine: {'line': b'\x1b[01m\x1b[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/include/bt4_bumpgo/DelegationNode.hpp:30:8:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate is: \xe2\x80\x98\x1b[01m\x1b[Kvoid bt4_bumpgo::DelegationNode::child_status_callback(int)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[2.677015] (bt4_bumpgo) StderrLine: {'line': b'   30 |   void \x1b[01;36m\x1b[Kchild_status_callback\x1b[m\x1b[K(std_msgs::msg::String::UniquePtr msg);\n'}
+[2.677139] (bt4_bumpgo) StderrLine: {'line': b'      |        \x1b[01;36m\x1b[K^~~~~~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.677263] (bt4_bumpgo) StderrLine: {'line': b'\x1b[01m\x1b[K/home/rod/ros_ws/behaviorfleets/src/bt4_bumpgo/include/bt4_bumpgo/DelegationNode.hpp:17:7:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kclass bt4_bumpgo::DelegationNode\x1b[m\x1b[K\xe2\x80\x99 defined here\n'}
+[2.677398] (bt4_bumpgo) StderrLine: {'line': b'   17 | class \x1b[01;36m\x1b[KDelegationNode\x1b[m\x1b[K : public BT::DecoratorNode\n'}
+[2.677517] (bt4_bumpgo) StderrLine: {'line': b'      |       \x1b[01;36m\x1b[K^~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[2.706806] (-) TimerEvent: {}
+[2.807205] (-) TimerEvent: {}
+[2.907538] (-) TimerEvent: {}
+[3.007895] (-) TimerEvent: {}
+[3.108242] (-) TimerEvent: {}
+[3.208618] (-) TimerEvent: {}
+[3.308940] (-) TimerEvent: {}
+[3.409250] (-) TimerEvent: {}
+[3.509596] (-) TimerEvent: {}
+[3.609975] (-) TimerEvent: {}
+[3.710333] (-) TimerEvent: {}
+[3.759390] (bt4_bumpgo) StderrLine: {'line': b'gmake[2]: *** [CMakeFiles/delegation_node.dir/build.make:76: CMakeFiles/delegation_node.dir/src/bt4_bumpgo/DelegationNode.cpp.o] Error 1\n'}
+[3.759606] (bt4_bumpgo) StderrLine: {'line': b'gmake[1]: *** [CMakeFiles/Makefile2:288: CMakeFiles/delegation_node.dir/all] Error 2\n'}
+[3.759802] (bt4_bumpgo) StderrLine: {'line': b'gmake: *** [Makefile:146: all] Error 2\n'}
+[3.761546] (bt4_bumpgo) CommandEnded: {'returncode': 2}
+[3.810546] (-) TimerEvent: {}
+[3.813604] (bt4_bumpgo) JobEnded: {'identifier': 'bt4_bumpgo', 'rc': 2}
+[3.824165] (-) EventReactorShutdown: {}

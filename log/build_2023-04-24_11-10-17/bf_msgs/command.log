@@ -1,0 +1,6 @@
+Invoking command in '/home/rod/ros_ws/behaviorfleets/build/bf_msgs': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/rod/ros_ws/behaviorfleets/src/bf_msgs -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/rod/ros_ws/behaviorfleets/install/bf_msgs
+Invoked command in '/home/rod/ros_ws/behaviorfleets/build/bf_msgs' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/rod/ros_ws/behaviorfleets/src/bf_msgs -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/rod/ros_ws/behaviorfleets/install/bf_msgs
+Invoking command in '/home/rod/ros_ws/behaviorfleets/build/bf_msgs': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/rod/ros_ws/behaviorfleets/build/bf_msgs -- -j8 -l8
+Invoked command in '/home/rod/ros_ws/behaviorfleets/build/bf_msgs' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/rod/ros_ws/behaviorfleets/build/bf_msgs -- -j8 -l8
+Invoking command in '/home/rod/ros_ws/behaviorfleets/build/bf_msgs': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/rod/ros_ws/behaviorfleets/build/bf_msgs
+Invoked command in '/home/rod/ros_ws/behaviorfleets/build/bf_msgs' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/rod/ros_ws/behaviorfleets/build/bf_msgs
