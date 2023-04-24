@@ -35,13 +35,11 @@ DelegationNode::child_status_callback(bf_msgs::msg::MissionStatus::UniquePtr msg
     child_id = msg->robot_id;
     child_itentified_ = true;
 
-    // child_sub_ = node_->create_subscription<bf_msgs::msg::MissionStatus>(
-    // "/" + child_id + "/mission_status", rclcpp::SensorDataQoS(),
-    // std::bind(&DelegationNode::child_status_callback, this, std::placeholders::_1));
-
     child_sub_ = node_->create_subscription<bf_msgs::msg::MissionStatus>(
-    "/mission_status", rclcpp::SensorDataQoS(),
+    "/" + child_id + "/mission_status", rclcpp::SensorDataQoS(),
     std::bind(&DelegationNode::child_status_callback, this, std::placeholders::_1));
+
+    
   }
 
 }
