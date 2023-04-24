@@ -1,5 +1,0 @@
-[0.000000] (-) TimerEvent: {}
-[0.000521] (-) JobUnselected: {'identifier': 'behaviorfleets'}
-[0.000551] (-) JobUnselected: {'identifier': 'behaviortree_cpp'}
-[0.000743] (-) JobUnselected: {'identifier': 'bf_msgs'}
-[0.000772] (-) EventReactorShutdown: {}

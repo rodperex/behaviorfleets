@@ -1,7 +1,0 @@
-[01m[K/home/rod/ros_ws/behaviorfleets/src/bf_example/src/Test.cpp:[m[K In function ‘[01m[Kvoid bf_example::mission_callback(bf_msgs::msg::MissionCommand_<std::allocator<void> >::UniquePtr)[m[K’:
-[01m[K/home/rod/ros_ws/behaviorfleets/src/bf_example/src/Test.cpp:44:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kmission_[m[K’ was not declared in this scope
-   44 |   [01;31m[Kmission_[m[K = std::move(msg);
-      |   [01;31m[K^~~~~~~~[m[K
-gmake[2]: *** [CMakeFiles/bf_example.dir/build.make:90: CMakeFiles/bf_example.dir/src/Test.cpp.o] Error 1
-gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/bf_example.dir/all] Error 2
-gmake: *** [Makefile:146: all] Error 2

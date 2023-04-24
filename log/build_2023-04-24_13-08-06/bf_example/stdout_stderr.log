@@ -1,6 +1,0 @@
-[31mCMake Error at CMakeLists.txt:27:
-  Parse error.  Expected "(", got unquoted argument with text
-  "${dependencies}".
-
-[0m
--- Configuring incomplete, errors occurred!

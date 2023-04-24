@@ -1,8 +1,0 @@
-[01m[K/home/rod/ros_ws/behaviorfleets/src/thirdparty/behaviortree_cpp/3rdparty/minitrace/minitrace.cpp:[m[K In function ‘[01m[Kvoid minitrace::internal_mtr_raw_event(const char*, const char*, char, void*)[m[K’:
-[01m[K/home/rod/ros_ws/behaviorfleets/src/thirdparty/behaviortree_cpp/3rdparty/minitrace/minitrace.cpp:322:9:[m[K [01;35m[Kwarning: [m[K‘[01m[K++[m[K’ expression of ‘[01m[Kvolatile[m[K’-qualified type is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wvolatile-Wvolatile]8;;[m[K]
-  322 |         [01;35m[Kcount[m[K++;
-      |         [01;35m[K^~~~~[m[K
-[01m[K/home/rod/ros_ws/behaviorfleets/src/thirdparty/behaviortree_cpp/3rdparty/minitrace/minitrace.cpp:[m[K In function ‘[01m[Kvoid minitrace::internal_mtr_raw_event_arg(const char*, const char*, char, void*, minitrace::mtr_arg_type, const char*, void*)[m[K’:
-[01m[K/home/rod/ros_ws/behaviorfleets/src/thirdparty/behaviortree_cpp/3rdparty/minitrace/minitrace.cpp:359:9:[m[K [01;35m[Kwarning: [m[K‘[01m[K++[m[K’ expression of ‘[01m[Kvolatile[m[K’-qualified type is deprecated [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wvolatile-Wvolatile]8;;[m[K]
-  359 |         [01;35m[Kcount[m[K++;
-      |         [01;35m[K^~~~~[m[K
