@@ -19,13 +19,52 @@ Test::Test()
 : Node("test"),
 id_("test")
 {
+  using namespace std::chrono_literals;
+  
   mission_sub_ = create_subscription<bf_msgs::msg::MissionCommand>(
     "/mission_command", rclcpp::SensorDataQoS(),
     std::bind(&Test::mission_callback, this, std::placeholders::_1));
 
   status_pub_ = create_publisher<bf_msgs::msg::MissionStatus>("/" + id_ +"/mission_status", 10);
 
-  auto node = rclcpp::Node::make_shared("example");
+  tree_ = create_tree();
+ 
+  timer_ = create_wall_timer(50ms, std::bind(&Test::control_cycle, this));
+}
+
+void
+Test::control_cycle(){
+
+    bf_msgs::msg::MissionStatus msg;
+    msg.robot_id = id_;
+    bool stop = true;
+
+    BT::NodeStatus status = tree_.rootNode()->executeTick();
+    
+    switch(status){
+      case BT::NodeStatus::RUNNING:
+        msg.status = RUNNING;
+        stop = false;
+        break;
+      case BT::NodeStatus::SUCCESS:
+        msg.status = SUCCESS;
+        break;
+      case BT::NodeStatus::FAILURE:
+        msg.status = FAILURE;
+        break;
+      }  
+
+    status_pub_->publish(msg);
+    if(!stop)
+      rclcpp::spin_some(node_);
+    else
+      rclcpp::shutdown();   
+}
+
+BT::Tree
+Test::create_tree(){
+
+  node_ = rclcpp::Node::make_shared("example");
   std::cout << "running main..." << std::endl;
 
   
@@ -47,20 +86,11 @@ id_("test")
   std::string xml_file = pkgpath + "/bt_xml/example.xml";
 
   auto blackboard = BT::Blackboard::create();
-  blackboard->set("node", node);
+  blackboard->set("node", node_);
   std::cout << "\t- Blackboard set" << std::endl;
   BT::Tree tree = factory.createTreeFromFile(xml_file, blackboard);
 
-  
-  rclcpp::Rate rate(10);
- 
-  bool finish = false;
-  while (!finish && rclcpp::ok()) {
-    finish = tree.rootNode()->executeTick() != BT::NodeStatus::RUNNING;
-    
-    rclcpp::spin_some(node);
-    rate.sleep();
-  }
+  return tree;
 
 }
 

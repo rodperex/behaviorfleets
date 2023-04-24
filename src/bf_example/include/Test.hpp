@@ -20,6 +20,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "bf_msgs/msg/mission_status.hpp"
 #include "bf_msgs/msg/mission_command.hpp"
+#include "behaviortree_cpp/bt_factory.h"
 
 
 namespace bf_example
@@ -32,12 +33,22 @@ public:
 
 private:
   void mission_callback(bf_msgs::msg::MissionCommand::UniquePtr msg);
+  BT::Tree create_tree();
+  void control_cycle();
+
+  static const int FAILURE = 0;
+  static const int SUCCESS = 1;
+  static const int RUNNING = 2;
 
   bf_msgs::msg::MissionCommand::UniquePtr mission_;
-
+  rclcpp::Node::SharedPtr node_;
   std::string id_;
   rclcpp::Publisher<bf_msgs::msg::MissionStatus>::SharedPtr status_pub_; 
   rclcpp::Subscription<bf_msgs::msg::MissionCommand>::SharedPtr mission_sub_;
+  BT::Tree tree_;
+  rclcpp::TimerBase::SharedPtr timer_;
+
+  
   
 };
 
