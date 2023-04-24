@@ -24,7 +24,7 @@ include_directories(include)
 
 add_library(delegation_node SHARED src/DelegationNode.cpp)
 add_library(delegate_bt_node SHARED src/DelegateBT.cpp)
-add_library(delegate_action_node SHARED src/DelegateBT.cpp)
+add_library(delegate_action_node SHARED src/DelegateActionNode.cpp)
 
 list(APPEND plugin_libs
   delegation_node

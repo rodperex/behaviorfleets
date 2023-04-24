@@ -12,6 +12,9 @@
 #include "behaviortree_cpp/utils/shared_library.h"
 #include "rclcpp/rclcpp.hpp"
 
+#include "bf_msgs/msg/mission_command.hpp"
+#include "bf_msgs/msg/mission_status.hpp"
+
 namespace BF
 {
 
@@ -42,7 +45,7 @@ DelegateActionNode::child_status_callback(bf_msgs::msg::MissionStatus::UniquePtr
 
     child_sub_ = node_->create_subscription<bf_msgs::msg::MissionStatus>(
     "/" + child_id + "/mission_status", rclcpp::SensorDataQoS(),
-    std::bind(&DelegationNode::child_status_callback, this, std::placeholders::_1));
+    std::bind(&DelegateActionNode::child_status_callback, this, std::placeholders::_1));
 
   }
 
@@ -65,7 +68,7 @@ DelegateActionNode::tick()
       break;
     }
 
-  
+    return BT::NodeStatus::FAILURE;
 }
 
 }  // namespace BF

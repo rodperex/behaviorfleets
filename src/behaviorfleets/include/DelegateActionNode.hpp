@@ -7,17 +7,20 @@
 #include "behaviortree_cpp/bt_factory.h"
 #include "behaviortree_cpp/decorator_node.h"
 
+#include "bf_msgs/msg/mission_command.hpp"
+#include "bf_msgs/msg/mission_status.hpp"
+
 
 #include "rclcpp/rclcpp.hpp"
 
 namespace BF
 {
 
-class Delegate : public BT::ActionNodeBase
+class DelegateActionNode : public BT::ActionNodeBase
 {
 public:
 
-  Delegate(
+  DelegateActionNode(
     const std::string& name,
     const BT::NodeConfig& conf);
 
