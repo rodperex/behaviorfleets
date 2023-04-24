@@ -3,16 +3,18 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <ReactiveSequence>
-            <Decorator ID="Delegation" tree="{mission}">
-
+            <Decorator ID="DelegateBT">
+                <Action ID="DelegateActionNode" tree="{mission}">
             </Decorator>
         </ReactiveSequence>
     </BehaviorTree>
     <!-- ////////// -->
     <TreeNodesModel>
-        <Decorator ID="Delegation">
-            <input_port name="tree">subtree to delegate</input_port>
-        </Action>
+        <Decorator ID="DelegateBT">
+            <Action ID="DelegateActionNode">
+                <input_port name="tree">subtree to delegate</input_port>
+            </Action>
+        </Decorator>
     <TreeNodesModel>
     <!-- ////////// -->
 </root>

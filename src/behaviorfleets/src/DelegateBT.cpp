@@ -15,7 +15,6 @@ DecoratorNode(name, conf)
 
 }
 
-
 BT::NodeStatus DelegateBT::tick()
 {
     return child_node_->executeTick();
