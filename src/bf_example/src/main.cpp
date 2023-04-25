@@ -15,9 +15,10 @@ int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
 
-  BF::RemoteDelegateActionNode node();
+  // BF::RemoteDelegateActionNode node();
+  // node.setID("example");
 
-  // auto node = std::make_shared<BF::RemoteDelegateActionNode>(); 
+  auto node = std::make_shared<BF::RemoteDelegateActionNode>(); 
 
   // auto node = rclcpp::Node::make_shared("example");
   // std::cout << "running main..." << std::endl;

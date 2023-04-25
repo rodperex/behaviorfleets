@@ -19,8 +19,21 @@ namespace BF
 
 RemoteDelegateActionNode::RemoteDelegateActionNode()
 : Node("RemoteDelegateAN"),
-id_("robot_id")
+id_("remote")
 {
+  init();
+}
+
+RemoteDelegateActionNode::RemoteDelegateActionNode(const std::string& id)
+: Node("RemoteDelegateAN"),
+id_(id)
+{
+  init();
+}
+
+
+void
+RemoteDelegateActionNode::init(){
   using namespace std::chrono_literals;
   
   mission_sub_ = create_subscription<bf_msgs::msg::MissionCommand>(

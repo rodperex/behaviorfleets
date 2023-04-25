@@ -30,13 +30,14 @@ class RemoteDelegateActionNode : public rclcpp::Node
 {
 public:
   RemoteDelegateActionNode();
-  // RemoteDelegateActionNode(std::string robot_id);
+  RemoteDelegateActionNode(const std::string& id);
   void setID(std::string id);
 
 private:
   void mission_callback(bf_msgs::msg::MissionCommand::UniquePtr msg);
   BT::Tree create_tree();
   void control_cycle();
+  void init();
 
   static const int FAILURE = 0;
   static const int SUCCESS = 1;
