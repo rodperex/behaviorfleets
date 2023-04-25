@@ -29,8 +29,9 @@ namespace BF
 class RemoteDelegateActionNode : public rclcpp::Node
 {
 public:
-  // RemoteDelegateActionNode();
-  RemoteDelegateActionNode(std::string robot_id);
+  RemoteDelegateActionNode();
+  // RemoteDelegateActionNode(std::string robot_id);
+  void setID(std::string id);
 
 private:
   void mission_callback(bf_msgs::msg::MissionCommand::UniquePtr msg);

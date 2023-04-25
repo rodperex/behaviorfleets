@@ -17,9 +17,9 @@
 namespace BF
 {
 
-RemoteDelegateActionNode::RemoteDelegateActionNode(std::string robot_id)
+RemoteDelegateActionNode::RemoteDelegateActionNode()
 : Node("RemoteDelegateAN"),
-id_(robot_id)
+id_("robot_id")
 {
   using namespace std::chrono_literals;
   
@@ -100,6 +100,11 @@ RemoteDelegateActionNode::create_tree(){
 void
 RemoteDelegateActionNode::mission_callback(bf_msgs::msg::MissionCommand::UniquePtr msg){
   mission_ = std::move(msg);
+}
+
+void
+RemoteDelegateActionNode::setID(std::string id){
+  id_ = id;
 }
 
 }  // namespace BF
