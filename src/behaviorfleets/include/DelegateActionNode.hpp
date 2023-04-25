@@ -33,10 +33,12 @@ public:
 
   static BT::PortsList providedPorts()
   {
-    return BT::PortsList({});
+    return {BT::InputPort<int>(MISSION, "Mission to delegate")};;
   }
 
 private:
+
+  static constexpr const char* MISSION = "";
 
   rclcpp::Node::SharedPtr node_;
   rclcpp::Publisher<bf_msgs::msg::MissionCommand>::SharedPtr tree_pub_;

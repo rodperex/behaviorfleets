@@ -26,7 +26,7 @@ include_directories(include)
 
 add_executable(bf_example 
   src/main.cpp
-  src/Test.cpp
+  # src/Test.cpp
 )
 
 ament_target_dependencies(bf_example ${dependencies})
