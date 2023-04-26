@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef BF__REMOTE_HPP_
-#define BF__REMOTE_HPP_
+#ifndef BF__REMOTEDELEGATEACTIONNODE_HPP_
+#define BF__REMOTEDELEGATEACTIONNODE_HPP_
 
 #include <string>
 
@@ -55,4 +55,4 @@ private:
 
 }  // namespace BF
 
-#endif  // BF__REMOTE_HPP_
+#endif  // BF__REMOTEDELEGATEACTIONNODE_HPP_
