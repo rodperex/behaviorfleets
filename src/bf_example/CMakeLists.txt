@@ -24,12 +24,16 @@ set(dependencies
 
 include_directories(include)
 
-add_executable(bf_example 
-  src/main.cpp
-  # src/Test.cpp
+add_executable(source_bf 
+  src/remote_tree_main.cpp
 )
 
-ament_target_dependencies(bf_example ${dependencies})
+add_executable(remote_bf 
+  src/source_tree_main.cpp
+)
+
+ament_target_dependencies(source_bf ${dependencies})
+ament_target_dependencies(remote_bf ${dependencies})
 
 install(TARGETS
   ${plugin_libs}
