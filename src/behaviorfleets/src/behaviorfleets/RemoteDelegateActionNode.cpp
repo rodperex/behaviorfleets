@@ -24,7 +24,7 @@ id_("remote")
   init();
 }
 
-RemoteDelegateActionNode::RemoteDelegateActionNode(const std::string& id)
+RemoteDelegateActionNode::RemoteDelegateActionNode(const std::string id)
 : Node("RemoteDelegateAN"),
 id_(id)
 {

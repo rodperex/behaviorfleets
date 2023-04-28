@@ -30,7 +30,7 @@ class RemoteDelegateActionNode : public rclcpp::Node
 {
 public:
   RemoteDelegateActionNode();
-  RemoteDelegateActionNode(const std::string& id);
+  RemoteDelegateActionNode(const std::string id);
   void setID(std::string id);
 
 private:

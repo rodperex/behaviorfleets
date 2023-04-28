@@ -9,6 +9,8 @@ find_package(rclcpp REQUIRED)
 find_package(behaviortree_cpp REQUIRED)
 find_package(ament_index_cpp REQUIRED)
 find_package(bf_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 
 
 set(CMAKE_CXX_STANDARD 17)
@@ -18,6 +20,8 @@ set(dependencies
     behaviortree_cpp
     ament_index_cpp
     bf_msgs
+    geometry_msgs
+    sensor_msgs
 )
 
 
@@ -28,7 +32,10 @@ include_directories(include)
 add_library(delegate_bt_node SHARED src/behaviorfleets/deco/DelegateBT.cpp)
 add_library(delegate_action_node SHARED src/behaviorfleets/DelegateActionNode.cpp)
 add_library(remote_delegate_action_node SHARED src/behaviorfleets/RemoteDelegateActionNode.cpp)
+add_library(t SHARED src/behaviorfleets/Test.cpp)
 
+ament_target_dependencies(t ${dependencies})
+ament_target_dependencies(remote_delegate_action_node ${dependencies})
 
 
 list(APPEND plugin_libs
@@ -44,6 +51,12 @@ foreach(bt_plugin ${plugin_libs})
 endforeach()
 
 add_executable(source_tree src/examples/source_tree_main.cpp)
+ament_target_dependencies(source_tree ${dependencies})
+
+add_executable(remote_tree src/examples/remote_tree_main.cpp)
+ament_target_dependencies(remote_tree ${dependencies})
+target_link_libraries(remote_tree remote_delegate_action_node)
+
 
 install(TARGETS
   ${plugin_libs}

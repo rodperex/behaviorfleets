@@ -7,11 +7,12 @@
 
 #include "behaviorfleets/RemoteDelegateActionNode.hpp"
 
+
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
 
-  // auto node = std::make_shared<BF::RemoteDelegateActionNode>("testnode"); 
+  auto node = std::make_shared<BF::RemoteDelegateActionNode>("remote"); 
   
   rclcpp::shutdown();
   return 0;
