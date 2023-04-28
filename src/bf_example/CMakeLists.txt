@@ -11,7 +11,6 @@ find_package(ament_index_cpp REQUIRED)
 find_package(bf_msgs REQUIRED)
 find_package(behaviorfleets REQUIRED)
 
-
 set(CMAKE_CXX_STANDARD 17)
 
 set(dependencies
@@ -24,12 +23,13 @@ set(dependencies
 
 include_directories(include)
 
+
 add_executable(source_bf 
-  src/remote_tree_main.cpp
+  src/source_tree_main.cpp
 )
 
 add_executable(remote_bf 
-  src/source_tree_main.cpp
+  src/remote_tree_main.cpp
 )
 
 ament_target_dependencies(source_bf ${dependencies})

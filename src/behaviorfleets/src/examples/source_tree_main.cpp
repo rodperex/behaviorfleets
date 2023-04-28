@@ -33,7 +33,7 @@ int main(int argc, char * argv[])
   std::cout << "tree nodes registered" << std::endl;
   
   std::string pkgpath = ament_index_cpp::get_package_share_directory("bf_example");
-  std::string xml_file = pkgpath + "/bt_xml/example.xml";
+  std::string xml_file = pkgpath + "/src/examples/bt_xml/example.xml";
 
   auto blackboard = BT::Blackboard::create();
   blackboard->set("node", node);
@@ -52,7 +52,7 @@ int main(int argc, char * argv[])
   }
 
   rclcpp::shutdown();
-  // return 0;
+  return 0;
   
 
   // BT::Tree tree = factory.createTreeFromFile(xml_file);

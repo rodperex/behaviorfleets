@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<root main_tree_to_execute="BehaviorTree" BTCPP_format="4">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <ReactiveSequence>
+            <Decorator ID="DelegateBT">
+                <Action ID="DelegateActionNode" tree="{mission}">
+            </Decorator>
+        </ReactiveSequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <TreeNodesModel>
+        <Decorator ID="DelegateBT">
+            <Action ID="DelegateActionNode">
+                <input_port name="tree">subtree to delegate</input_port>
+            </Action>
+        </Decorator>
+    <TreeNodesModel>
+    <!-- ////////// -->
+</root>

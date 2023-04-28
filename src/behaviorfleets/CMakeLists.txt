@@ -20,16 +20,19 @@ set(dependencies
     bf_msgs
 )
 
+
 include_directories(include)
 
-add_library(delegation_node SHARED src/DelegationNode.cpp)
-add_library(delegate_bt_node SHARED src/DelegateBT.cpp)
-add_library(delegate_action_node SHARED src/DelegateActionNode.cpp)
-add_library(remote_delegate_action_node SHARED src/RemoteDelegateActionNode.cpp)
+
+# add_library(delegation_node SHARED src/behaviorfleets/DelegationNode.cpp)
+add_library(delegate_bt_node SHARED src/behaviorfleets/deco/DelegateBT.cpp)
+add_library(delegate_action_node SHARED src/behaviorfleets/DelegateActionNode.cpp)
+add_library(remote_delegate_action_node SHARED src/behaviorfleets/RemoteDelegateActionNode.cpp)
+
 
 
 list(APPEND plugin_libs
-  delegation_node
+  # delegation_node
   delegate_bt_node
   delegate_action_node
   remote_delegate_action_node
@@ -39,6 +42,8 @@ foreach(bt_plugin ${plugin_libs})
   ament_target_dependencies(${bt_plugin} ${dependencies})
   target_compile_definitions(${bt_plugin} PRIVATE BT_PLUGIN_EXPORT)
 endforeach()
+
+add_executable(source_tree src/examples/source_tree_main.cpp)
 
 install(TARGETS
   ${plugin_libs}

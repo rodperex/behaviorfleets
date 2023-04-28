@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 
-#include "DelegationNode.hpp"
+#include "behaviorfleets/DelegationNode.hpp"
 #include "bf_msgs/msg/mission_command.hpp"
 #include "bf_msgs/msg/mission_status.hpp"
 #include "rclcpp/rclcpp.hpp"
