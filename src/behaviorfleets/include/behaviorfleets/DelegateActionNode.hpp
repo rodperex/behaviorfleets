@@ -33,7 +33,7 @@ public:
 
   static BT::PortsList providedPorts()
   {
-    return {BT::InputPort<int>(MISSION, "Mission to delegate")};;
+    return {BT::InputPort<char*>("mission")};
   }
 
 private:

@@ -25,14 +25,16 @@ int main(int argc, char * argv[])
   
 
   std::cout << "LIBRARIES" << std::endl;
+  std::cout << "\t-" << loader.getOSName("delegate_bt_node")   << std::endl;
   std::cout << "\t-" << loader.getOSName("delegate_action_node")   << std::endl;
 
 
+  factory.registerFromPlugin(loader.getOSName("delegate_bt_node"));
   factory.registerFromPlugin(loader.getOSName("delegate_action_node"));
 
   std::cout << "tree nodes registered" << std::endl;
   
-  std::string pkgpath = ament_index_cpp::get_package_share_directory("bf_example");
+  std::string pkgpath = ament_index_cpp::get_package_share_directory("behaviorfleets");
   std::string xml_file = pkgpath + "/src/examples/bt_xml/example.xml";
 
   auto blackboard = BT::Blackboard::create();
