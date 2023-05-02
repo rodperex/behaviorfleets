@@ -60,6 +60,8 @@ target_link_libraries(remote_tree remote_delegate_action_node)
 
 install(TARGETS
   ${plugin_libs}
+  source_tree
+  remote_tree
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}
