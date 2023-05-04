@@ -35,12 +35,16 @@ int main(int argc, char * argv[])
   std::cout << "tree nodes registered" << std::endl;
   
   std::string pkgpath = ament_index_cpp::get_package_share_directory("behaviorfleets");
-  std::string xml_file = pkgpath + "/src/examples/bt_xml/example.xml";
+  // std::string xml_file = pkgpath + "/src/examples/bt_xml/a.xml";
+  std::string xml_file = pkgpath + "/example.xml";
+
+  std::cout << "\t- XML: " << xml_file << std::endl;
 
   auto blackboard = BT::Blackboard::create();
   blackboard->set("node", node);
   std::cout << "\t- Blackboard set" << std::endl;
   BT::Tree tree = factory.createTreeFromFile(xml_file, blackboard);
+  std::cout << "\t- Tree created from file" << std::endl;
 
   
   rclcpp::Rate rate(10);

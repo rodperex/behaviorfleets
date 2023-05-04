@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<root main_tree_to_execute="BehaviorTree" BTCPP_format="4">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <ReactiveSequence>
+            <Fallback>
+                <Inverter>
+                    <Condition ID="IsObstacle" direction="{dir}" distance="1.0"/>
+                </Inverter>
+                <Sequence>
+                    <Action ID="Back"/>
+                    <Action ID="Turn" direction="{dir}"/>
+                </Sequence>
+            </Fallback>
+            <Action ID="Forward"/>
+        </ReactiveSequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <TreeNodesModel>
+        <Action ID="Back"/>
+        <Action ID="Forward"/>
+        <Action ID="Turn">
+            <input_port default="1" name="direction">turn direction (1-L; 2-R)</input_port>
+        </Action>
+        <Condition ID="IsObstacle">
+            <output_port default="1" name="direction">turn direction (1-L; 2-R)</output_port>
+            <input_port default="1.0" name="distance">distance to the obstacle</input_port>
+        </Condition>
+    </TreeNodesModel>
+    <!-- ////////// -->
+</root>
