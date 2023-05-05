@@ -33,7 +33,7 @@ public:
 
   static BT::PortsList providedPorts()
   {
-    return {BT::InputPort<char*>("mission")};
+    return {BT::InputPort<char*>("tree")};
   }
 
 private:

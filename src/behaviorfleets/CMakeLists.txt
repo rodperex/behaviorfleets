@@ -71,7 +71,7 @@ install(DIRECTORY include/
   DESTINATION include/
 )
 
-install(DIRECTORY bt_xml/
+install(DIRECTORY bt_xml
   DESTINATION share/${PROJECT_NAME}
 )
 
