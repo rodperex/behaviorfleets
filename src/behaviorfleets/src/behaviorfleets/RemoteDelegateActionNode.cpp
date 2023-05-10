@@ -113,7 +113,8 @@ RemoteDelegateActionNode::create_tree(){
   auto blackboard = BT::Blackboard::create();
   blackboard->set("node", node_);
   std::cout << "\t- Blackboard set" << std::endl;
-  BT::Tree tree = factory.createTreeFromFile(xml_file, blackboard);
+  // BT::Tree tree = factory.createTreeFromFile(xml_file, blackboard);
+  BT::Tree tree = factory.createTreeFromText(mission_->mission_tree, blackboard);
 
   return tree;
 
