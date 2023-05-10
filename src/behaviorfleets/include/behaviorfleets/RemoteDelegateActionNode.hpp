@@ -46,6 +46,7 @@ private:
   bf_msgs::msg::MissionCommand::UniquePtr mission_;
   rclcpp::Node::SharedPtr node_;
   std::string id_;
+  bool working_ = false;
   rclcpp::Publisher<bf_msgs::msg::MissionStatus>::SharedPtr status_pub_;
   rclcpp::Subscription<bf_msgs::msg::MissionCommand>::SharedPtr mission_sub_;
   BT::Tree tree_;

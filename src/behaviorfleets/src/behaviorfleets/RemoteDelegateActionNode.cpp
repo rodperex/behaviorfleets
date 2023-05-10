@@ -40,6 +40,8 @@ RemoteDelegateActionNode::init(){
     "/" + id_ + "/mission_command", rclcpp::SensorDataQoS(),
     std::bind(&RemoteDelegateActionNode::mission_callback, this, std::placeholders::_1));
 
+  std::cout << "subscribed to " << "/" + id_ + "/mission_command"<< std::endl;
+
   status_pub_ = create_publisher<bf_msgs::msg::MissionStatus>(
     "/" + id_ + "/mission_status", 10);
 
@@ -55,10 +57,9 @@ RemoteDelegateActionNode::control_cycle(){
 
     bf_msgs::msg::MissionStatus msg;
 
-    msg.robot_id = "test_id";
+    msg.robot_id = id_;
     msg.status = RUNNING;
 
-    // msg.robot_id = id_;
     // bool stop = true;
 
     // BT::NodeStatus status = tree_.rootNode()->executeTick();
@@ -70,13 +71,15 @@ RemoteDelegateActionNode::control_cycle(){
     //     break;
     //   case BT::NodeStatus::SUCCESS:
     //     msg.status = SUCCESS;
+    //     working_ = false;
     //     break;
     //   case BT::NodeStatus::FAILURE:
     //     msg.status = FAILURE;
+    //     working_ = false;
     //     break;
     //   }  
 
-    std::cout << "publishing status" << std::endl;
+    // std::cout << "publishing status" << std::endl;
     status_pub_->publish(msg);
     // if(!stop)
     //   rclcpp::spin_some(node_);
@@ -88,9 +91,8 @@ BT::Tree
 RemoteDelegateActionNode::create_tree(){
 
   node_ = rclcpp::Node::make_shared("node");
-  std::cout << "running main..." << std::endl;
 
-  
+ 
   BT::SharedLibrary loader;
   std::cout << "loader ready" << std::endl;
 
@@ -120,6 +122,15 @@ RemoteDelegateActionNode::create_tree(){
 void
 RemoteDelegateActionNode::mission_callback(bf_msgs::msg::MissionCommand::UniquePtr msg){
   mission_ = std::move(msg);
+  if(!working_) {
+    std::cout << "mission received" << std::endl << mission_->mission_tree << std::endl;
+    // tree_ = create_tree();
+    working_ = true;
+  } else {
+    std::cout << "mission received but node is busy" << std::endl;
+  }
+    
+  
 }
 
 void

@@ -12,7 +12,7 @@ int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
 
-  auto node = std::make_shared<BF::RemoteDelegateActionNode>("to_be_set"); 
+  auto node = std::make_shared<BF::RemoteDelegateActionNode>("dummy"); 
   rclcpp::spin(node);
   
   rclcpp::shutdown();

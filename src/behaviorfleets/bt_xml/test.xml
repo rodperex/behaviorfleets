@@ -2,11 +2,12 @@
 <root main_tree_to_execute="BehaviorTree" BTCPP_format="4">
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
-        <Action ID="DelegateActionNode" remote_tree="b.xml"/>
+        <Action ID="DelegateActionNode" remote_id="dummy" remote_tree="remote_dummy.xml"/>
     </BehaviorTree>
     <!-- ////////// -->
     <TreeNodesModel>
         <Action ID="DelegateActionNode">
+            <input_port name="remote_id">Robot to execute the task</input_port>
             <input_port name="remote_tree">Tree to delegate</input_port>
         </Action>
     </TreeNodesModel>

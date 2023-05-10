@@ -52,6 +52,8 @@ endforeach()
 
 add_executable(source_tree src/examples/source_tree_main.cpp)
 ament_target_dependencies(source_tree ${dependencies})
+# new
+target_link_libraries(source_tree yaml-cpp)
 
 add_executable(remote_tree src/examples/remote_tree_main.cpp)
 ament_target_dependencies(remote_tree ${dependencies})
@@ -72,6 +74,10 @@ install(DIRECTORY include/
 )
 
 install(DIRECTORY bt_xml
+  DESTINATION share/${PROJECT_NAME}
+)
+
+install(DIRECTORY params
   DESTINATION share/${PROJECT_NAME}
 )
 

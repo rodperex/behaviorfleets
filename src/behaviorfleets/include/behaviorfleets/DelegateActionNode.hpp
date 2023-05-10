@@ -34,7 +34,7 @@ public:
   static BT::PortsList providedPorts()
   {
     return {
-      BT::InputPort<char*>("tree"),
+      BT::InputPort<std::string>("remote_tree"),
       BT::InputPort<char*>("remote_id"),
     };
   }
@@ -48,7 +48,7 @@ private:
   rclcpp::Subscription<bf_msgs::msg::MissionStatus>::SharedPtr remote_sub_;
   
   bf_msgs::msg::MissionStatus::UniquePtr remote_status_;
-  std::string remote_id;
+  std::string remote_id_, remote_tree_;
   bool remote_itentified_ = false;
 
   static const int FAILURE = 0;
@@ -56,6 +56,8 @@ private:
   static const int RUNNING = 2;
 
   bool read_tree_from_port_;
+
+  
 
   virtual BT::NodeStatus tick() override;
   
