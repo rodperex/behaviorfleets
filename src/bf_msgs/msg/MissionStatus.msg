@@ -4,4 +4,5 @@ uint8 SUCCESS = 1
 uint8 RUNNING  = 2
 
 string robot_id
+string mission_id
 uint8 status
