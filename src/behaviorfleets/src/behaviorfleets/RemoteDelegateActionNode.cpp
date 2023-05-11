@@ -57,7 +57,7 @@ RemoteDelegateActionNode::mission_callback(bf_msgs::msg::MissionCommand::UniqueP
   mission_ = std::move(msg);
   if(!working_) {
     std::cout << "mission received" << std::endl << mission_->mission_tree << std::endl;
-    tree_ = create_tree();
+    create_tree();
     working_ = true;
   } else {
     std::cout << "mission received but node is busy" << std::endl;
@@ -106,7 +106,7 @@ RemoteDelegateActionNode::control_cycle(){
      
 }
 
-BT::Tree
+void
 RemoteDelegateActionNode::create_tree(){
 
   BT::SharedLibrary loader;
@@ -120,11 +120,9 @@ RemoteDelegateActionNode::create_tree(){
       
   auto blackboard = BT::Blackboard::create();
   blackboard->set("node", shared_from_this());
-  BT::Tree tree = factory.createTreeFromText(mission_->mission_tree, blackboard);
+  tree_ = factory.createTreeFromText(mission_->mission_tree, blackboard);
 
   std::cout << "\t- Tree created" << std::endl;
-
-  return tree;
 
 }
 

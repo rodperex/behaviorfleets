@@ -35,7 +35,7 @@ public:
 
 private:
   void mission_callback(bf_msgs::msg::MissionCommand::UniquePtr msg);
-  BT::Tree create_tree();
+  void create_tree();
   void control_cycle();
   void init();
 

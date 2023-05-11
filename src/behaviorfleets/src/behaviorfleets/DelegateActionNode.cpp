@@ -22,12 +22,12 @@ namespace BF
 DelegateActionNode::DelegateActionNode(
   const std::string & xml_tag_name,
   const BT::NodeConfig & conf)
-: BT::ActionNodeBase(xml_tag_name, conf)
+: BT::ActionNodeBase(xml_tag_name, conf),
+remote_id_("not_set"),
+remote_tree_("not_set")
 {
   std::string pkgpath, xml_path;
-  
-  remote_id_ = "not_set";
-  remote_tree_ = "not_set";
+
   config().blackboard->get("node", node_);
   // config().blackboard->get("remote_tree", remote_tree_);
   // config().blackboard->get("remote_id", remote_id_);

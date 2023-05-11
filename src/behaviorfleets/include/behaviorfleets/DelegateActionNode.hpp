@@ -53,11 +53,7 @@ private:
 
   static const int FAILURE = 0;
   static const int SUCCESS = 1;
-  static const int RUNNING = 2;
-
-  bool read_tree_from_port_;
-
-  
+  static const int RUNNING = 2;  
 
   virtual BT::NodeStatus tick() override;
   
