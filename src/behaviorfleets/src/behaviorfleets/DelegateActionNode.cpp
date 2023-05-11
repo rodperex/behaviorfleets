@@ -105,7 +105,6 @@ DelegateActionNode::tick()
   //     break;
   //   }
 
-  //   return BT::NodeStatus::FAILURE;
 
   // std::cout << "DelegateActionNode::tick()" << std::endl;
   return BT::NodeStatus::RUNNING;
