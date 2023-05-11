@@ -65,6 +65,7 @@ int main(int argc, char * argv[])
     rate.sleep();
   }
 
+  std::cout << "Finished" << std::endl;
   rclcpp::shutdown();
   return 0;
   

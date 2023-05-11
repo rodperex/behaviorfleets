@@ -52,10 +52,6 @@ DelegateActionNode::DelegateActionNode(
   remote_sub_ = node_->create_subscription<bf_msgs::msg::MissionStatus>(
     "/" + remote_id_ + "/mission_status", rclcpp::SensorDataQoS(),
     std::bind(&DelegateActionNode::remote_status_callback, this, std::placeholders::_1));  
-
-  
-  // PUBLISH TREE HERE
-  // std::cout << "TREE TO BE PUBLISHED TO " << remote_id_ << std::endl;
   
 }
 
@@ -65,6 +61,7 @@ DelegateActionNode::remote_status_callback(bf_msgs::msg::MissionStatus::UniquePt
   remote_status_ = std::move(msg);
   remote_itentified_ = true;
 
+  // This is useful for the *Any approach
   // if(!remote_itentified_){
   //   remote_id = msg->robot_id;
   //   remote_itentified_ = true;
@@ -89,24 +86,24 @@ DelegateActionNode::tick()
     msg.robot_id = remote_id_;
     tree_pub_->publish(msg);
     std::cout << "tree publised in /" << remote_id_ << "/mission_command" << std::endl;
+  } else {
+    int status = remote_status_->status;
+    switch(status) {
+      case RUNNING:
+        std::cout << "remote status: RUNNING" << std::endl;
+        return BT::NodeStatus::RUNNING;
+        break;
+      case SUCCESS:
+        std::cout << "remote status: SUCCESS" << std::endl;
+        return BT::NodeStatus::SUCCESS;
+        break;
+      case FAILURE:
+        std::cout << "remote status: FAILURE" << std::endl;
+        return BT::NodeStatus::FAILURE;
+        break;
+      }
   }
 
-  // int status = remote_status_->status;
-
-  // switch(status){
-  //   case RUNNING:
-  //     return BT::NodeStatus::RUNNING;
-  //     break;
-  //   case SUCCESS:
-  //     return BT::NodeStatus::SUCCESS;
-  //     break;
-  //   case FAILURE:
-  //     return BT::NodeStatus::FAILURE;
-  //     break;
-  //   }
-
-
-  // std::cout << "DelegateActionNode::tick()" << std::endl;
   return BT::NodeStatus::RUNNING;
 }
 

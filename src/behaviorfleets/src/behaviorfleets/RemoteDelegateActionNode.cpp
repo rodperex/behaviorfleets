@@ -35,7 +35,6 @@ id_(id)
 void
 RemoteDelegateActionNode::init(){
 
-  // node_ = rclcpp::Node::make_shared("btnode");
   using namespace std::chrono_literals;
   
   mission_sub_ = create_subscription<bf_msgs::msg::MissionCommand>(
@@ -85,17 +84,21 @@ RemoteDelegateActionNode::control_cycle(){
         case BT::NodeStatus::SUCCESS:
           msg.status = SUCCESS;
           std::cout << "SUCCESS" << std::endl;
-          // working_ = false;
+          working_ = false;
           break;
         case BT::NodeStatus::FAILURE:
           msg.status = FAILURE;
           std::cout << "FAILURE" << std::endl;
-          // working_ = false;
+          working_ = false;
           break;
-      }  
+      }
+    } else {
+      msg.status = IDLE;
     }
-  
+   
     status_pub_->publish(msg);
+  
+    
     // if(working_)
       // rclcpp::spin_some(node_);
     //else
@@ -111,9 +114,8 @@ RemoteDelegateActionNode::create_tree(){
   
   auto plugins = this->get_parameter("plugins").as_string_array();
 
-  if(plugins.size() > 0)
-    for(auto plugin : plugins)
-      factory.registerFromPlugin(loader.getOSName(plugin));
+  for(auto plugin : plugins)
+    factory.registerFromPlugin(loader.getOSName(plugin));
     
       
   auto blackboard = BT::Blackboard::create();

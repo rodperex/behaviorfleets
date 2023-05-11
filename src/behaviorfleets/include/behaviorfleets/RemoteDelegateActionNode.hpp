@@ -42,9 +42,9 @@ private:
   static const int FAILURE = 0;
   static const int SUCCESS = 1;
   static const int RUNNING = 2;
+  static const int IDLE    = 3;
 
   bf_msgs::msg::MissionCommand::UniquePtr mission_;
-  rclcpp::Node::SharedPtr node_;
   std::string id_;
   bool working_ = false;
   rclcpp::Publisher<bf_msgs::msg::MissionStatus>::SharedPtr status_pub_;
