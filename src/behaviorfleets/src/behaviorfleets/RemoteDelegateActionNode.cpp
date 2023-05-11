@@ -34,6 +34,8 @@ id_(id)
 
 void
 RemoteDelegateActionNode::init(){
+
+  // node_ = rclcpp::Node::make_shared("btnode");
   using namespace std::chrono_literals;
   
   mission_sub_ = create_subscription<bf_msgs::msg::MissionCommand>(
@@ -45,11 +47,24 @@ RemoteDelegateActionNode::init(){
   status_pub_ = create_publisher<bf_msgs::msg::MissionStatus>(
     "/" + id_ + "/mission_status", 10);
 
-  // tree_ = create_tree();
-  
   timer_ = create_wall_timer(50ms, std::bind(&RemoteDelegateActionNode::control_cycle, this));
+
+  this->declare_parameter("plugins",std::vector<std::string>());
+ 
 }
 
+void
+RemoteDelegateActionNode::mission_callback(bf_msgs::msg::MissionCommand::UniquePtr msg){
+  mission_ = std::move(msg);
+  if(!working_) {
+    std::cout << "mission received" << std::endl << mission_->mission_tree << std::endl;
+    tree_ = create_tree();
+    working_ = true;
+  } else {
+    std::cout << "mission received but node is busy" << std::endl;
+  }
+  
+}
 
 void
 RemoteDelegateActionNode::control_cycle(){
@@ -60,83 +75,61 @@ RemoteDelegateActionNode::control_cycle(){
     msg.robot_id = id_;
     msg.status = RUNNING;
 
-    // bool stop = true;
-
-    // BT::NodeStatus status = tree_.rootNode()->executeTick();
-    
-    // switch(status){
-    //   case BT::NodeStatus::RUNNING:
-    //     msg.status = RUNNING;
-    //     stop = false;
-    //     break;
-    //   case BT::NodeStatus::SUCCESS:
-    //     msg.status = SUCCESS;
-    //     working_ = false;
-    //     break;
-    //   case BT::NodeStatus::FAILURE:
-    //     msg.status = FAILURE;
-    //     working_ = false;
-    //     break;
-    //   }  
-
-    // std::cout << "publishing status" << std::endl;
+    if(working_) {
+      BT::NodeStatus status = tree_.rootNode()->executeTick();
+      switch(status) {
+        case BT::NodeStatus::RUNNING:
+          msg.status = RUNNING;
+          std::cout << "RUNNING" << std::endl;
+          break;
+        case BT::NodeStatus::SUCCESS:
+          msg.status = SUCCESS;
+          std::cout << "SUCCESS" << std::endl;
+          // working_ = false;
+          break;
+        case BT::NodeStatus::FAILURE:
+          msg.status = FAILURE;
+          std::cout << "FAILURE" << std::endl;
+          // working_ = false;
+          break;
+      }  
+    }
+  
     status_pub_->publish(msg);
-    // if(!stop)
-    //   rclcpp::spin_some(node_);
-    // //else
-    //   //  rclcpp::shutdown();   
+    // if(working_)
+      // rclcpp::spin_some(node_);
+    //else
+      //  rclcpp::shutdown();  
+     
 }
 
 BT::Tree
 RemoteDelegateActionNode::create_tree(){
 
-  node_ = rclcpp::Node::make_shared("node");
-
- 
   BT::SharedLibrary loader;
-  std::cout << "loader ready" << std::endl;
-
   BT::BehaviorTreeFactory factory;
   
+  auto plugins = this->get_parameter("plugins").as_string_array();
 
-  std::cout << "LIBRARIES" << std::endl;
-  std::cout << "\t-" << loader.getOSName("delegation_node")   << std::endl;
-
-
-  factory.registerFromPlugin(loader.getOSName("delegation_node"));
-
-  std::cout << "tree nodes registered" << std::endl;
-  
-  std::string pkgpath = ament_index_cpp::get_package_share_directory("bf_example");
-  std::string xml_file = pkgpath + "/bt_xml/example.xml";
-
+  if(plugins.size() > 0)
+    for(auto plugin : plugins)
+      factory.registerFromPlugin(loader.getOSName(plugin));
+    
+      
   auto blackboard = BT::Blackboard::create();
-  blackboard->set("node", node_);
-  std::cout << "\t- Blackboard set" << std::endl;
-  // BT::Tree tree = factory.createTreeFromFile(xml_file, blackboard);
+  blackboard->set("node", shared_from_this());
   BT::Tree tree = factory.createTreeFromText(mission_->mission_tree, blackboard);
+
+  std::cout << "\t- Tree created" << std::endl;
 
   return tree;
 
 }
 
 void
-RemoteDelegateActionNode::mission_callback(bf_msgs::msg::MissionCommand::UniquePtr msg){
-  mission_ = std::move(msg);
-  if(!working_) {
-    std::cout << "mission received" << std::endl << mission_->mission_tree << std::endl;
-    // tree_ = create_tree();
-    working_ = true;
-  } else {
-    std::cout << "mission received but node is busy" << std::endl;
-  }
-    
-  
-}
-
-void
 RemoteDelegateActionNode::setID(std::string id){
   id_ = id;
 }
+
 
 }  // namespace BF

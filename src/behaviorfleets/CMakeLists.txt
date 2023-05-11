@@ -20,8 +20,6 @@ set(dependencies
     behaviortree_cpp
     ament_index_cpp
     bf_msgs
-    geometry_msgs
-    sensor_msgs
 )
 
 
@@ -32,11 +30,6 @@ include_directories(include)
 # add_library(delegate_bt_node SHARED src/behaviorfleets/deco/DelegateBT.cpp)
 add_library(delegate_action_node SHARED src/behaviorfleets/DelegateActionNode.cpp)
 add_library(remote_delegate_action_node SHARED src/behaviorfleets/RemoteDelegateActionNode.cpp)
-# add_library(t SHARED src/behaviorfleets/Test.cpp)
-
-# ament_target_dependencies(t ${dependencies})
-ament_target_dependencies(remote_delegate_action_node ${dependencies})
-
 
 list(APPEND plugin_libs
   # delegation_node
@@ -52,7 +45,6 @@ endforeach()
 
 add_executable(source_tree src/examples/source_tree_main.cpp)
 ament_target_dependencies(source_tree ${dependencies})
-# new
 target_link_libraries(source_tree yaml-cpp)
 
 add_executable(remote_tree src/examples/remote_tree_main.cpp)
@@ -77,11 +69,9 @@ install(DIRECTORY bt_xml
   DESTINATION share/${PROJECT_NAME}
 )
 
-install(DIRECTORY params
-  DESTINATION share/${PROJECT_NAME}
-)
+install(DIRECTORY launch params DESTINATION share/${PROJECT_NAME}/)
 
 ament_export_include_directories(include)
 ament_export_dependencies(${dependencies})
-
+ament_export_libraries(${PROJECT_NAME})
 ament_package()

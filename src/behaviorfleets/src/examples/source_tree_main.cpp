@@ -16,30 +16,15 @@ int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
 
-  // hay que meter el BT en la pizarra + el nodo que lo ejecuta
-
   auto node = rclcpp::Node::make_shared("example");
-  // std::cout << "running main..." << std::endl;
 
-  
   BT::SharedLibrary loader;
-  // std::cout << "loader ready" << std::endl;
-
   BT::BehaviorTreeFactory factory;
   
-
-  // std::cout << "LIBRARIES" << std::endl;
-  // std::cout << "\t-" << loader.getOSName("delegate_bt_node")   << std::endl;
-  // std::cout << "\t-" << loader.getOSName("delegate_action_node")   << std::endl;
-
-
   // factory.registerFromPlugin(loader.getOSName("delegate_bt_node"));
   factory.registerFromPlugin(loader.getOSName("delegate_action_node"));
 
-  // std::cout << "tree nodes registered" << std::endl;
-  
   std::string pkgpath = ament_index_cpp::get_package_share_directory("behaviorfleets");
-  // std::string xml_file = pkgpath + "/bt_xml/a.xml";
 
   std::string xml_file, xml_file_remote_1, remote_tree_1, remote_id_1;
   
@@ -50,26 +35,21 @@ int main(int argc, char * argv[])
 
     xml_file = pkgpath + params["tree"].as<std::string>();
     xml_file_remote_1 = pkgpath + params["remote_tree_1"].as<std::string>();
-    remote_id_1 = params["remote_id_1"].as<std::string>();
+    // remote_id_1 = params["remote_id_1"].as<std::string>();
     
-    std::ifstream file(xml_file_remote_1);
-    std::ostringstream contents_stream;
+    // std::ifstream file(xml_file_remote_1);
+    // std::ostringstream contents_stream;
     
-    contents_stream << file.rdbuf();
-    remote_tree_1 = contents_stream.str();
+    // contents_stream << file.rdbuf();
+    // remote_tree_1 = contents_stream.str();
   } catch (YAML::Exception& e) {
     std::cerr << "Error loading YAML file: " << e.what() << std::endl;
     return 1;
   }
 
-  // std::cout << "\t- XML: " << xml_file << std::endl;
-
   auto blackboard = BT::Blackboard::create();
   blackboard->set("node", node);  
-  // blackboard->set("remote_tree", remote_tree_1);
-  // blackboard->set("remote_id", remote_id_1);
   blackboard->set("pkgpath", pkgpath + "/bt_xml/");
-  // std::cout << "\t- Blackboard set" << std::endl;
   
   BT::Tree tree = factory.createTreeFromFile(xml_file, blackboard);
 
