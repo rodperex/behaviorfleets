@@ -69,6 +69,7 @@ RemoteDelegateActionNodeAny::init(){
 
   timer_ = create_wall_timer(50ms, std::bind(&RemoteDelegateActionNodeAny::control_cycle, this));
 
+  // plugins can be read from a topic as well
   this->declare_parameter("plugins", std::vector<std::string>());
 }
 
