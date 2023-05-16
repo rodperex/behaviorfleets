@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef BF__REMOTEDELEGATEACTIONNODE_HPP_
-#define BF__REMOTEDELEGATEACTIONNODE_HPP_
+#ifndef BEHAVIORFLEETS__REMOTEDELEGATEACTIONNODE_HPP_
+#define BEHAVIORFLEETS__REMOTEDELEGATEACTIONNODE_HPP_
 
 #include <string>
 
@@ -30,7 +30,7 @@ class RemoteDelegateActionNode : public rclcpp::Node
 {
 public:
   RemoteDelegateActionNode();
-  RemoteDelegateActionNode(const std::string id);
+  explicit RemoteDelegateActionNode(const std::string id);
   void setID(std::string id);
 
 private:
@@ -42,7 +42,7 @@ private:
   static const int FAILURE = 0;
   static const int SUCCESS = 1;
   static const int RUNNING = 2;
-  static const int IDLE    = 3;
+  static const int IDLE = 3;
 
   bf_msgs::msg::MissionCommand::UniquePtr mission_;
   std::string id_;
@@ -51,9 +51,8 @@ private:
   rclcpp::Subscription<bf_msgs::msg::MissionCommand>::SharedPtr mission_sub_;
   BT::Tree tree_;
   rclcpp::TimerBase::SharedPtr timer_;
-  
 };
 
 }  // namespace BF
 
-#endif  // BF__REMOTEDELEGATEACTIONNODE_HPP_
+#endif  // BEHAVIORFLEETS__REMOTEDELEGATEACTIONNODE_HPP_

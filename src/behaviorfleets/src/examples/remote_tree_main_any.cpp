@@ -13,34 +13,28 @@
 // limitations under the License.
 
 #include <string>
-#include <iostream>
+#include <memory>
 
-#include "behaviorfleets/deco/DelegateBT.hpp"
 #include "rclcpp/rclcpp.hpp"
 
+#include "behaviorfleets/RemoteDelegateActionNodeAny.hpp"
 
-namespace BF
+
+int main(int argc, char * argv[])
 {
+  rclcpp::init(argc, argv);
+  rclcpp::executors::MultiThreadedExecutor exec;
 
-DelegateBT::DelegateBT(const std::string &name, const BT::NodeConfig &conf):
-DecoratorNode(name, conf)
-{
-}
+  auto node_1 = std::make_shared<BF::RemoteDelegateActionNodeAny>("dummy", "generic");
+  auto node_2 = std::make_shared<BF::RemoteDelegateActionNodeAny>("dummy2", "generic");
 
-BT::NodeStatus DelegateBT::tick()
-{
-    return child_node_->executeTick();
-}
+  exec.add_node(node_1);
+  exec.add_node(node_2);
 
-void DelegateBT::halt()
-{
-  BT::DecoratorNode::halt();
-}
+  exec.spin();
 
-}   // namespace BF
+  // rclcpp::spin(node);
 
-#include "behaviortree_cpp/bt_factory.h"
-BT_REGISTER_NODES(factory)
-{
-  factory.registerNodeType<BF::DelegateBT>("DelegateBT");
+  rclcpp::shutdown();
+  return 0;
 }

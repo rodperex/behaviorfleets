@@ -1,7 +1,19 @@
+// Copyright 2023 Intelligent Robotics Lab
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 #include <string>
 #include <iostream>
-
-
 
 #include "behaviortree_cpp/behavior_tree.h"
 #include "bf_msgs/msg/mission_status.hpp"
@@ -34,9 +46,8 @@ id_(id)
 
 void
 RemoteDelegateActionNode::init(){
-
   using namespace std::chrono_literals;
-  
+
   mission_sub_ = create_subscription<bf_msgs::msg::MissionCommand>(
     "/" + id_ + "/mission_command", rclcpp::SensorDataQoS(),
     std::bind(&RemoteDelegateActionNode::mission_callback, this, std::placeholders::_1));
@@ -48,8 +59,7 @@ RemoteDelegateActionNode::init(){
 
   timer_ = create_wall_timer(50ms, std::bind(&RemoteDelegateActionNode::control_cycle, this));
 
-  this->declare_parameter("plugins",std::vector<std::string>());
- 
+  this->declare_parameter("plugins", std::vector<std::string>());
 }
 
 void
@@ -62,13 +72,10 @@ RemoteDelegateActionNode::mission_callback(bf_msgs::msg::MissionCommand::UniqueP
   } else {
     std::cout << "mission received but node is busy" << std::endl;
   }
-  
 }
 
 void
 RemoteDelegateActionNode::control_cycle(){
-
-
     bf_msgs::msg::MissionStatus msg;
 
     msg.robot_id = id_;
@@ -95,41 +102,35 @@ RemoteDelegateActionNode::control_cycle(){
     } else {
       msg.status = IDLE;
     }
-   
+
     status_pub_->publish(msg);
-  
-    
+
     // if(working_)
       // rclcpp::spin_some(node_);
-    //else
-      //  rclcpp::shutdown();  
-     
+    // else
+      // rclcpp::shutdown();
 }
 
 void
 RemoteDelegateActionNode::create_tree(){
-
   BT::SharedLibrary loader;
   BT::BehaviorTreeFactory factory;
-  
+
   auto plugins = this->get_parameter("plugins").as_string_array();
 
   for(auto plugin : plugins)
     factory.registerFromPlugin(loader.getOSName(plugin));
-    
-      
+
   auto blackboard = BT::Blackboard::create();
   blackboard->set("node", shared_from_this());
   tree_ = factory.createTreeFromText(mission_->mission_tree, blackboard);
 
   std::cout << "\t- Tree created" << std::endl;
-
 }
 
 void
 RemoteDelegateActionNode::setID(std::string id){
   id_ = id;
 }
-
 
 }  // namespace BF

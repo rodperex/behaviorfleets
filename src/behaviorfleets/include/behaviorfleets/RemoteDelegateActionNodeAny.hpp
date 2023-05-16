@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef BF__REMOTEDELEGATEACTIONNODE_HPP_
-#define BF__REMOTEDELEGATEACTIONNODE_HPP_
+#ifndef BEHAVIORFLEETS__REMOTEDELEGATEACTIONNODEANY_HPP_
+#define BEHAVIORFLEETS__REMOTEDELEGATEACTIONNODEANY_HPP_
 
 #include <string>
 
@@ -26,35 +26,37 @@
 namespace BF
 {
 
-class RemoteDelegateActionNode : public rclcpp::Node
+class RemoteDelegateActionNodeAny : public rclcpp::Node
 {
 public:
-  RemoteDelegateActionNode();
-  RemoteDelegateActionNode(const std::string id);
+  RemoteDelegateActionNodeAny();
+  RemoteDelegateActionNodeAny(const std::string robot_id, const std::string mission_id);
   void setID(std::string id);
 
 private:
   void mission_callback(bf_msgs::msg::MissionCommand::UniquePtr msg);
-  BT::Tree create_tree();
+  void mission_poll_callback(bf_msgs::msg::MissionCommand::UniquePtr msg);
+  void create_tree();
   void control_cycle();
   void init();
 
   static const int FAILURE = 0;
   static const int SUCCESS = 1;
   static const int RUNNING = 2;
-  
+  static const int IDLE = 3;
 
   bf_msgs::msg::MissionCommand::UniquePtr mission_;
-  rclcpp::Node::SharedPtr node_;
-  std::string id_;
+  std::string id_, mission_id_;
   bool working_ = false;
   rclcpp::Publisher<bf_msgs::msg::MissionStatus>::SharedPtr status_pub_;
+  rclcpp::Publisher<bf_msgs::msg::MissionStatus>::SharedPtr poll_pub_;
   rclcpp::Subscription<bf_msgs::msg::MissionCommand>::SharedPtr mission_sub_;
+  rclcpp::Subscription<bf_msgs::msg::MissionCommand>::SharedPtr poll_sub_;
+
   BT::Tree tree_;
   rclcpp::TimerBase::SharedPtr timer_;
-  
 };
 
 }  // namespace BF
 
-#endif  // BF__REMOTEDELEGATEACTIONNODE_HPP_
+#endif  // BEHAVIORFLEETS__REMOTEDELEGATEACTIONNODEANY_HPP_
