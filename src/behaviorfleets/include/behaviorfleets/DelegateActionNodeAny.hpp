@@ -69,6 +69,7 @@ private:
   static const int FAILURE = 0;
   static const int SUCCESS = 1;
   static const int RUNNING = 2;
+  static const int IDLE = 3;
 
   bool read_tree_from_port_;
 

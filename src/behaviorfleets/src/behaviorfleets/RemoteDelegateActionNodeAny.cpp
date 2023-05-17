@@ -138,6 +138,10 @@ RemoteDelegateActionNodeAny::create_tree()
     std::cout << "tree created" << std::endl;
     return true;
   } catch (std::exception & e) {
+    bf_msgs::msg::MissionStatus status_msg;
+    status_msg.robot_id = id_;
+    status_msg.status = IDLE;
+    status_pub_->publish(status_msg);
     std::cout << "ERROR creating tree: " << e.what() << std::endl;
     return false;
   }

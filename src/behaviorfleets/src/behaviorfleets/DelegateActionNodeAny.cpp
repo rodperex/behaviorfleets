@@ -157,6 +157,11 @@ DelegateActionNodeAny::tick()
           std::cout << "remote status: FAILURE" << std::endl;
           return BT::NodeStatus::FAILURE;
           break;
+        case IDLE:
+          std::cout << "remote status: IDLE" << std::endl;
+          remote_identified_ = false;
+          remote_sub_.reset();
+          break;
       }
     }
   }
