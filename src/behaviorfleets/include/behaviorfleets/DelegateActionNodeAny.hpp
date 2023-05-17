@@ -49,7 +49,8 @@ public:
     return {
       BT::InputPort<std::string>("mission_id"),
       BT::InputPort<std::string>("remote_tree"),
-      BT::InputPort<std::string>("plugins")
+      BT::InputPort<std::string>("plugins"),
+      BT::InputPort<std::string>("remote_id")
     };
   }
 

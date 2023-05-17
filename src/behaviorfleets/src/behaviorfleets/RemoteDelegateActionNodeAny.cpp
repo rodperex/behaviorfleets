@@ -150,18 +150,24 @@ RemoteDelegateActionNodeAny::mission_poll_callback(bf_msgs::msg::MissionCommand:
   if (!working_) {
     can_do_it_ = true;
     mission_ = std::move(msg);
+
+    std::cout << "robot_id: " << mission_->robot_id << std::endl;
+    if (((mission_->robot_id).length() > 0) && ((mission_->robot_id).compare(id_) != 0)) {
+      std::cout << "action request ignored: not for me (" << id_ << ")" << std::endl;
+      return;
+    }
     if ((mission_->mission_id).compare(mission_id_) == 0) {
       bf_msgs::msg::MissionStatus poll_msg;
       poll_msg.robot_id = id_;
       poll_msg.mission_id = mission_id_;
       poll_msg.status = IDLE;
       poll_pub_->publish(poll_msg);
-      std::cout << "action request published: " << mission_id_ << std::endl;
+      std::cout << "action request published (" << id_ << "): " << mission_id_ << std::endl;
     } else {
       std::cout << "unable to execute action: " << mission_id_ << std::endl;
     }
   } else {
-    std::cout << "action request ignored" << std::endl;
+    std::cout << "action request ignored (" << id_ << "): busy" << std::endl;
   }
 }
 

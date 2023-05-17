@@ -39,18 +39,19 @@ DelegateActionNodeAny::DelegateActionNodeAny(
 {
   std::string pkgpath, xml_path;
 
-  remote_id_ = "not_set";
+  remote_id_ = "";
   remote_tree_ = "not_set";
   config().blackboard->get("node", node_);
   config().blackboard->get("pkgpath", pkgpath);
 
   getInput("remote_tree", remote_tree_);
   getInput("mission_id", mission_id_);
+  getInput("remote_id", remote_id_);
 
   std::string plugins_str;
   getInput("plugins", plugins_str);
   decodePlugins(plugins_str);
-  
+
   std::cout << "plugins: " << std::endl;
   for (const auto & str : plugins_) {
     std::cout << "   - " << str << std::endl;
@@ -137,6 +138,7 @@ DelegateActionNodeAny::tick()
   if (!remote_identified_) {
     bf_msgs::msg::MissionCommand msg;
     msg.mission_id = mission_id_;
+    msg.robot_id = remote_id_;
     mission_pub_->publish(msg);
     std::cout << "mission publised" << std::endl;
   } else {
