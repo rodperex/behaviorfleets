@@ -31,14 +31,14 @@ namespace BF
 
 RemoteDelegateActionNode::RemoteDelegateActionNode()
 : Node("RemoteDelegateAN"),
-id_("remote")
+  id_("remote")
 {
   init();
 }
 
 RemoteDelegateActionNode::RemoteDelegateActionNode(const std::string id)
 : Node("RemoteDelegateAN"),
-id_(id)
+  id_(id)
 {
   init();
 }
@@ -53,7 +53,7 @@ RemoteDelegateActionNode::init()
     "/" + id_ + "/mission_command", rclcpp::SensorDataQoS(),
     std::bind(&RemoteDelegateActionNode::mission_callback, this, std::placeholders::_1));
 
-  std::cout << "subscribed to " << "/" + id_ + "/mission_command"<< std::endl;
+  std::cout << "subscribed to " << "/" + id_ + "/mission_command" << std::endl;
 
   status_pub_ = create_publisher<bf_msgs::msg::MissionStatus>(
     "/" + id_ + "/mission_status", 10);
@@ -64,9 +64,10 @@ RemoteDelegateActionNode::init()
 }
 
 void
-RemoteDelegateActionNode::mission_callback(bf_msgs::msg::MissionCommand::UniquePtr msg){
+RemoteDelegateActionNode::mission_callback(bf_msgs::msg::MissionCommand::UniquePtr msg)
+{
   mission_ = std::move(msg);
-  if(!working_) {
+  if (!working_) {
     std::cout << "mission received" << std::endl << mission_->mission_tree << std::endl;
     create_tree();
     working_ = true;
@@ -78,39 +79,34 @@ RemoteDelegateActionNode::mission_callback(bf_msgs::msg::MissionCommand::UniqueP
 void
 RemoteDelegateActionNode::control_cycle()
 {
-    bf_msgs::msg::MissionStatus msg;
+  bf_msgs::msg::MissionStatus msg;
 
-    msg.robot_id = id_;
-    msg.status = RUNNING;
+  msg.robot_id = id_;
+  msg.status = RUNNING;
 
-    if(working_) {
-      BT::NodeStatus status = tree_.rootNode()->executeTick();
-      switch(status) {
-        case BT::NodeStatus::RUNNING:
-          msg.status = RUNNING;
-          std::cout << "RUNNING" << std::endl;
-          break;
-        case BT::NodeStatus::SUCCESS:
-          msg.status = SUCCESS;
-          std::cout << "SUCCESS" << std::endl;
-          working_ = false;
-          break;
-        case BT::NodeStatus::FAILURE:
-          msg.status = FAILURE;
-          std::cout << "FAILURE" << std::endl;
-          working_ = false;
-          break;
-      }
-    } else {
-      msg.status = IDLE;
+  if (working_) {
+    BT::NodeStatus status = tree_.rootNode()->executeTick();
+    switch (status) {
+      case BT::NodeStatus::RUNNING:
+        msg.status = RUNNING;
+        std::cout << "RUNNING" << std::endl;
+        break;
+      case BT::NodeStatus::SUCCESS:
+        msg.status = SUCCESS;
+        std::cout << "SUCCESS" << std::endl;
+        working_ = false;
+        break;
+      case BT::NodeStatus::FAILURE:
+        msg.status = FAILURE;
+        std::cout << "FAILURE" << std::endl;
+        working_ = false;
+        break;
     }
+  } else {
+    msg.status = IDLE;
+  }
 
-    status_pub_->publish(msg);
-
-    // if(working_)
-      // rclcpp::spin_some(node_);
-    // else
-      // rclcpp::shutdown();
+  status_pub_->publish(msg);
 }
 
 void
@@ -121,8 +117,9 @@ RemoteDelegateActionNode::create_tree()
 
   auto plugins = this->get_parameter("plugins").as_string_array();
 
-  for(auto plugin : plugins)
+  for (auto plugin : plugins) {
     factory.registerFromPlugin(loader.getOSName(plugin));
+  }
 
   auto blackboard = BT::Blackboard::create();
   blackboard->set("node", shared_from_this());

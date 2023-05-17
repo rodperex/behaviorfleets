@@ -30,7 +30,7 @@ namespace BF
 class DelegateBT : public BT::DecoratorNode
 {
 public:
-  DelegateBT(const std::string& name, const BT::NodeConfig& conf);
+  DelegateBT(const std::string & name, const BT::NodeConfig & conf);
 
   ~DelegateBT() override = default;
 

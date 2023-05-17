@@ -35,8 +35,8 @@ class DelegateActionNode : public BT::ActionNodeBase
 {
 public:
   DelegateActionNode(
-    const std::string& name,
-    const BT::NodeConfig& conf);
+    const std::string & name,
+    const BT::NodeConfig & conf);
 
 
   void remote_status_callback(bf_msgs::msg::MissionStatus::UniquePtr msg);
@@ -48,13 +48,11 @@ public:
   {
     return {
       BT::InputPort<std::string>("remote_tree"),
-      BT::InputPort<char*>("remote_id"),
+      BT::InputPort<char *>("remote_id"),
     };
   }
 
 private:
-  static constexpr const char* MISSION = "";
-
   rclcpp::Node::SharedPtr node_;
   rclcpp::Publisher<bf_msgs::msg::MissionCommand>::SharedPtr tree_pub_;
   rclcpp::Subscription<bf_msgs::msg::MissionStatus>::SharedPtr remote_sub_;

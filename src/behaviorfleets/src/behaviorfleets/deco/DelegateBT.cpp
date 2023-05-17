@@ -22,14 +22,14 @@
 namespace BF
 {
 
-DelegateBT::DelegateBT(const std::string &name, const BT::NodeConfig &conf):
-DecoratorNode(name, conf)
+DelegateBT::DelegateBT(const std::string & name, const BT::NodeConfig & conf)
+: DecoratorNode(name, conf)
 {
 }
 
 BT::NodeStatus DelegateBT::tick()
 {
-    return child_node_->executeTick();
+  return child_node_->executeTick();
 }
 
 void DelegateBT::halt()

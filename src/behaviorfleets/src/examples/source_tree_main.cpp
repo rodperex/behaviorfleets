@@ -57,7 +57,7 @@ int main(int argc, char * argv[])
 
     // contents_stream << file.rdbuf();
     // remote_tree_1 = contents_stream.str();
-  } catch (YAML::Exception& e) {
+  } catch (YAML::Exception & e) {
     std::cerr << "Error loading YAML file: " << e.what() << std::endl;
     return 1;
   }

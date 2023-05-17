@@ -34,8 +34,8 @@ class DelegateActionNodeAny : public BT::ActionNodeBase
 {
 public:
   DelegateActionNodeAny(
-    const std::string& name,
-    const BT::NodeConfig& conf);
+    const std::string & name,
+    const BT::NodeConfig & conf);
 
 
   void remote_status_callback(bf_msgs::msg::MissionStatus::UniquePtr msg);
@@ -54,12 +54,11 @@ public:
   }
 
 private:
-  static constexpr const char* MISSION = "";
-
   rclcpp::Node::SharedPtr node_;
   rclcpp::Publisher<bf_msgs::msg::MissionCommand>::SharedPtr mission_pub_;
   rclcpp::Subscription<bf_msgs::msg::MissionStatus>::SharedPtr remote_sub_;
   rclcpp::Subscription<bf_msgs::msg::MissionStatus>::SharedPtr poll_sub_;
+  void decodePlugins(const std::string plugins_str);
 
   bf_msgs::msg::MissionStatus::UniquePtr remote_status_, poll_answ_;
   std::string remote_id_, remote_tree_, mission_id_;

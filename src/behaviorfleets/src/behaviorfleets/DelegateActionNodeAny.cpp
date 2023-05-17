@@ -49,27 +49,12 @@ DelegateActionNodeAny::DelegateActionNodeAny(
 
   std::string plugins_str;
   getInput("plugins", plugins_str);
-  std::stringstream ss(plugins_str);
-  std::string item;
-  while (std::getline(ss, item, ',')){
-    // Remove leading white spaces
-    size_t start = item.find_first_not_of(" ");
-    if (start != std::string::npos)
-        item = item.substr(start);
-    
-    // Remove trailing white spaces
-    size_t end = item.find_last_not_of(" ");
-    if (end != std::string::npos)
-        item = item.substr(0, end + 1);
-    
-    plugins_.push_back(item);
-  }
-
-
-  // debug
+  decodePlugins(plugins_str);
+  
   std::cout << "plugins: " << std::endl;
-  for (const auto& str : plugins_)
-    std::cout << "   - " << str << std::endl;  
+  for (const auto & str : plugins_) {
+    std::cout << "   - " << str << std::endl;
+  }
   std::cout << "remote_tree: " << remote_tree_ << std::endl;
   std::cout << "mission_id: " << mission_id_ << std::endl;
 
@@ -89,6 +74,28 @@ DelegateActionNodeAny::DelegateActionNodeAny(
 }
 
 void
+DelegateActionNodeAny::decodePlugins(std::string plugins_str)
+{
+  std::stringstream ss(plugins_str);
+  std::string item;
+  while (std::getline(ss, item, ',')) {
+    // remove leading white spaces
+    size_t start = item.find_first_not_of(" ");
+    if (start != std::string::npos) {
+      item = item.substr(start);
+    }
+    // remove trailing white spaces
+    size_t end = item.find_last_not_of(" ");
+    if (end != std::string::npos) {
+      item = item.substr(0, end + 1);
+    }
+
+    plugins_.push_back(item);
+  }
+
+}
+
+void
 DelegateActionNodeAny::remote_status_callback(bf_msgs::msg::MissionStatus::UniquePtr msg)
 {
   std::cout << "remote status received" << std::endl;
@@ -100,7 +107,7 @@ DelegateActionNodeAny::mission_poll_callback(bf_msgs::msg::MissionStatus::Unique
 {
   std::cout << "poll received" << std::endl;
   // ignore answers from other robots
-  if(!remote_identified_) {
+  if (!remote_identified_) {
     poll_answ_ = std::move(msg);
     remote_id_ = poll_answ_->robot_id;
     std::cout << "remote identified: " << remote_id_ << std::endl;
@@ -127,15 +134,15 @@ DelegateActionNodeAny::mission_poll_callback(bf_msgs::msg::MissionStatus::Unique
 BT::NodeStatus
 DelegateActionNodeAny::tick()
 {
-  if(!remote_identified_){
+  if (!remote_identified_) {
     bf_msgs::msg::MissionCommand msg;
     msg.mission_id = mission_id_;
     mission_pub_->publish(msg);
     std::cout << "mission publised" << std::endl;
   } else {
-    if(remote_status_ != nullptr) {
+    if (remote_status_ != nullptr) {
       int status = remote_status_->status;
-      switch(status) {
+      switch (status) {
         case RUNNING:
           std::cout << "remote status: RUNNING" << std::endl;
           return BT::NodeStatus::RUNNING;
@@ -148,7 +155,7 @@ DelegateActionNodeAny::tick()
           std::cout << "remote status: FAILURE" << std::endl;
           return BT::NodeStatus::FAILURE;
           break;
-        }
+      }
     }
   }
 

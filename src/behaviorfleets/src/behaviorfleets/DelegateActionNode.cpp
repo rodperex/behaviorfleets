@@ -34,8 +34,8 @@ DelegateActionNode::DelegateActionNode(
   const std::string & xml_tag_name,
   const BT::NodeConfig & conf)
 : BT::ActionNodeBase(xml_tag_name, conf),
-remote_id_("not_set"),
-remote_tree_("not_set")
+  remote_id_("not_set"),
+  remote_tree_("not_set")
 {
   std::string pkgpath, xml_path;
 
@@ -75,16 +75,16 @@ DelegateActionNode::remote_status_callback(bf_msgs::msg::MissionStatus::UniquePt
 BT::NodeStatus
 DelegateActionNode::tick()
 {
-  if(!remote_identified_){
+  if (!remote_identified_) {
     bf_msgs::msg::MissionCommand msg;
     msg.mission_tree = remote_tree_;
     msg.robot_id = remote_id_;
     tree_pub_->publish(msg);
     std::cout << "tree publised in /" << remote_id_ << "/mission_command" << std::endl;
   } else {
-    if(remote_status_ != nullptr) {
+    if (remote_status_ != nullptr) {
       int status = remote_status_->status;
-      switch(status) {
+      switch (status) {
         case RUNNING:
           std::cout << "remote status: RUNNING" << std::endl;
           return BT::NodeStatus::RUNNING;

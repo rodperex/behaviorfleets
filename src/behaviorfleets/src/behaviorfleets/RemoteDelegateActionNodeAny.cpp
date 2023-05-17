@@ -31,21 +31,21 @@ namespace BF
 
 RemoteDelegateActionNodeAny::RemoteDelegateActionNodeAny()
 : Node("RemoteDelegateAN"),
-id_("remote"),
-mission_id_("generic")
+  id_("remote"),
+  mission_id_("generic")
 {
   init();
 }
 
-RemoteDelegateActionNodeAny::RemoteDelegateActionNodeAny(const std::string robot_id,
-const std::string mission_id)
+RemoteDelegateActionNodeAny::RemoteDelegateActionNodeAny(
+  const std::string robot_id,
+  const std::string mission_id)
 : Node("RemoteDelegateAN"),
-id_(robot_id),
-mission_id_(mission_id)
+  id_(robot_id),
+  mission_id_(mission_id)
 {
   init();
 }
-
 
 void
 RemoteDelegateActionNodeAny::init()
@@ -60,13 +60,13 @@ RemoteDelegateActionNodeAny::init()
     "/" + id_ + "/mission_command", rclcpp::SensorDataQoS(),
     std::bind(&RemoteDelegateActionNodeAny::mission_callback, this, std::placeholders::_1));
 
-  std::cout << "subscribed to " << "/" + id_ + "/mission_command"<< std::endl;
+  std::cout << "subscribed to " << "/" + id_ + "/mission_command" << std::endl;
 
   poll_pub_ = create_publisher<bf_msgs::msg::MissionStatus>(
     "/mission_poll", 100);
 
   status_pub_ = create_publisher<bf_msgs::msg::MissionStatus>(
-        "/" + id_ + "/mission_status", 100);
+    "/" + id_ + "/mission_status", 100);
 
   timer_ = create_wall_timer(50ms, std::bind(&RemoteDelegateActionNodeAny::control_cycle, this));
 
@@ -83,9 +83,9 @@ RemoteDelegateActionNodeAny::control_cycle()
   status_msg.robot_id = id_;
   status_msg.status = RUNNING;
 
-  if(working_) {
+  if (working_) {
     BT::NodeStatus status = tree_.rootNode()->executeTick();
-    switch(status) {
+    switch (status) {
       case BT::NodeStatus::RUNNING:
         status_msg.status = RUNNING;
         std::cout << "RUNNING" << std::endl;
@@ -103,13 +103,13 @@ RemoteDelegateActionNodeAny::control_cycle()
     }
     status_pub_->publish(status_msg);
   } else {
-    if(can_do_it_)
+    if (can_do_it_) {
       status_msg.status = IDLE;
-    else{
+    } else {
       status_msg.status = FAILURE;
       status_pub_->publish(status_msg);
     }
-  }  
+  }
 }
 
 bool
@@ -120,13 +120,13 @@ RemoteDelegateActionNodeAny::create_tree()
 
   std::vector<std::string> plugins = mission_->plugins;
 
-  if(plugins.size() == 0){
+  if (plugins.size() == 0) {
     plugins = this->get_parameter("plugins").as_string_array();
     std::cout << "plugins not in the mission command" << std::endl;
   }
 
-  try{
-    for(auto plugin : plugins) {
+  try {
+    for (auto plugin : plugins) {
       factory.registerFromPlugin(loader.getOSName(plugin));
       std::cout << "plugin " << plugin << " loaded" << std::endl;
     }
@@ -137,9 +137,7 @@ RemoteDelegateActionNodeAny::create_tree()
 
     std::cout << "tree created" << std::endl;
     return true;
-  }
-  catch (std::exception &e)
-  {
+  } catch (std::exception & e) {
     std::cout << "ERROR creating tree: " << e.what() << std::endl;
     return false;
   }
@@ -149,20 +147,20 @@ void
 RemoteDelegateActionNodeAny::mission_poll_callback(bf_msgs::msg::MissionCommand::UniquePtr msg)
 {
   // ignore missions if already working
-  if(!working_) {
+  if (!working_) {
     can_do_it_ = true;
     mission_ = std::move(msg);
-    if ((mission_->mission_id).compare(mission_id_) == 0){
+    if ((mission_->mission_id).compare(mission_id_) == 0) {
       bf_msgs::msg::MissionStatus poll_msg;
       poll_msg.robot_id = id_;
       poll_msg.mission_id = mission_id_;
       poll_msg.status = IDLE;
       poll_pub_->publish(poll_msg);
       std::cout << "action request published: " << mission_id_ << std::endl;
-    }else {
+    } else {
       std::cout << "unable to execute action: " << mission_id_ << std::endl;
     }
-  }else {
+  } else {
     std::cout << "action request ignored" << std::endl;
   }
 }
@@ -171,16 +169,16 @@ void
 RemoteDelegateActionNodeAny::mission_callback(bf_msgs::msg::MissionCommand::UniquePtr msg)
 {
   // ignore missions if already working
-  if(!working_) {
+  if (!working_) {
     mission_ = std::move(msg);
-    if (mission_->robot_id == id_){
+    if (mission_->robot_id == id_) {
       std::cout << "tree received" << std::endl << mission_->mission_tree << std::endl;
       working_ = create_tree();
       can_do_it_ = working_;
-    }else {
+    } else {
       std::cout << "tree received but not for this node" << std::endl;
     }
-  }else {
+  } else {
     std::cout << "tree received but node is busy" << std::endl;
   }
 }
