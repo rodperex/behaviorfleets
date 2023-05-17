@@ -48,7 +48,8 @@ mission_id_(mission_id)
 
 
 void
-RemoteDelegateActionNodeAny::init(){
+RemoteDelegateActionNodeAny::init()
+{
   using namespace std::chrono_literals;
 
   poll_sub_ = create_subscription<bf_msgs::msg::MissionCommand>(
@@ -75,7 +76,8 @@ RemoteDelegateActionNodeAny::init(){
 
 
 void
-RemoteDelegateActionNodeAny::control_cycle(){
+RemoteDelegateActionNodeAny::control_cycle()
+{
   bf_msgs::msg::MissionStatus status_msg;
 
   status_msg.robot_id = id_;
@@ -101,33 +103,54 @@ RemoteDelegateActionNodeAny::control_cycle(){
     }
     status_pub_->publish(status_msg);
   } else {
-    status_msg.status = IDLE;
-  }
+    if(can_do_it_)
+      status_msg.status = IDLE;
+    else{
+      status_msg.status = FAILURE;
+      status_pub_->publish(status_msg);
+    }
+  }  
 }
 
-void
-RemoteDelegateActionNodeAny::create_tree(){
+bool
+RemoteDelegateActionNodeAny::create_tree()
+{
   BT::SharedLibrary loader;
   BT::BehaviorTreeFactory factory;
 
-  auto plugins = this->get_parameter("plugins").as_string_array();
+  std::vector<std::string> plugins = mission_->plugins;
 
-  for(auto plugin : plugins) {
-    factory.registerFromPlugin(loader.getOSName(plugin));
-    std::cout << "plugin " << plugin << " loaded" << std::endl;
+  if(plugins.size() == 0){
+    plugins = this->get_parameter("plugins").as_string_array();
+    std::cout << "plugins not in the mission command" << std::endl;
   }
 
-  auto blackboard = BT::Blackboard::create();
-  blackboard->set("node", shared_from_this());
-  tree_ = factory.createTreeFromText(mission_->mission_tree, blackboard);
+  try{
+    for(auto plugin : plugins) {
+      factory.registerFromPlugin(loader.getOSName(plugin));
+      std::cout << "plugin " << plugin << " loaded" << std::endl;
+    }
 
-  std::cout << "tree created" << std::endl;
+    auto blackboard = BT::Blackboard::create();
+    blackboard->set("node", shared_from_this());
+    tree_ = factory.createTreeFromText(mission_->mission_tree, blackboard);
+
+    std::cout << "tree created" << std::endl;
+    return true;
+  }
+  catch (std::exception &e)
+  {
+    std::cout << "ERROR creating tree: " << e.what() << std::endl;
+    return false;
+  }
 }
 
 void
-RemoteDelegateActionNodeAny::mission_poll_callback(bf_msgs::msg::MissionCommand::UniquePtr msg){
+RemoteDelegateActionNodeAny::mission_poll_callback(bf_msgs::msg::MissionCommand::UniquePtr msg)
+{
   // ignore missions if already working
   if(!working_) {
+    can_do_it_ = true;
     mission_ = std::move(msg);
     if ((mission_->mission_id).compare(mission_id_) == 0){
       bf_msgs::msg::MissionStatus poll_msg;
@@ -145,14 +168,15 @@ RemoteDelegateActionNodeAny::mission_poll_callback(bf_msgs::msg::MissionCommand:
 }
 
 void
-RemoteDelegateActionNodeAny::mission_callback(bf_msgs::msg::MissionCommand::UniquePtr msg){
+RemoteDelegateActionNodeAny::mission_callback(bf_msgs::msg::MissionCommand::UniquePtr msg)
+{
   // ignore missions if already working
   if(!working_) {
     mission_ = std::move(msg);
     if (mission_->robot_id == id_){
       std::cout << "tree received" << std::endl << mission_->mission_tree << std::endl;
-      create_tree();
-      working_ = true;
+      working_ = create_tree();
+      can_do_it_ = working_;
     }else {
       std::cout << "tree received but not for this node" << std::endl;
     }
@@ -162,7 +186,8 @@ RemoteDelegateActionNodeAny::mission_callback(bf_msgs::msg::MissionCommand::Uniq
 }
 
 void
-RemoteDelegateActionNodeAny::setID(std::string id){
+RemoteDelegateActionNodeAny::setID(std::string id)
+{
   id_ = id;
 }
 

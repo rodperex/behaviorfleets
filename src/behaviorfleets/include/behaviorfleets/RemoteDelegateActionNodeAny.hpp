@@ -36,7 +36,7 @@ public:
 private:
   void mission_callback(bf_msgs::msg::MissionCommand::UniquePtr msg);
   void mission_poll_callback(bf_msgs::msg::MissionCommand::UniquePtr msg);
-  void create_tree();
+  bool create_tree();
   void control_cycle();
   void init();
 
@@ -47,7 +47,7 @@ private:
 
   bf_msgs::msg::MissionCommand::UniquePtr mission_;
   std::string id_, mission_id_;
-  bool working_ = false;
+  bool working_ = false, can_do_it_ = true;
   rclcpp::Publisher<bf_msgs::msg::MissionStatus>::SharedPtr status_pub_;
   rclcpp::Publisher<bf_msgs::msg::MissionStatus>::SharedPtr poll_pub_;
   rclcpp::Subscription<bf_msgs::msg::MissionCommand>::SharedPtr mission_sub_;

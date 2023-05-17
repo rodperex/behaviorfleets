@@ -45,7 +45,8 @@ id_(id)
 
 
 void
-RemoteDelegateActionNode::init(){
+RemoteDelegateActionNode::init()
+{
   using namespace std::chrono_literals;
 
   mission_sub_ = create_subscription<bf_msgs::msg::MissionCommand>(
@@ -75,7 +76,8 @@ RemoteDelegateActionNode::mission_callback(bf_msgs::msg::MissionCommand::UniqueP
 }
 
 void
-RemoteDelegateActionNode::control_cycle(){
+RemoteDelegateActionNode::control_cycle()
+{
     bf_msgs::msg::MissionStatus msg;
 
     msg.robot_id = id_;
@@ -112,7 +114,8 @@ RemoteDelegateActionNode::control_cycle(){
 }
 
 void
-RemoteDelegateActionNode::create_tree(){
+RemoteDelegateActionNode::create_tree()
+{
   BT::SharedLibrary loader;
   BT::BehaviorTreeFactory factory;
 
@@ -129,7 +132,8 @@ RemoteDelegateActionNode::create_tree(){
 }
 
 void
-RemoteDelegateActionNode::setID(std::string id){
+RemoteDelegateActionNode::setID(std::string id)
+{
   id_ = id;
 }
 

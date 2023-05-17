@@ -49,6 +49,7 @@ public:
     return {
       BT::InputPort<std::string>("mission_id"),
       BT::InputPort<std::string>("remote_tree"),
+      BT::InputPort<std::string>("plugins")
     };
   }
 
@@ -62,6 +63,7 @@ private:
 
   bf_msgs::msg::MissionStatus::UniquePtr remote_status_, poll_answ_;
   std::string remote_id_, remote_tree_, mission_id_;
+  std::vector<std::string> plugins_;
   bool remote_identified_ = false;
 
   static const int FAILURE = 0;

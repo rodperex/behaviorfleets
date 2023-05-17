@@ -15,6 +15,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 #include "behaviorfleets/DelegateActionNodeAny.hpp"
 
@@ -46,6 +47,29 @@ DelegateActionNodeAny::DelegateActionNodeAny(
   getInput("remote_tree", remote_tree_);
   getInput("mission_id", mission_id_);
 
+  std::string plugins_str;
+  getInput("plugins", plugins_str);
+  std::stringstream ss(plugins_str);
+  std::string item;
+  while (std::getline(ss, item, ',')){
+    // Remove leading white spaces
+    size_t start = item.find_first_not_of(" ");
+    if (start != std::string::npos)
+        item = item.substr(start);
+    
+    // Remove trailing white spaces
+    size_t end = item.find_last_not_of(" ");
+    if (end != std::string::npos)
+        item = item.substr(0, end + 1);
+    
+    plugins_.push_back(item);
+  }
+
+
+  // debug
+  std::cout << "plugins: " << std::endl;
+  for (const auto& str : plugins_)
+    std::cout << "   - " << str << std::endl;  
   std::cout << "remote_tree: " << remote_tree_ << std::endl;
   std::cout << "mission_id: " << mission_id_ << std::endl;
 
@@ -91,6 +115,7 @@ DelegateActionNodeAny::mission_poll_callback(bf_msgs::msg::MissionStatus::Unique
     bf_msgs::msg::MissionCommand mission_msg;
     mission_msg.robot_id = remote_id_;
     mission_msg.mission_tree = remote_tree_;
+    mission_msg.plugins = plugins_;
     mission_pub_->publish(mission_msg);
     std::cout << "tree publised" << std::endl;
     std::cout << "status in /" << remote_id_ + "/mission_status" << std::endl;
