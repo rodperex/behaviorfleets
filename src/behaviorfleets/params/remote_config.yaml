@@ -1,4 +1,4 @@
 remote_tree:
   ros__parameters:
     plugins: 
-      - delegate_action_node_any
+      - delegate_action_node

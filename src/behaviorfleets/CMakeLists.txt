@@ -26,20 +26,12 @@ set(dependencies
 include_directories(include)
 
 
-# add_library(delegation_node SHARED src/behaviorfleets/DelegationNode.cpp)
-# add_library(delegate_bt_node SHARED src/behaviorfleets/deco/DelegateBT.cpp)
 add_library(delegate_action_node SHARED src/behaviorfleets/DelegateActionNode.cpp)
-add_library(delegate_action_node_any SHARED src/behaviorfleets/DelegateActionNodeAny.cpp)
 add_library(remote_delegate_action_node SHARED src/behaviorfleets/RemoteDelegateActionNode.cpp)
-add_library(remote_delegate_action_node_any SHARED src/behaviorfleets/RemoteDelegateActionNodeAny.cpp)
 
 list(APPEND plugin_libs
-  # delegation_node
-  # delegate_bt_node
   delegate_action_node
-  delegate_action_node_any
   remote_delegate_action_node
-  remote_delegate_action_node_any
 )
 
 foreach(bt_plugin ${plugin_libs})
@@ -55,16 +47,11 @@ add_executable(remote_tree src/examples/remote_tree_main.cpp)
 ament_target_dependencies(remote_tree ${dependencies})
 target_link_libraries(remote_tree remote_delegate_action_node)
 
-add_executable(remote_tree_any src/examples/remote_tree_main_any.cpp)
-ament_target_dependencies(remote_tree_any ${dependencies})
-target_link_libraries(remote_tree_any remote_delegate_action_node_any)
-
 
 install(TARGETS
   ${plugin_libs}
   source_tree
   remote_tree
-  remote_tree_any
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}

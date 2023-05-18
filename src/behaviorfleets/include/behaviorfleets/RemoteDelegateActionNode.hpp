@@ -30,12 +30,13 @@ class RemoteDelegateActionNode : public rclcpp::Node
 {
 public:
   RemoteDelegateActionNode();
-  explicit RemoteDelegateActionNode(const std::string id);
+  RemoteDelegateActionNode(const std::string robot_id, const std::string mission_id);
   void setID(std::string id);
 
 private:
   void mission_callback(bf_msgs::msg::MissionCommand::UniquePtr msg);
-  void create_tree();
+  void mission_poll_callback(bf_msgs::msg::MissionCommand::UniquePtr msg);
+  bool create_tree();
   void control_cycle();
   void init();
 
@@ -45,10 +46,13 @@ private:
   static const int IDLE = 3;
 
   bf_msgs::msg::MissionCommand::UniquePtr mission_;
-  std::string id_;
-  bool working_ = false;
+  std::string id_, mission_id_;
+  bool working_ = false, can_do_it_ = true;
   rclcpp::Publisher<bf_msgs::msg::MissionStatus>::SharedPtr status_pub_;
+  rclcpp::Publisher<bf_msgs::msg::MissionStatus>::SharedPtr poll_pub_;
   rclcpp::Subscription<bf_msgs::msg::MissionCommand>::SharedPtr mission_sub_;
+  rclcpp::Subscription<bf_msgs::msg::MissionCommand>::SharedPtr poll_sub_;
+
   BT::Tree tree_;
   rclcpp::TimerBase::SharedPtr timer_;
 };

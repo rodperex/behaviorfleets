@@ -23,9 +23,17 @@
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
+  rclcpp::executors::MultiThreadedExecutor exec;
 
-  auto node = std::make_shared<BF::RemoteDelegateActionNode>("dummy");
-  rclcpp::spin(node);
+  auto node_1 = std::make_shared<BF::RemoteDelegateActionNode>("dummy", "generic");
+  auto node_2 = std::make_shared<BF::RemoteDelegateActionNode>("dummy2", "generic");
+
+  exec.add_node(node_1);
+  exec.add_node(node_2);
+
+  exec.spin();
+
+  // rclcpp::spin(node);
 
   rclcpp::shutdown();
   return 0;

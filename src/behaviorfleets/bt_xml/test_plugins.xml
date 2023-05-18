@@ -2,11 +2,11 @@
 <root main_tree_to_execute="BehaviorTree" BTCPP_format="4">
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
-        <Action ID="DelegateActionNodeAny" remote_id="" mission_id="generic" plugins="delegate_action_node_any, delegate_action_node" remote_tree="remote_dummy.xml"/>
+        <Action ID="DelegateActionNode" remote_id="" mission_id="generic" plugins="delegate_action_node_any, delegate_action_node" remote_tree="remote_dummy.xml"/>
     </BehaviorTree>
     <!-- ////////// -->
     <TreeNodesModel>
-        <Action ID="DelegateActionNodeAny">
+        <Action ID="DelegateActionNode">
             <input_port name="mission_id">Mission identifier</input_port>
             <input_port name="plugins">Plugins to load</input_port>
             <input_port name="remote_tree">Tree to delegate</input_port>

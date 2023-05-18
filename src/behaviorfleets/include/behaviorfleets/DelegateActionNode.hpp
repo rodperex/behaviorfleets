@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 #ifndef BEHAVIORFLEETS__DELEGATEACTIONNODE_HPP_
 #define BEHAVIORFLEETS__DELEGATEACTIONNODE_HPP_
 
@@ -40,6 +39,7 @@ public:
 
 
   void remote_status_callback(bf_msgs::msg::MissionStatus::UniquePtr msg);
+  void mission_poll_callback(bf_msgs::msg::MissionStatus::UniquePtr msg);
 
   void halt() override
   {}
@@ -47,23 +47,31 @@ public:
   static BT::PortsList providedPorts()
   {
     return {
+      BT::InputPort<std::string>("mission_id"),
       BT::InputPort<std::string>("remote_tree"),
-      BT::InputPort<char *>("remote_id"),
+      BT::InputPort<std::string>("plugins"),
+      BT::InputPort<std::string>("remote_id")
     };
   }
 
 private:
   rclcpp::Node::SharedPtr node_;
-  rclcpp::Publisher<bf_msgs::msg::MissionCommand>::SharedPtr tree_pub_;
+  rclcpp::Publisher<bf_msgs::msg::MissionCommand>::SharedPtr mission_pub_;
   rclcpp::Subscription<bf_msgs::msg::MissionStatus>::SharedPtr remote_sub_;
+  rclcpp::Subscription<bf_msgs::msg::MissionStatus>::SharedPtr poll_sub_;
+  void decodePlugins(const std::string plugins_str);
 
-  bf_msgs::msg::MissionStatus::UniquePtr remote_status_;
-  std::string remote_id_, remote_tree_;
+  bf_msgs::msg::MissionStatus::UniquePtr remote_status_, poll_answ_;
+  std::string remote_id_, remote_tree_, mission_id_;
+  std::vector<std::string> plugins_;
   bool remote_identified_ = false;
 
   static const int FAILURE = 0;
   static const int SUCCESS = 1;
   static const int RUNNING = 2;
+  static const int IDLE = 3;
+
+  bool read_tree_from_port_;
 
   BT::NodeStatus tick() override;
 };
