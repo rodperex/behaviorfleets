@@ -59,7 +59,7 @@ private:
   rclcpp::Publisher<bf_msgs::msg::MissionCommand>::SharedPtr mission_pub_;
   rclcpp::Subscription<bf_msgs::msg::MissionStatus>::SharedPtr remote_sub_;
   rclcpp::Subscription<bf_msgs::msg::MissionStatus>::SharedPtr poll_sub_;
-  void decodePlugins(const std::string plugins_str);
+  void decode_plugins(const std::string plugins_str);
 
   bf_msgs::msg::MissionStatus::UniquePtr remote_status_, poll_answ_;
   std::string remote_id_, remote_tree_, mission_id_;

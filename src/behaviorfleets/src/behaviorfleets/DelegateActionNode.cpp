@@ -50,7 +50,7 @@ DelegateActionNode::DelegateActionNode(
 
   std::string plugins_str;
   getInput("plugins", plugins_str);
-  decodePlugins(plugins_str);
+  decode_plugins(plugins_str);
 
   std::cout << "plugins: " << std::endl;
   for (const auto & str : plugins_) {
@@ -75,7 +75,7 @@ DelegateActionNode::DelegateActionNode(
 }
 
 void
-DelegateActionNode::decodePlugins(std::string plugins_str)
+DelegateActionNode::decode_plugins(std::string plugins_str)
 {
   std::stringstream ss(plugins_str);
   std::string item;
