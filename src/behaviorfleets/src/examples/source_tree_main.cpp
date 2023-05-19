@@ -31,7 +31,7 @@ int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
 
-  auto node = rclcpp::Node::make_shared("example");
+  auto node = rclcpp::Node::make_shared("source_tree");
 
   BT::SharedLibrary loader;
   BT::BehaviorTreeFactory factory;
