@@ -30,7 +30,7 @@ namespace BF
 {
 
 RemoteDelegateActionNode::RemoteDelegateActionNode()
-: Node("RemoteDelegateAN"),
+: Node("remote_delegate_action_node"),
   id_("remote"),
   mission_id_("generic")
 {
@@ -40,7 +40,7 @@ RemoteDelegateActionNode::RemoteDelegateActionNode()
 RemoteDelegateActionNode::RemoteDelegateActionNode(
   const std::string robot_id,
   const std::string mission_id)
-: Node("RemoteDelegateAN"),
+: Node(robot_id + "_remote_delegate_action_node"),
   id_(robot_id),
   mission_id_(mission_id)
 {
