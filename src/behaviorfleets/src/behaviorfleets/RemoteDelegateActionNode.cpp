@@ -162,7 +162,7 @@ RemoteDelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr
     // can_do_it_ = true;
     mission_ = std::move(msg);
 
-    RCLCPP_INFO(get_logger(), "robot_id: %s", mission_->robot_id.c_str());
+    RCLCPP_INFO(get_logger(), "robot_id to execute the bt: %s", mission_->robot_id.c_str());
     if (((mission_->robot_id).length() > 0) && ((mission_->robot_id).compare(id_) != 0)) {
       RCLCPP_INFO(get_logger(), "action request ignored: not for me (%s)", id_.c_str());
       return;
