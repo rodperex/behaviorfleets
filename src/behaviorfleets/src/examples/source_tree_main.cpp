@@ -37,7 +37,6 @@ int main(int argc, char * argv[])
   BT::BehaviorTreeFactory factory;
 
   factory.registerFromPlugin(loader.getOSName("delegate_action_node"));
-  factory.registerFromPlugin(loader.getOSName("delegate_action_node_any"));
 
   std::string pkgpath = ament_index_cpp::get_package_share_directory("behaviorfleets");
 

@@ -1,13 +1,17 @@
 # message type
 uint8 COMMAND = 100
-uint8 STATUS = 101
+uint8 REQUEST = 101
+uint8 STATUS = 102
 
-# status
+# status codes
 uint8 FAILURE   = 0
 uint8 SUCCESS = 1
 uint8 RUNNING  = 2
 uint8 IDLE  = 3
 
+# common
+uint8 msg_type
+string mission_id
 string robot_id
 
 # command
@@ -15,7 +19,6 @@ string mission_tree
 string[] plugins
 
 # status
-string mission_id
 uint8 status
 
 

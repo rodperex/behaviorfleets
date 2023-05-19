@@ -16,14 +16,13 @@
 #define BEHAVIORFLEETS__DELEGATEACTIONNODE_HPP_
 
 #include <string>
+#include <vector>
 
 #include "behaviortree_cpp/behavior_tree.h"
 #include "behaviortree_cpp/bt_factory.h"
 #include "behaviortree_cpp/decorator_node.h"
 
-#include "bf_msgs/msg/mission_command.hpp"
-#include "bf_msgs/msg/mission_status.hpp"
-
+#include "bf_msgs/msg/mission.hpp"
 
 #include "rclcpp/rclcpp.hpp"
 
@@ -38,8 +37,8 @@ public:
     const BT::NodeConfig & conf);
 
 
-  void remote_status_callback(bf_msgs::msg::MissionStatus::UniquePtr msg);
-  void mission_poll_callback(bf_msgs::msg::MissionStatus::UniquePtr msg);
+  void remote_status_callback(bf_msgs::msg::Mission::UniquePtr msg);
+  void mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg);
 
   void halt() override
   {}
@@ -56,20 +55,15 @@ public:
 
 private:
   rclcpp::Node::SharedPtr node_;
-  rclcpp::Publisher<bf_msgs::msg::MissionCommand>::SharedPtr mission_pub_;
-  rclcpp::Subscription<bf_msgs::msg::MissionStatus>::SharedPtr remote_sub_;
-  rclcpp::Subscription<bf_msgs::msg::MissionStatus>::SharedPtr poll_sub_;
+  rclcpp::Publisher<bf_msgs::msg::Mission>::SharedPtr mission_pub_;
+  rclcpp::Subscription<bf_msgs::msg::Mission>::SharedPtr remote_sub_;
+  rclcpp::Subscription<bf_msgs::msg::Mission>::SharedPtr poll_sub_;
   void decode_plugins(const std::string plugins_str);
 
-  bf_msgs::msg::MissionStatus::UniquePtr remote_status_, poll_answ_;
+  bf_msgs::msg::Mission::UniquePtr remote_status_, poll_answ_;
   std::string remote_id_, remote_tree_, mission_id_;
   std::vector<std::string> plugins_;
   bool remote_identified_ = false;
-
-  static const int FAILURE = 0;
-  static const int SUCCESS = 1;
-  static const int RUNNING = 2;
-  static const int IDLE = 3;
 
   bool read_tree_from_port_;
 

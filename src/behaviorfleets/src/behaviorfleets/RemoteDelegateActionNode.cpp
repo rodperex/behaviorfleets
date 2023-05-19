@@ -52,20 +52,22 @@ RemoteDelegateActionNode::init()
 {
   using namespace std::chrono_literals;
 
-  poll_sub_ = create_subscription<bf_msgs::msg::MissionCommand>(
-    "/mission_command", rclcpp::SensorDataQoS(),
+  poll_sub_ = create_subscription<bf_msgs::msg::Mission>(
+    "/mission_poll", rclcpp::SensorDataQoS(),
     std::bind(&RemoteDelegateActionNode::mission_poll_callback, this, std::placeholders::_1));
 
-  mission_sub_ = create_subscription<bf_msgs::msg::MissionCommand>(
+  RCLCPP_INFO(get_logger(), "subscribed to /mission_poll");
+
+  mission_sub_ = create_subscription<bf_msgs::msg::Mission>(
     "/" + id_ + "/mission_command", rclcpp::SensorDataQoS(),
     std::bind(&RemoteDelegateActionNode::mission_callback, this, std::placeholders::_1));
 
-  std::cout << "subscribed to " << "/" + id_ + "/mission_command" << std::endl;
+  RCLCPP_INFO(get_logger(), "subscribed to /%s/mission_command", id_.c_str());
 
-  poll_pub_ = create_publisher<bf_msgs::msg::MissionStatus>(
+  poll_pub_ = create_publisher<bf_msgs::msg::Mission>(
     "/mission_poll", 100);
 
-  status_pub_ = create_publisher<bf_msgs::msg::MissionStatus>(
+  status_pub_ = create_publisher<bf_msgs::msg::Mission>(
     "/" + id_ + "/mission_status", 100);
 
   timer_ = create_wall_timer(50ms, std::bind(&RemoteDelegateActionNode::control_cycle, this));
@@ -78,35 +80,36 @@ RemoteDelegateActionNode::init()
 void
 RemoteDelegateActionNode::control_cycle()
 {
-  bf_msgs::msg::MissionStatus status_msg;
+  bf_msgs::msg::Mission status_msg;
 
+  status_msg.msg_type = bf_msgs::msg::Mission::STATUS;
   status_msg.robot_id = id_;
-  status_msg.status = RUNNING;
+  status_msg.status = bf_msgs::msg::Mission::RUNNING;
 
   if (working_) {
     BT::NodeStatus status = tree_.rootNode()->executeTick();
     switch (status) {
       case BT::NodeStatus::RUNNING:
-        status_msg.status = RUNNING;
-        std::cout << "RUNNING" << std::endl;
+        status_msg.status = bf_msgs::msg::Mission::RUNNING;
+        RCLCPP_INFO(get_logger(), "RUNNING");
         break;
       case BT::NodeStatus::SUCCESS:
-        status_msg.status = SUCCESS;
-        std::cout << "SUCCESS" << std::endl;
+        status_msg.status = bf_msgs::msg::Mission::SUCCESS;
+        RCLCPP_INFO(get_logger(), "SUCCESS");
         working_ = false;
         break;
       case BT::NodeStatus::FAILURE:
-        status_msg.status = FAILURE;
-        std::cout << "FAILURE" << std::endl;
+        status_msg.status = bf_msgs::msg::Mission::FAILURE;
+        RCLCPP_INFO(get_logger(), "FAILURE");
         working_ = false;
         break;
     }
     status_pub_->publish(status_msg);
   } else {
     if (can_do_it_) {
-      status_msg.status = IDLE;
+      status_msg.status = bf_msgs::msg::Mission::IDLE;
     } else {
-      status_msg.status = FAILURE;
+      status_msg.status = bf_msgs::msg::Mission::FAILURE;
       status_pub_->publish(status_msg);
     }
   }
@@ -122,74 +125,85 @@ RemoteDelegateActionNode::create_tree()
 
   if (plugins.size() == 0) {
     plugins = this->get_parameter("plugins").as_string_array();
-    std::cout << "plugins not in the mission command" << std::endl;
+    RCLCPP_INFO(get_logger(), "plugins not in the mission command");
   }
 
   try {
     for (auto plugin : plugins) {
       factory.registerFromPlugin(loader.getOSName(plugin));
-      std::cout << "plugin " << plugin << " loaded" << std::endl;
+      RCLCPP_INFO(get_logger(), "plugin %s loaded", plugin.c_str());
     }
 
     auto blackboard = BT::Blackboard::create();
     blackboard->set("node", shared_from_this());
     tree_ = factory.createTreeFromText(mission_->mission_tree, blackboard);
 
-    std::cout << "tree created" << std::endl;
+    RCLCPP_INFO(get_logger(), "tree created");
     return true;
   } catch (std::exception & e) {
-    bf_msgs::msg::MissionStatus status_msg;
+    bf_msgs::msg::Mission status_msg;
+    status_msg.msg_type = bf_msgs::msg::Mission::STATUS;
     status_msg.robot_id = id_;
-    status_msg.status = IDLE;
+    status_msg.status = bf_msgs::msg::Mission::IDLE;
     status_pub_->publish(status_msg);
-    std::cout << "ERROR creating tree: " << e.what() << std::endl;
+    RCLCPP_ERROR(get_logger(), "ERROR creating tree: %s", e.what());
     return false;
   }
 }
 
 void
-RemoteDelegateActionNode::mission_poll_callback(bf_msgs::msg::MissionCommand::UniquePtr msg)
+RemoteDelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
 {
+  if (msg->msg_type != bf_msgs::msg::Mission::COMMAND) {
+    return;
+  }
   // ignore missions if already working
   if (!working_) {
     can_do_it_ = true;
     mission_ = std::move(msg);
 
-    std::cout << "robot_id: " << mission_->robot_id << std::endl;
+    RCLCPP_INFO(get_logger(), "robot_id: %s", mission_->robot_id.c_str());
     if (((mission_->robot_id).length() > 0) && ((mission_->robot_id).compare(id_) != 0)) {
-      std::cout << "action request ignored: not for me (" << id_ << ")" << std::endl;
+      RCLCPP_INFO(get_logger(), "action request ignored: not for me (%s)", id_.c_str());
       return;
     }
     if ((mission_->mission_id).compare(mission_id_) == 0) {
-      bf_msgs::msg::MissionStatus poll_msg;
+      bf_msgs::msg::Mission poll_msg;
+      poll_msg.msg_type = bf_msgs::msg::Mission::REQUEST;
       poll_msg.robot_id = id_;
       poll_msg.mission_id = mission_id_;
-      poll_msg.status = IDLE;
+      poll_msg.status = bf_msgs::msg::Mission::IDLE;
       poll_pub_->publish(poll_msg);
-      std::cout << "action request published (" << id_ << "): " << mission_id_ << std::endl;
+      RCLCPP_INFO(
+        get_logger(),
+        "action request published (%s): %s", id_.c_str(), mission_id_.c_str());
     } else {
-      std::cout << "unable to execute action: " << mission_id_ << std::endl;
+      RCLCPP_INFO(get_logger(), "unable to execute action: %s", mission_id_.c_str());
     }
   } else {
-    std::cout << "action request ignored (" << id_ << "): busy" << std::endl;
+    RCLCPP_INFO(get_logger(), "action request ignored (%s): busy", id_.c_str());
   }
 }
 
 void
-RemoteDelegateActionNode::mission_callback(bf_msgs::msg::MissionCommand::UniquePtr msg)
+RemoteDelegateActionNode::mission_callback(bf_msgs::msg::Mission::UniquePtr msg)
 {
+  if (msg->msg_type != bf_msgs::msg::Mission::COMMAND) {
+    return;
+  }
   // ignore missions if already working
   if (!working_) {
+    RCLCPP_INFO(get_logger(), "mission received");
     mission_ = std::move(msg);
     if (mission_->robot_id == id_) {
-      std::cout << "tree received" << std::endl << mission_->mission_tree << std::endl;
+      RCLCPP_INFO(get_logger(), "tree received:\n%s", mission_->mission_tree.c_str());
       working_ = create_tree();
       can_do_it_ = working_;
     } else {
-      std::cout << "tree received but not for this node" << std::endl;
+      RCLCPP_INFO(get_logger(), "tree received but not for this node");
     }
   } else {
-    std::cout << "tree received but node is busy" << std::endl;
+    RCLCPP_INFO(get_logger(), "tree received but node is busy");
   }
 }
 

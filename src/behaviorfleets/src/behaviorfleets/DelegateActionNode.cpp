@@ -25,9 +25,7 @@
 #include "behaviortree_cpp/utils/shared_library.h"
 #include "rclcpp/rclcpp.hpp"
 
-#include "bf_msgs/msg/mission_command.hpp"
-#include "bf_msgs/msg/mission_status.hpp"
-
+#include "bf_msgs/msg/mission.hpp"
 
 namespace BF
 {
@@ -52,24 +50,25 @@ DelegateActionNode::DelegateActionNode(
   getInput("plugins", plugins_str);
   decode_plugins(plugins_str);
 
-  std::cout << "plugins: " << std::endl;
+  RCLCPP_INFO(node_->get_logger(), "plugins to propagate: %ld", plugins_.size());
   for (const auto & str : plugins_) {
-    std::cout << "   - " << str << std::endl;
+    RCLCPP_INFO(node_->get_logger(), str.c_str());
   }
-  std::cout << "remote_tree: " << remote_tree_ << std::endl;
-  std::cout << "mission_id: " << mission_id_ << std::endl;
+
+  RCLCPP_INFO(node_->get_logger(), "remote tree: %s", remote_tree_.c_str());
+  RCLCPP_INFO(node_->get_logger(), "mission id: %s", mission_id_.c_str());
 
   xml_path = pkgpath + remote_tree_;
-  std::cout << "xml_path: " << xml_path << std::endl;
+  RCLCPP_INFO(node_->get_logger(), "xml_path: %s", xml_path.c_str());
   std::ifstream file(xml_path);
   std::ostringstream contents_stream;
   contents_stream << file.rdbuf();
   remote_tree_ = contents_stream.str();
 
-  mission_pub_ = node_->create_publisher<bf_msgs::msg::MissionCommand>(
-    "/mission_command", 100);
+  mission_pub_ = node_->create_publisher<bf_msgs::msg::Mission>(
+    "/mission_poll", 100);
 
-  poll_sub_ = node_->create_subscription<bf_msgs::msg::MissionStatus>(
+  poll_sub_ = node_->create_subscription<bf_msgs::msg::Mission>(
     "/mission_poll", rclcpp::SensorDataQoS(),
     std::bind(&DelegateActionNode::mission_poll_callback, this, std::placeholders::_1));
 }
@@ -93,40 +92,43 @@ DelegateActionNode::decode_plugins(std::string plugins_str)
 
     plugins_.push_back(item);
   }
-
 }
 
 void
-DelegateActionNode::remote_status_callback(bf_msgs::msg::MissionStatus::UniquePtr msg)
+DelegateActionNode::remote_status_callback(bf_msgs::msg::Mission::UniquePtr msg)
 {
-  std::cout << "remote status received" << std::endl;
+  RCLCPP_INFO(node_->get_logger(), "remote status received");
   remote_status_ = std::move(msg);
 }
 
 void
-DelegateActionNode::mission_poll_callback(bf_msgs::msg::MissionStatus::UniquePtr msg)
+DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
 {
-  std::cout << "poll received" << std::endl;
+  if (msg->msg_type != bf_msgs::msg::Mission::REQUEST) {
+    return;
+  }
+  RCLCPP_INFO(node_->get_logger(), "poll request received");
   // ignore answers from other robots
   if (!remote_identified_) {
     poll_answ_ = std::move(msg);
     remote_id_ = poll_answ_->robot_id;
-    std::cout << "remote identified: " << remote_id_ << std::endl;
+    RCLCPP_INFO(node_->get_logger(), "remote identified: %s", remote_id_.c_str());
 
-    remote_sub_ = node_->create_subscription<bf_msgs::msg::MissionStatus>(
+    remote_sub_ = node_->create_subscription<bf_msgs::msg::Mission>(
       "/" + remote_id_ + "/mission_status", rclcpp::SensorDataQoS(),
       std::bind(&DelegateActionNode::remote_status_callback, this, std::placeholders::_1));
 
-    mission_pub_ = node_->create_publisher<bf_msgs::msg::MissionCommand>(
+    mission_pub_ = node_->create_publisher<bf_msgs::msg::Mission>(
       "/" + remote_id_ + "/mission_command", 100);
 
-    bf_msgs::msg::MissionCommand mission_msg;
+    bf_msgs::msg::Mission mission_msg;
+    mission_msg.msg_type = bf_msgs::msg::Mission::COMMAND;
     mission_msg.robot_id = remote_id_;
     mission_msg.mission_tree = remote_tree_;
     mission_msg.plugins = plugins_;
     mission_pub_->publish(mission_msg);
-    std::cout << "tree publised" << std::endl;
-    std::cout << "status in /" << remote_id_ + "/mission_status" << std::endl;
+    RCLCPP_INFO(node_->get_logger(), "tree publised");
+    RCLCPP_INFO(node_->get_logger(), "status in /%s/mission_status", remote_id_.c_str());
 
     remote_identified_ = true;
   }
@@ -136,29 +138,30 @@ BT::NodeStatus
 DelegateActionNode::tick()
 {
   if (!remote_identified_) {
-    bf_msgs::msg::MissionCommand msg;
+    bf_msgs::msg::Mission msg;
+    msg.msg_type = bf_msgs::msg::Mission::COMMAND;
     msg.mission_id = mission_id_;
     msg.robot_id = remote_id_;
     mission_pub_->publish(msg);
-    std::cout << "mission publised" << std::endl;
+    RCLCPP_INFO(node_->get_logger(), "mission %s publised", mission_id_.c_str());
   } else {
     if (remote_status_ != nullptr) {
       int status = remote_status_->status;
       switch (status) {
-        case RUNNING:
-          std::cout << "remote status: RUNNING" << std::endl;
+        case bf_msgs::msg::Mission::RUNNING:
+          RCLCPP_INFO(node_->get_logger(), "remote status: RUNNING");
           return BT::NodeStatus::RUNNING;
           break;
-        case SUCCESS:
-          std::cout << "remote status: SUCCESS" << std::endl;
+        case bf_msgs::msg::Mission::SUCCESS:
+          RCLCPP_INFO(node_->get_logger(), "remote status: SUCCESS");
           return BT::NodeStatus::SUCCESS;
           break;
-        case FAILURE:
-          std::cout << "remote status: FAILURE" << std::endl;
+        case bf_msgs::msg::Mission::FAILURE:
+          RCLCPP_INFO(node_->get_logger(), "remote status: FAILURE");
           return BT::NodeStatus::FAILURE;
           break;
-        case IDLE:
-          std::cout << "remote status: IDLE" << std::endl;
+        case bf_msgs::msg::Mission::IDLE:
+          RCLCPP_INFO(node_->get_logger(), "remote status: IDLE");
           remote_identified_ = false;
           remote_sub_.reset();
           break;

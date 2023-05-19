@@ -18,8 +18,7 @@
 #include <string>
 
 #include "rclcpp/rclcpp.hpp"
-#include "bf_msgs/msg/mission_status.hpp"
-#include "bf_msgs/msg/mission_command.hpp"
+#include "bf_msgs/msg/mission.hpp"
 #include "behaviortree_cpp/bt_factory.h"
 
 
@@ -34,24 +33,19 @@ public:
   void setID(std::string id);
 
 private:
-  void mission_callback(bf_msgs::msg::MissionCommand::UniquePtr msg);
-  void mission_poll_callback(bf_msgs::msg::MissionCommand::UniquePtr msg);
+  void mission_callback(bf_msgs::msg::Mission::UniquePtr msg);
+  void mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg);
   bool create_tree();
   void control_cycle();
   void init();
 
-  static const int FAILURE = 0;
-  static const int SUCCESS = 1;
-  static const int RUNNING = 2;
-  static const int IDLE = 3;
-
-  bf_msgs::msg::MissionCommand::UniquePtr mission_;
+  bf_msgs::msg::Mission::UniquePtr mission_;
   std::string id_, mission_id_;
   bool working_ = false, can_do_it_ = true;
-  rclcpp::Publisher<bf_msgs::msg::MissionStatus>::SharedPtr status_pub_;
-  rclcpp::Publisher<bf_msgs::msg::MissionStatus>::SharedPtr poll_pub_;
-  rclcpp::Subscription<bf_msgs::msg::MissionCommand>::SharedPtr mission_sub_;
-  rclcpp::Subscription<bf_msgs::msg::MissionCommand>::SharedPtr poll_sub_;
+  rclcpp::Publisher<bf_msgs::msg::Mission>::SharedPtr status_pub_;
+  rclcpp::Publisher<bf_msgs::msg::Mission>::SharedPtr poll_pub_;
+  rclcpp::Subscription<bf_msgs::msg::Mission>::SharedPtr mission_sub_;
+  rclcpp::Subscription<bf_msgs::msg::Mission>::SharedPtr poll_sub_;
 
   BT::Tree tree_;
   rclcpp::TimerBase::SharedPtr timer_;
