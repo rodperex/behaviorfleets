@@ -106,12 +106,12 @@ RemoteDelegateActionNode::control_cycle()
     }
     status_pub_->publish(status_msg);
   } else {
-    if (can_do_it_) {
+    // if (can_do_it_) {
       status_msg.status = bf_msgs::msg::Mission::IDLE;
-    } else {
-      status_msg.status = bf_msgs::msg::Mission::FAILURE;
-      status_pub_->publish(status_msg);
-    }
+    // } else {
+    //   status_msg.status = bf_msgs::msg::Mission::FAILURE;
+    //   status_pub_->publish(status_msg);
+    // }
   }
 }
 
@@ -159,7 +159,7 @@ RemoteDelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr
   }
   // ignore missions if already working
   if (!working_) {
-    can_do_it_ = true;
+    // can_do_it_ = true;
     mission_ = std::move(msg);
 
     RCLCPP_INFO(get_logger(), "robot_id: %s", mission_->robot_id.c_str());
@@ -191,6 +191,17 @@ RemoteDelegateActionNode::mission_callback(bf_msgs::msg::Mission::UniquePtr msg)
   if (msg->msg_type != bf_msgs::msg::Mission::COMMAND) {
     return;
   }
+
+  if (msg->msg_type == bf_msgs::msg::Mission::HALT) {
+    RCLCPP_INFO(get_logger(), "halt signal received");
+    bf_msgs::msg::Mission status_msg;
+    status_msg.msg_type = bf_msgs::msg::Mission::STATUS;
+    status_msg.robot_id = id_;
+    status_msg.status = bf_msgs::msg::Mission::IDLE;
+    status_pub_->publish(status_msg);
+    working_ = false;
+  }
+
   // ignore missions if already working
   if (!working_) {
     RCLCPP_INFO(get_logger(), "mission received");
@@ -198,7 +209,7 @@ RemoteDelegateActionNode::mission_callback(bf_msgs::msg::Mission::UniquePtr msg)
     if (mission_->robot_id == id_) {
       RCLCPP_INFO(get_logger(), "tree received:\n%s", mission_->mission_tree.c_str());
       working_ = create_tree();
-      can_do_it_ = working_;
+      // can_do_it_ = working_;
     } else {
       RCLCPP_INFO(get_logger(), "tree received but not for this node");
     }
