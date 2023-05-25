@@ -48,8 +48,9 @@ public:
     return {
       BT::InputPort<std::string>("mission_id"),
       BT::InputPort<std::string>("remote_tree"),
+      BT::InputPort<std::string>("remote_id"),
       BT::InputPort<std::string>("plugins"),
-      BT::InputPort<std::string>("remote_id")
+      BT::InputPort<double>("timeout")
     };
   }
 
@@ -64,8 +65,9 @@ private:
   std::string remote_id_, remote_tree_, mission_id_;
   std::vector<std::string> plugins_;
   bool remote_identified_ = false;
-
   bool read_tree_from_port_;
+  rclcpp::Time t_last_status_;
+  double timeout_;
 
   BT::NodeStatus tick() override;
 };

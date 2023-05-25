@@ -39,12 +39,14 @@ DelegateActionNode::DelegateActionNode(
 
   remote_id_ = "";
   remote_tree_ = "not_set";
+  timeout_ = -1.0;
   config().blackboard->get("node", node_);
   config().blackboard->get("pkgpath", pkgpath);
 
   getInput("remote_tree", remote_tree_);
   getInput("mission_id", mission_id_);
   getInput("remote_id", remote_id_);
+  getInput("timeout", timeout_);
 
   std::string plugins_str;
   getInput("plugins", plugins_str);
@@ -99,6 +101,7 @@ DelegateActionNode::remote_status_callback(bf_msgs::msg::Mission::UniquePtr msg)
 {
   RCLCPP_INFO(node_->get_logger(), "remote status received");
   remote_status_ = std::move(msg);
+  t_last_status_ = node_->now();
 }
 
 void
@@ -131,6 +134,7 @@ DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
     RCLCPP_INFO(node_->get_logger(), "status in /%s/mission_status", remote_id_.c_str());
 
     remote_identified_ = true;
+    t_last_status_ = node_->now();
   }
 }
 
@@ -146,25 +150,32 @@ DelegateActionNode::tick()
     RCLCPP_INFO(node_->get_logger(), "mission %s publised", mission_id_.c_str());
   } else {
     if (remote_status_ != nullptr) {
-      int status = remote_status_->status;
-      switch (status) {
-        case bf_msgs::msg::Mission::RUNNING:
-          RCLCPP_INFO(node_->get_logger(), "remote status: RUNNING");
-          return BT::NodeStatus::RUNNING;
-          break;
-        case bf_msgs::msg::Mission::SUCCESS:
-          RCLCPP_INFO(node_->get_logger(), "remote status: SUCCESS");
-          return BT::NodeStatus::SUCCESS;
-          break;
-        case bf_msgs::msg::Mission::FAILURE:
-          RCLCPP_INFO(node_->get_logger(), "remote status: FAILURE");
-          return BT::NodeStatus::FAILURE;
-          break;
-        case bf_msgs::msg::Mission::IDLE:
-          RCLCPP_INFO(node_->get_logger(), "remote status: IDLE");
-          remote_identified_ = false;
-          remote_sub_.reset();
-          break;
+      auto elapsed = node_->now() - t_last_status_;
+      if((elapsed.seconds() > timeout_) && (timeout_ != -1)) {
+        RCLCPP_INFO(node_->get_logger(), "remote timed out: looking for new one");
+        remote_identified_ = false;
+        remote_sub_.reset();
+      } else {
+        int status = remote_status_->status;
+        switch (status) {
+          case bf_msgs::msg::Mission::RUNNING:
+            RCLCPP_INFO(node_->get_logger(), "remote status: RUNNING");
+            return BT::NodeStatus::RUNNING;
+            break;
+          case bf_msgs::msg::Mission::SUCCESS:
+            RCLCPP_INFO(node_->get_logger(), "remote status: SUCCESS");
+            return BT::NodeStatus::SUCCESS;
+            break;
+          case bf_msgs::msg::Mission::FAILURE:
+            RCLCPP_INFO(node_->get_logger(), "remote status: FAILURE");
+            return BT::NodeStatus::FAILURE;
+            break;
+          case bf_msgs::msg::Mission::IDLE:
+            RCLCPP_INFO(node_->get_logger(), "remote status: IDLE");
+            remote_identified_ = false;
+            remote_sub_.reset();
+            break;
+        }
       }
     }
   }
