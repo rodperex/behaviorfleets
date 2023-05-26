@@ -4,7 +4,7 @@
     <BehaviorTree ID="BehaviorTree">
         <Action ID="DelegateActionNode" remote_id=""
         mission_id="generic"
-        plugins="delegate_action_node"
+        plugins=""
         remote_tree="remote_dummy.xml"
         timeout="1"/>
     </BehaviorTree>

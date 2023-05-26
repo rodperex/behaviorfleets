@@ -123,15 +123,23 @@ RemoteDelegateActionNode::create_tree()
 
   std::vector<std::string> plugins = mission_->plugins;
 
-  if (plugins.size() == 0) {
-    plugins = this->get_parameter("plugins").as_string_array();
-    RCLCPP_INFO(get_logger(), "plugins not in the mission command");
+  bool load_plugins = true;
+  if (plugins.size() == 0)
+  {
+      plugins = this->get_parameter("plugins").as_string_array();
+      RCLCPP_INFO(get_logger(), "plugins not in the mission command");
+    if (plugins[0] == "none") {
+      RCLCPP_INFO(get_logger(), "no plugins to load");
+      load_plugins = false;
+    }
   }
 
   try {
-    for (auto plugin : plugins) {
-      factory.registerFromPlugin(loader.getOSName(plugin));
-      RCLCPP_INFO(get_logger(), "plugin %s loaded", plugin.c_str());
+    if (load_plugins) {
+      for (auto plugin : plugins) {
+        factory.registerFromPlugin(loader.getOSName(plugin));
+        RCLCPP_INFO(get_logger(), "plugin %s loaded", plugin.c_str());
+      }
     }
 
     auto blackboard = BT::Blackboard::create();
