@@ -154,6 +154,9 @@ DelegateActionNode::tick()
       if((elapsed.seconds() > timeout_) && (timeout_ != -1)) {
         RCLCPP_INFO(node_->get_logger(), "remote timed out: looking for new one");
         remote_identified_ = false;
+        getInput("remote_id", remote_id_);
+        mission_pub_ = node_->create_publisher<bf_msgs::msg::Mission>(
+              "/mission_poll", 100);
         remote_sub_.reset();
       } else {
         int status = remote_status_->status;
@@ -173,6 +176,9 @@ DelegateActionNode::tick()
           case bf_msgs::msg::Mission::IDLE:
             RCLCPP_INFO(node_->get_logger(), "remote status: IDLE");
             remote_identified_ = false;
+            getInput("remote_id", remote_id_);
+            mission_pub_ = node_->create_publisher<bf_msgs::msg::Mission>(
+              "/mission_poll", 100);
             remote_sub_.reset();
             break;
         }

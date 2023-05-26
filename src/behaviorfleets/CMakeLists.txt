@@ -9,8 +9,6 @@ find_package(rclcpp REQUIRED)
 find_package(behaviortree_cpp REQUIRED)
 find_package(ament_index_cpp REQUIRED)
 find_package(bf_msgs REQUIRED)
-find_package(geometry_msgs REQUIRED)
-find_package(sensor_msgs REQUIRED)
 
 
 set(CMAKE_CXX_STANDARD 17)
