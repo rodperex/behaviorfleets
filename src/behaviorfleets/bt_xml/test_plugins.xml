@@ -4,7 +4,7 @@
     <BehaviorTree ID="BehaviorTree">
         <Action ID="DelegateActionNode"
         remote_id=""
-        exclude ="dummy1, dummy2, dummy3"
+        exclude ="dummy1"   
         mission_id="generic"
         plugins=""
         remote_tree="remote_dummy.xml"

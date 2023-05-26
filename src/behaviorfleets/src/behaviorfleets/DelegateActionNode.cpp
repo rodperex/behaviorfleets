@@ -50,7 +50,6 @@ DelegateActionNode::DelegateActionNode(
 
   std::string plugins_str;
   getInput("plugins", plugins_str);
-  // decode_plugins(plugins_str);
   decode(plugins_str, &plugins_);
 
   std::string exclude_str;
@@ -118,15 +117,14 @@ DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
   RCLCPP_INFO(node_->get_logger(), "poll request received");
   // ignore answers from other robots
   if (!remote_identified_) {
+    // check if the remote should be excluded
+    if (is_remote_excluded(msg->robot_id)) {
+      RCLCPP_INFO(node_->get_logger(), "remote excluded: %s", (msg->robot_id).c_str());
+      return;
+    }
     poll_answ_ = std::move(msg);
     remote_id_ = poll_answ_->robot_id;
     RCLCPP_INFO(node_->get_logger(), "remote identified: %s", remote_id_.c_str());
-
-    // check if the remote should be excluded
-    if (is_remote_excluded(remote_id_)) {
-      RCLCPP_INFO(node_->get_logger(), "remote excluded: %s", remote_id_.c_str());
-      return;
-    }
 
     remote_sub_ = node_->create_subscription<bf_msgs::msg::Mission>(
       "/" + remote_id_ + "/mission_status", rclcpp::SensorDataQoS(),
