@@ -49,6 +49,7 @@ public:
       BT::InputPort<std::string>("mission_id"),
       BT::InputPort<std::string>("remote_tree"),
       BT::InputPort<std::string>("remote_id"),
+      BT::InputPort<std::string>("exclude"),
       BT::InputPort<std::string>("plugins"),
       BT::InputPort<double>("timeout")
     };
@@ -59,11 +60,12 @@ private:
   rclcpp::Publisher<bf_msgs::msg::Mission>::SharedPtr mission_pub_;
   rclcpp::Subscription<bf_msgs::msg::Mission>::SharedPtr remote_sub_;
   rclcpp::Subscription<bf_msgs::msg::Mission>::SharedPtr poll_sub_;
-  void decode_plugins(const std::string plugins_str);
+  void decode(std::string str, std::vector<std::string> *vector);
+  bool is_remote_excluded(std::string remote_id);
 
   bf_msgs::msg::Mission::UniquePtr remote_status_, poll_answ_;
   std::string remote_id_, remote_tree_, mission_id_;
-  std::vector<std::string> plugins_;
+  std::vector<std::string> plugins_, excluded_;
   bool remote_identified_ = false;
   bool read_tree_from_port_;
   rclcpp::Time t_last_status_;

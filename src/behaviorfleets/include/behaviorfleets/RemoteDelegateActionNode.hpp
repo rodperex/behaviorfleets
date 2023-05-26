@@ -41,7 +41,7 @@ private:
 
   bf_msgs::msg::Mission::UniquePtr mission_;
   std::string id_, mission_id_;
-  bool working_ = false, can_do_it_ = true;
+  bool working_ = false;
   rclcpp::Publisher<bf_msgs::msg::Mission>::SharedPtr status_pub_;
   rclcpp::Publisher<bf_msgs::msg::Mission>::SharedPtr poll_pub_;
   rclcpp::Subscription<bf_msgs::msg::Mission>::SharedPtr mission_sub_;

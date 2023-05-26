@@ -50,7 +50,12 @@ DelegateActionNode::DelegateActionNode(
 
   std::string plugins_str;
   getInput("plugins", plugins_str);
-  decode_plugins(plugins_str);
+  // decode_plugins(plugins_str);
+  decode(plugins_str, &plugins_);
+
+  std::string exclude_str;
+  getInput("exclude", exclude_str);
+  decode(exclude_str, &excluded_);
 
   RCLCPP_INFO(node_->get_logger(), "plugins to propagate: %ld", plugins_.size());
   for (const auto & str : plugins_) {
@@ -76,9 +81,9 @@ DelegateActionNode::DelegateActionNode(
 }
 
 void
-DelegateActionNode::decode_plugins(std::string plugins_str)
+DelegateActionNode::decode(std::string str, std::vector<std::string> *vector)
 {
-  std::stringstream ss(plugins_str);
+  std::stringstream ss(str);
   std::string item;
   while (std::getline(ss, item, ',')) {
     // remove leading white spaces
@@ -92,7 +97,7 @@ DelegateActionNode::decode_plugins(std::string plugins_str)
       item = item.substr(0, end + 1);
     }
 
-    plugins_.push_back(item);
+    vector->push_back(item);
   }
 }
 
@@ -117,6 +122,12 @@ DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
     remote_id_ = poll_answ_->robot_id;
     RCLCPP_INFO(node_->get_logger(), "remote identified: %s", remote_id_.c_str());
 
+    // check if the remote should be excluded
+    if (is_remote_excluded(remote_id_)) {
+      RCLCPP_INFO(node_->get_logger(), "remote excluded: %s", remote_id_.c_str());
+      return;
+    }
+
     remote_sub_ = node_->create_subscription<bf_msgs::msg::Mission>(
       "/" + remote_id_ + "/mission_status", rclcpp::SensorDataQoS(),
       std::bind(&DelegateActionNode::remote_status_callback, this, std::placeholders::_1));
@@ -136,6 +147,17 @@ DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
     remote_identified_ = true;
     t_last_status_ = node_->now();
   }
+}
+
+bool
+DelegateActionNode::is_remote_excluded(std::string remote_id)
+{
+  for (const std::string & str : excluded_) {
+        if (str == remote_id) {
+            return true;
+        }
+  }
+  return false;
 }
 
 BT::NodeStatus

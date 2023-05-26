@@ -2,7 +2,9 @@
 <root main_tree_to_execute="BehaviorTree" BTCPP_format="4">
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
-        <Action ID="DelegateActionNode" remote_id=""
+        <Action ID="DelegateActionNode"
+        remote_id=""
+        exclude ="dummy1, dummy2, dummy3"
         mission_id="generic"
         plugins=""
         remote_tree="remote_dummy.xml"
@@ -15,6 +17,7 @@
             <input_port name="plugins">Plugins to load</input_port>
             <input_port name="remote_tree">Tree to delegate</input_port>
             <input_port name="remote_id">Robot to delegate BT</input_port>
+            <input_port name="exclude">Robot identifiers to exclude from execution</input_port>
             <input_port name="timeout">Delegation timeout</input_port>
         </Action>
     </TreeNodesModel>
