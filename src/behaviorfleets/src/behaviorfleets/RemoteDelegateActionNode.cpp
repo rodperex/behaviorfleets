@@ -56,13 +56,13 @@ RemoteDelegateActionNode::init()
     "/mission_poll", rclcpp::SensorDataQoS(),
     std::bind(&RemoteDelegateActionNode::mission_poll_callback, this, std::placeholders::_1));
 
-  RCLCPP_INFO(get_logger(), "subscribed to /mission_poll");
+  RCLCPP_INFO(get_logger(), ("[ " + id_ +" ] " + "subscribed to /mission_poll").c_str());
 
   mission_sub_ = create_subscription<bf_msgs::msg::Mission>(
     "/" + id_ + "/mission_command", rclcpp::SensorDataQoS(),
     std::bind(&RemoteDelegateActionNode::mission_callback, this, std::placeholders::_1));
 
-  RCLCPP_INFO(get_logger(), "subscribed to /%s/mission_command", id_.c_str());
+  RCLCPP_INFO(get_logger(), ("[ " + id_ +" ] " + "subscribed to /"+ id_ +"/mission_command").c_str());
 
   poll_pub_ = create_publisher<bf_msgs::msg::Mission>(
     "/mission_poll", 100);
@@ -91,16 +91,16 @@ RemoteDelegateActionNode::control_cycle()
     switch (status) {
       case BT::NodeStatus::RUNNING:
         status_msg.status = bf_msgs::msg::Mission::RUNNING;
-        RCLCPP_INFO(get_logger(), "RUNNING");
+        RCLCPP_INFO(get_logger(), ("[ " + id_ +" ] " + "RUNNING").c_str());
         break;
       case BT::NodeStatus::SUCCESS:
         status_msg.status = bf_msgs::msg::Mission::SUCCESS;
-        RCLCPP_INFO(get_logger(), "SUCCESS");
+        RCLCPP_INFO(get_logger(), ("[ " + id_ +" ] " + "SUCCESS").c_str());
         working_ = false;
         break;
       case BT::NodeStatus::FAILURE:
         status_msg.status = bf_msgs::msg::Mission::FAILURE;
-        RCLCPP_INFO(get_logger(), "FAILURE");
+        RCLCPP_INFO(get_logger(), ("[ " + id_ +" ] " + "FAILURE").c_str());
         working_ = false;
         break;
     }
@@ -127,9 +127,9 @@ RemoteDelegateActionNode::create_tree()
   if (plugins.size() == 0)
   {
       plugins = this->get_parameter("plugins").as_string_array();
-      RCLCPP_INFO(get_logger(), "plugins not in the mission command");
+      RCLCPP_INFO(get_logger(), ("[ " + id_ +" ] " + "plugins not in the mission command").c_str());
     if (plugins[0] == "none") {
-      RCLCPP_INFO(get_logger(), "no plugins to load");
+      RCLCPP_INFO(get_logger(), ("[ " + id_ +" ] " + "no plugins to load").c_str());
       load_plugins = false;
     }
   }
@@ -154,7 +154,7 @@ RemoteDelegateActionNode::create_tree()
     status_msg.robot_id = id_;
     status_msg.status = bf_msgs::msg::Mission::IDLE;
     status_pub_->publish(status_msg);
-    RCLCPP_ERROR(get_logger(), "ERROR creating tree: %s", e.what());
+    RCLCPP_ERROR(get_logger(), ("[ " + id_ +" ] " + "ERROR creating tree: " + e.what()).c_str());
     return false;
   }
 }
@@ -170,9 +170,9 @@ RemoteDelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr
     // can_do_it_ = true;
     mission_ = std::move(msg);
 
-    RCLCPP_INFO(get_logger(), "robot_id to execute the bt: %s", mission_->robot_id.c_str());
+    RCLCPP_INFO(get_logger(), ("[ " + id_ +" ] " + "robot_id to execute the bt: " + mission_->robot_id).c_str());
     if (((mission_->robot_id).length() > 0) && ((mission_->robot_id).compare(id_) != 0)) {
-      RCLCPP_INFO(get_logger(), "action request ignored: not for me (%s)", id_.c_str());
+      RCLCPP_INFO(get_logger(), ("[ " + id_ +" ] " + "action request ignored: not for me").c_str());
       return;
     }
     if ((mission_->mission_id).compare(mission_id_) == 0) {
@@ -184,12 +184,12 @@ RemoteDelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr
       poll_pub_->publish(poll_msg);
       RCLCPP_INFO(
         get_logger(),
-        "action request published (%s): %s", id_.c_str(), mission_id_.c_str());
+        ("[ " + id_ +" ] " + "action request published:" + mission_id_).c_str());
     } else {
-      RCLCPP_INFO(get_logger(), "unable to execute action: %s", mission_id_.c_str());
+      RCLCPP_INFO(get_logger(), ("[ " + id_ +" ] " + "unable to execute action: " + mission_id_).c_str());
     }
   } else {
-    RCLCPP_INFO(get_logger(), "action request ignored (%s): busy", id_.c_str());
+    RCLCPP_INFO(get_logger(), ("[ " + id_ +" ] " + "action request ignored: busy").c_str());
   }
 }
 
@@ -201,7 +201,7 @@ RemoteDelegateActionNode::mission_callback(bf_msgs::msg::Mission::UniquePtr msg)
   }
 
   if (msg->msg_type == bf_msgs::msg::Mission::HALT) {
-    RCLCPP_INFO(get_logger(), "halt signal received");
+    RCLCPP_INFO(get_logger(), ("[ " + id_ +" ] " + "halt signal received").c_str());
     bf_msgs::msg::Mission status_msg;
     status_msg.msg_type = bf_msgs::msg::Mission::STATUS;
     status_msg.robot_id = id_;
@@ -212,17 +212,17 @@ RemoteDelegateActionNode::mission_callback(bf_msgs::msg::Mission::UniquePtr msg)
 
   // ignore missions if already working
   if (!working_) {
-    RCLCPP_INFO(get_logger(), "mission received");
+    RCLCPP_INFO(get_logger(), ("[ " + id_ +" ] " + "mission received").c_str());
     mission_ = std::move(msg);
     if (mission_->robot_id == id_) {
-      RCLCPP_INFO(get_logger(), "tree received:\n%s", mission_->mission_tree.c_str());
+      RCLCPP_INFO(get_logger(), ("[ " + id_ +" ] " + "tree received:\n" + mission_->mission_tree).c_str());
       working_ = create_tree();
       // can_do_it_ = working_;
     } else {
-      RCLCPP_INFO(get_logger(), "tree received but not for this node");
+      RCLCPP_INFO(get_logger(), ("[ " + id_ +" ] " + "tree received but not for me").c_str());
     }
   } else {
-    RCLCPP_INFO(get_logger(), "tree received but node is busy");
+    RCLCPP_INFO(get_logger(), ("[ " + id_ +" ] " + "tree received but I am busy").c_str());
   }
 }
 
