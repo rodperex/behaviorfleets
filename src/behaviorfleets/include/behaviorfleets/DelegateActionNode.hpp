@@ -62,6 +62,7 @@ private:
   rclcpp::Subscription<bf_msgs::msg::Mission>::SharedPtr poll_sub_;
   void decode(std::string str, std::vector<std::string> *vector);
   bool is_remote_excluded(std::string remote_id);
+  void reset();
 
   bf_msgs::msg::Mission::UniquePtr remote_status_, poll_answ_;
   std::string remote_id_, remote_tree_, mission_id_;

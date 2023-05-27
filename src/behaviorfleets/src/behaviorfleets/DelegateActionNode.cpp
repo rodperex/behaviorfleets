@@ -80,6 +80,16 @@ DelegateActionNode::DelegateActionNode(
 }
 
 void
+DelegateActionNode::reset()
+{
+  remote_identified_ = false;
+  getInput("remote_id", remote_id_);
+  mission_pub_ = node_->create_publisher<bf_msgs::msg::Mission>(
+    "/mission_poll", 100);
+  remote_sub_.reset();
+}
+
+void
 DelegateActionNode::decode(std::string str, std::vector<std::string> *vector)
 {
   std::stringstream ss(str);
@@ -172,12 +182,9 @@ DelegateActionNode::tick()
     if (remote_status_ != nullptr) {
       auto elapsed = node_->now() - t_last_status_;
       if((elapsed.seconds() > timeout_) && (timeout_ != -1)) {
+        // TO DO: retry n times and then return FAILURE
         RCLCPP_INFO(node_->get_logger(), "remote timed out: looking for new one");
-        remote_identified_ = false;
-        getInput("remote_id", remote_id_);
-        mission_pub_ = node_->create_publisher<bf_msgs::msg::Mission>(
-              "/mission_poll", 100);
-        remote_sub_.reset();
+        reset();
       } else {
         int status = remote_status_->status;
         switch (status) {
@@ -187,19 +194,17 @@ DelegateActionNode::tick()
             break;
           case bf_msgs::msg::Mission::SUCCESS:
             RCLCPP_INFO(node_->get_logger(), "remote status: SUCCESS");
+            reset();
             return BT::NodeStatus::SUCCESS;
             break;
           case bf_msgs::msg::Mission::FAILURE:
             RCLCPP_INFO(node_->get_logger(), "remote status: FAILURE");
+            reset();
             return BT::NodeStatus::FAILURE;
             break;
           case bf_msgs::msg::Mission::IDLE:
             RCLCPP_INFO(node_->get_logger(), "remote status: IDLE");
-            remote_identified_ = false;
-            getInput("remote_id", remote_id_);
-            mission_pub_ = node_->create_publisher<bf_msgs::msg::Mission>(
-              "/mission_poll", 100);
-            remote_sub_.reset();
+            reset();
             break;
         }
       }
