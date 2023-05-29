@@ -184,7 +184,7 @@ RemoteDelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr
       poll_pub_->publish(poll_msg);
       RCLCPP_INFO(
         get_logger(),
-        ("[ " + id_ +" ] " + "action request published:" + mission_id_).c_str());
+        ("[ " + id_ +" ] " + "action request published: " + mission_id_).c_str());
     } else {
       RCLCPP_INFO(get_logger(), ("[ " + id_ +" ] " + "unable to execute action: " + mission_id_).c_str());
     }
