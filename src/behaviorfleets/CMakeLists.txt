@@ -45,11 +45,16 @@ add_executable(remote_tree src/examples/remote_tree_main.cpp)
 ament_target_dependencies(remote_tree ${dependencies})
 target_link_libraries(remote_tree remote_delegate_action_node)
 
+add_executable(remoteconfig_tree src/examples/remoteconf_tree_main.cpp)
+ament_target_dependencies(remoteconfig_tree ${dependencies})
+target_link_libraries(remoteconfig_tree remote_delegate_action_node yaml-cpp)
+
 
 install(TARGETS
   ${plugin_libs}
   source_tree
   remote_tree
+  remoteconfig_tree
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}
