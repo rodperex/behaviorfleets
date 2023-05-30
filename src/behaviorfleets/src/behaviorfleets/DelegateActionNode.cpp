@@ -40,6 +40,7 @@ DelegateActionNode::DelegateActionNode(
   remote_id_ = "";
   remote_tree_ = "not_set";
   timeout_ = -1.0;
+  MAX_TRIES_ = -1;
   config().blackboard->get("node", node_);
   config().blackboard->get("pkgpath", pkgpath);
 
@@ -86,10 +87,10 @@ DelegateActionNode::reset()
   RCLCPP_INFO(node_->get_logger(), "reset");
   remote_identified_ = false;
   getInput("remote_id", remote_id_);
+  std::cout << "remote_id_: " << remote_id_ << std::endl;
   mission_pub_ = node_->create_publisher<bf_msgs::msg::Mission>(
     "/mission_poll", 100);
   remote_sub_.reset();
-  n_tries_ = 0;
 }
 
 void
@@ -198,13 +199,16 @@ DelegateActionNode::tick()
           "timed out: looking for a new one").c_str());
         n_tries_++;
         reset();
-        if ((n_tries_ >= (MAX_TRIES_ - 1)) && (MAX_TRIES_ != -1)) {
+        RCLCPP_INFO(node_->get_logger(), std::string("tries: " + std::to_string(n_tries_) +
+          " / " + std::to_string(MAX_TRIES_)).c_str());
+        if ((n_tries_ >= MAX_TRIES_) && (MAX_TRIES_ != -1))
+        {
           RCLCPP_INFO(
             node_->get_logger(), (std::string("remote ") + "[ " + remote_id_ + " ] " +
             "timed out: max number of tries reached").c_str());
+          n_tries_ = 0;
           return BT::NodeStatus::FAILURE;
         }
-
       } else {
         int status = remote_status_->status;
         switch (status) {

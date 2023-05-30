@@ -72,8 +72,7 @@ private:
   bool read_tree_from_port_;
   rclcpp::Time t_last_status_;
   double timeout_;
-  int MAX_TRIES_ = -1;
-  int n_tries_ = 0;
+  int MAX_TRIES_, n_tries_ = 0;
 
   BT::NodeStatus tick() override;
 };
