@@ -51,7 +51,8 @@ public:
       BT::InputPort<std::string>("remote_id"),
       BT::InputPort<std::string>("exclude"),
       BT::InputPort<std::string>("plugins"),
-      BT::InputPort<double>("timeout")
+      BT::InputPort<double>("timeout"),
+      BT::InputPort<int>("max_tries")
     };
   }
 
@@ -60,7 +61,7 @@ private:
   rclcpp::Publisher<bf_msgs::msg::Mission>::SharedPtr mission_pub_;
   rclcpp::Subscription<bf_msgs::msg::Mission>::SharedPtr remote_sub_;
   rclcpp::Subscription<bf_msgs::msg::Mission>::SharedPtr poll_sub_;
-  void decode(std::string str, std::vector<std::string> *vector);
+  void decode(std::string str, std::vector<std::string> * vector);
   bool is_remote_excluded(std::string remote_id);
   void reset();
 
@@ -71,6 +72,8 @@ private:
   bool read_tree_from_port_;
   rclcpp::Time t_last_status_;
   double timeout_;
+  int MAX_TRIES_ = -1;
+  int n_tries_ = 0;
 
   BT::NodeStatus tick() override;
 };

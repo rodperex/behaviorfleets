@@ -47,6 +47,7 @@ DelegateActionNode::DelegateActionNode(
   getInput("mission_id", mission_id_);
   getInput("remote_id", remote_id_);
   getInput("timeout", timeout_);
+  getInput("max_tries", MAX_TRIES_);
 
   std::string plugins_str;
   getInput("plugins", plugins_str);
@@ -82,16 +83,17 @@ DelegateActionNode::DelegateActionNode(
 void
 DelegateActionNode::reset()
 {
-  RCLCPP_INFO(node_->get_logger(), "reset"); 
+  RCLCPP_INFO(node_->get_logger(), "reset");
   remote_identified_ = false;
   getInput("remote_id", remote_id_);
   mission_pub_ = node_->create_publisher<bf_msgs::msg::Mission>(
     "/mission_poll", 100);
   remote_sub_.reset();
+  n_tries_ = 0;
 }
 
 void
-DelegateActionNode::decode(std::string str, std::vector<std::string> *vector)
+DelegateActionNode::decode(std::string str, std::vector<std::string> * vector)
 {
   std::stringstream ss(str);
   std::string item;
@@ -114,7 +116,8 @@ DelegateActionNode::decode(std::string str, std::vector<std::string> *vector)
 void
 DelegateActionNode::remote_status_callback(bf_msgs::msg::Mission::UniquePtr msg)
 {
-  RCLCPP_INFO(node_->get_logger(), (std::string("remote status received: ") +
+  RCLCPP_INFO(
+    node_->get_logger(), (std::string("remote status received: ") +
     "[ " + msg->robot_id + " : " + msg->mission_id + " ]").c_str());
   remote_status_ = std::move(msg);
   t_last_status_ = node_->now();
@@ -126,20 +129,23 @@ DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
   if (msg->msg_type != bf_msgs::msg::Mission::REQUEST) {
     return;
   }
-  RCLCPP_INFO(node_->get_logger(), (std::string("poll request received: ") +
-    "[ " + msg->robot_id +  " : " + msg->mission_id + " ]").c_str());
+  RCLCPP_INFO(
+    node_->get_logger(), (std::string("poll request received: ") +
+    "[ " + msg->robot_id + " : " + msg->mission_id + " ]").c_str());
   // ignore answers from other robots
   if (!remote_identified_) {
     // check if the remote should be excluded
     if (is_remote_excluded(msg->robot_id)) {
-      RCLCPP_INFO(node_->get_logger(), (std::string("remote excluded: ") +
+      RCLCPP_INFO(
+        node_->get_logger(), (std::string("remote excluded: ") +
         "[ " + msg->robot_id + " ]").c_str());
       return;
     }
     poll_answ_ = std::move(msg);
     remote_id_ = poll_answ_->robot_id;
-    RCLCPP_INFO(node_->get_logger(), (std::string("remote identified: ")
-      + "[ " + remote_id_  + " : " + msg->mission_id + " ]").c_str());
+    RCLCPP_INFO(
+      node_->get_logger(), (std::string("remote identified: ") +
+      "[ " + remote_id_ + " : " + poll_answ_->mission_id + " ]").c_str());
 
     remote_sub_ = node_->create_subscription<bf_msgs::msg::Mission>(
       "/" + remote_id_ + "/mission_status", rclcpp::SensorDataQoS(),
@@ -166,9 +172,9 @@ bool
 DelegateActionNode::is_remote_excluded(std::string remote_id)
 {
   for (const std::string & str : excluded_) {
-        if (str == remote_id) {
-            return true;
-        }
+    if (str == remote_id) {
+      return true;
+    }
   }
   return false;
 }
@@ -186,35 +192,46 @@ DelegateActionNode::tick()
   } else {
     if (remote_status_ != nullptr) {
       auto elapsed = node_->now() - t_last_status_;
-      if((elapsed.seconds() > timeout_) && (timeout_ != -1)) {
-        // TO DO: retry n times and then return FAILURE
-        // RCLCPP_INFO(node_->get_logger(), "remote timed out: looking for new one");
-        RCLCPP_INFO(node_->get_logger(), (std::string("remote ") + "[ " + remote_id_ + " ] "
-          + "timed out: looking for a new one").c_str());
+      if ((elapsed.seconds() > timeout_) && (timeout_ != -1)) {
+        RCLCPP_INFO(
+          node_->get_logger(), (std::string("remote ") + "[ " + remote_id_ + " ] " +
+          "timed out: looking for a new one").c_str());
+        n_tries_++;
         reset();
+        if ((n_tries_ >= (MAX_TRIES_ - 1)) && (MAX_TRIES_ != -1)) {
+          RCLCPP_INFO(
+            node_->get_logger(), (std::string("remote ") + "[ " + remote_id_ + " ] " +
+            "timed out: max number of tries reached").c_str());
+          return BT::NodeStatus::FAILURE;
+        }
+
       } else {
         int status = remote_status_->status;
         switch (status) {
           case bf_msgs::msg::Mission::RUNNING:
-            RCLCPP_INFO(node_->get_logger(), (std::string("remote status ") + "[ " + remote_id_ + " ]: "
-              + "RUNNING").c_str());
+            RCLCPP_INFO(
+              node_->get_logger(), (std::string("remote status ") +
+              "[ " + remote_id_ + " ]: " + "RUNNING").c_str());
             return BT::NodeStatus::RUNNING;
             break;
           case bf_msgs::msg::Mission::SUCCESS:
-            RCLCPP_INFO(node_->get_logger(), (std::string("remote status ") + "[ " + remote_id_ + " ]: "
-              + "SUCCESS").c_str());
+            RCLCPP_INFO(
+              node_->get_logger(), (std::string("remote status ") +
+              "[ " + remote_id_ + " ]: " + "SUCCESS").c_str());
             reset();
             return BT::NodeStatus::SUCCESS;
             break;
           case bf_msgs::msg::Mission::FAILURE:
-            RCLCPP_INFO(node_->get_logger(), (std::string("remote status ") + "[ " + remote_id_ + " ]: "
-              + "FAILURE").c_str());
+            RCLCPP_INFO(
+              node_->get_logger(), (std::string("remote status ") +
+              "[ " + remote_id_ + " ]: " + "FAILURE").c_str());
             reset();
             return BT::NodeStatus::FAILURE;
             break;
           case bf_msgs::msg::Mission::IDLE:
-            RCLCPP_INFO(node_->get_logger(), (std::string("remote status ") + "[ " + remote_id_ + " ]: "
-              + "IDLE").c_str());
+            RCLCPP_INFO(
+              node_->get_logger(), (std::string("remote status ") +
+              "[ " + remote_id_ + " ]: " + "IDLE").c_str());
             reset();
             break;
         }

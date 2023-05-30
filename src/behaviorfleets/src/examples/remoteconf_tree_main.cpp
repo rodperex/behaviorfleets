@@ -25,42 +25,43 @@
 #include "behaviorfleets/RemoteDelegateActionNode.hpp"
 
 
-  int main(int argc, char * argv[])
-  {
-    rclcpp::init(argc, argv);
-    rclcpp::executors::SingleThreadedExecutor exec;
+int main(int argc, char * argv[])
+{
+  rclcpp::init(argc, argv);
+  rclcpp::executors::SingleThreadedExecutor exec;
 
-    std::string pkgpath = ament_index_cpp::get_package_share_directory("behaviorfleets");
+  std::string pkgpath = ament_index_cpp::get_package_share_directory("behaviorfleets");
 
-    std::list<std::shared_ptr<BF::RemoteDelegateActionNode>> nodes;
+  std::list<std::shared_ptr<BF::RemoteDelegateActionNode>> nodes;
 
-    try {
-      std::ifstream fin(pkgpath + "/params/test_config.yaml");
-      YAML::Node params = YAML::Load(fin);
-      int num_nodes = params["nodes"].as<int>();
-      std::vector<std::string> missions = params["missions"].as<std::vector<std::string>>();
+  try {
+    std::ifstream fin(pkgpath + "/params/test_config.yaml");
+    YAML::Node params = YAML::Load(fin);
+    int num_nodes = params["nodes"].as<int>();
+    std::vector<std::string> missions = params["missions"].as<std::vector<std::string>>();
 
-      int mission_index = 0;
-      for (int i = 0; i < num_nodes; ++i) {
-        std::string name = "dummy" + std::to_string(i + 1);
-        std::string type = missions[mission_index];
+    int mission_index = 0;
+    for (int i = 0; i < num_nodes; ++i) {
+      std::string name = "dummy" + std::to_string(i + 1);
+      std::string type = missions[mission_index];
 
-        auto node = std::make_shared<BF::RemoteDelegateActionNode>(name, type);
-        nodes.push_back(node);
-        exec.add_node(node);
+      auto node = std::make_shared<BF::RemoteDelegateActionNode>(name, type);
+      nodes.push_back(node);
+      exec.add_node(node);
 
-        std::cout << "\n\n******** Created node " << name << " with mission " << type << "\n\n" << std::endl;
+      std::cout << "\n\n******** Created node " << name << " with mission " << type << "\n\n" <<
+        std::endl;
 
-        mission_index = (mission_index + 1) % missions.size();
-      }
-
-    } catch (YAML::Exception & e) {
-      std::cerr << "Error loading YAML file: " << e.what() << std::endl;
-      return 1;
+      mission_index = (mission_index + 1) % missions.size();
     }
 
-    exec.spin();
-
-    rclcpp::shutdown();
-    return 0;
+  } catch (YAML::Exception & e) {
+    std::cerr << "Error loading YAML file: " << e.what() << std::endl;
+    return 1;
   }
+
+  exec.spin();
+
+  rclcpp::shutdown();
+  return 0;
+}

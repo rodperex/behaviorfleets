@@ -15,12 +15,8 @@
 import os
 
 from ament_index_python.packages import get_package_share_directory
-
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
-from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
-import yaml
 
 
 def generate_launch_description():
@@ -28,30 +24,22 @@ def generate_launch_description():
     sp_dir = get_package_share_directory('behaviorfleets')
 
     params = os.path.join(
-        get_package_share_directory('behaviorfleets'),
+        sp_dir,
         'params',
         'remote_config.yaml'
     )
-  
+
     remote_cmd = Node(
         package='behaviorfleets',
         executable='remoteconfig_tree',
         name='remote_tree',
         output='screen',
-        parameters=[params])  
-
-    source_cmd = Node(
-        package='behaviorfleets',
-        executable='source_tree',
-        name='source_tree',
-        output='screen',
-        parameters=[])
-
+        parameters=[params]
+    )
 
     # Create the launch description and populate
     ld = LaunchDescription()
 
     ld.add_action(remote_cmd)
-    # ld.add_action(source_cmd)
-    
+
     return ld

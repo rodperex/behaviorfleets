@@ -1,4 +1,4 @@
-nodes: 10
+nodes: 1
 missions:
   - generic
   - non-generic

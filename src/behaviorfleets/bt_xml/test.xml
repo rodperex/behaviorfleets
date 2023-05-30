@@ -4,11 +4,12 @@
     <BehaviorTree ID="BehaviorTree">
         <Action ID="DelegateActionNode"
         remote_id=""
-        exclude ="dummy1"   
+        exclude =""   
         mission_id="generic"
         plugins=""
         remote_tree="remote_dummy.xml"
-        timeout="1"/>
+        timeout="1"
+        max_tries=""/>
     </BehaviorTree>
     <!-- ////////// -->
     <TreeNodesModel>
@@ -19,6 +20,7 @@
             <input_port name="remote_id">Robot to delegate BT</input_port>
             <input_port name="exclude">Robot identifiers to exclude from execution</input_port>
             <input_port name="timeout">Delegation timeout</input_port>
+            <input_port name="max_tries">Number of timeout tries before FAILURE</input_port>
         </Action>
     </TreeNodesModel>
     <!-- ////////// -->

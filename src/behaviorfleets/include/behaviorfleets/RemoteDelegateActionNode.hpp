@@ -39,8 +39,8 @@ private:
   void control_cycle();
   void init();
 
-  const int MAX_REQUEST_TRIES_ = 9;
-  const double WAITING_TIME_  = 10.0;
+  const int MAX_REQUEST_TRIES_ = 10;
+  const double WAITING_TIME_ = 10.0;
   int n_tries_ = 0;
   rclcpp::Time t_last_request_;
   bf_msgs::msg::Mission::UniquePtr mission_;
