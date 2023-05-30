@@ -28,9 +28,11 @@
   int main(int argc, char * argv[])
   {
     rclcpp::init(argc, argv);
-    rclcpp::executors::MultiThreadedExecutor exec;
+    rclcpp::executors::SingleThreadedExecutor exec;
 
     std::string pkgpath = ament_index_cpp::get_package_share_directory("behaviorfleets");
+
+    std::list<std::shared_ptr<BF::RemoteDelegateActionNode>> nodes;
 
     try {
       std::ifstream fin(pkgpath + "/params/test_config.yaml");
@@ -44,7 +46,10 @@
         std::string type = missions[mission_index];
 
         auto node = std::make_shared<BF::RemoteDelegateActionNode>(name, type);
+        nodes.push_back(node);
         exec.add_node(node);
+
+        std::cout << "\n\n******** Created node " << name << " with mission " << type << "\n\n" << std::endl;
 
         mission_index = (mission_index + 1) % missions.size();
       }
@@ -53,7 +58,6 @@
       std::cerr << "Error loading YAML file: " << e.what() << std::endl;
       return 1;
     }
-
 
     exec.spin();
 

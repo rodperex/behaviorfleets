@@ -84,23 +84,30 @@ RemoteDelegateActionNode::control_cycle()
 
   status_msg.msg_type = bf_msgs::msg::Mission::STATUS;
   status_msg.robot_id = id_;
+  status_msg.mission_id = mission_id_;
   status_msg.status = bf_msgs::msg::Mission::RUNNING;
+
+  // in case the node has drained its requests trials, wait WAITING_TIME_ seconds
+  auto elapsed = rclcpp::Clock().now() - t_last_request_;
+  if (elapsed.seconds() > WAITING_TIME_) {
+    n_tries_ = 0;
+  }
 
   if (working_) {
     BT::NodeStatus status = tree_.rootNode()->executeTick();
     switch (status) {
       case BT::NodeStatus::RUNNING:
         status_msg.status = bf_msgs::msg::Mission::RUNNING;
-        RCLCPP_INFO(get_logger(), ("[ " + id_ +" ] " + "RUNNING").c_str());
+        RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "RUNNING").c_str());
         break;
       case BT::NodeStatus::SUCCESS:
         status_msg.status = bf_msgs::msg::Mission::SUCCESS;
-        RCLCPP_INFO(get_logger(), ("[ " + id_ +" ] " + "SUCCESS").c_str());
+        RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "SUCCESS").c_str());
         working_ = false;
         break;
       case BT::NodeStatus::FAILURE:
         status_msg.status = bf_msgs::msg::Mission::FAILURE;
-        RCLCPP_INFO(get_logger(), ("[ " + id_ +" ] " + "FAILURE").c_str());
+        RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "FAILURE").c_str());
         working_ = false;
         break;
     }
@@ -175,18 +182,20 @@ RemoteDelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr
       RCLCPP_INFO(get_logger(), ("[ " + id_ +" ] " + "action request ignored: not for me").c_str());
       return;
     }
-    if ((mission_->mission_id).compare(mission_id_) == 0) {
+    if (((mission_->mission_id).compare(mission_id_) == 0) && (n_tries_ < MAX_REQUEST_TRIES_)) {
       bf_msgs::msg::Mission poll_msg;
       poll_msg.msg_type = bf_msgs::msg::Mission::REQUEST;
       poll_msg.robot_id = id_;
       poll_msg.mission_id = mission_id_;
       poll_msg.status = bf_msgs::msg::Mission::IDLE;
       poll_pub_->publish(poll_msg);
+      n_tries_++;
+      t_last_request_ = rclcpp::Clock().now();
       RCLCPP_INFO(
         get_logger(),
-        ("[ " + id_ +" ] " + "action request published: " + mission_id_).c_str());
+        ("[ " + id_ +" ] " + "action request " + std::to_string(n_tries_ + 1) + " published: " + mission_id_).c_str());
     } else {
-      RCLCPP_INFO(get_logger(), ("[ " + id_ +" ] " + "unable to execute action: " + mission_id_).c_str());
+      RCLCPP_INFO(get_logger(), ("[ " + id_ +" ] " + "unable to execute action").c_str());
     }
   } else {
     RCLCPP_INFO(get_logger(), ("[ " + id_ +" ] " + "action request ignored: busy").c_str());

@@ -114,7 +114,8 @@ DelegateActionNode::decode(std::string str, std::vector<std::string> *vector)
 void
 DelegateActionNode::remote_status_callback(bf_msgs::msg::Mission::UniquePtr msg)
 {
-  RCLCPP_INFO(node_->get_logger(), (std::string("remote status received: ") + "[ " + msg->robot_id + " ]").c_str());
+  RCLCPP_INFO(node_->get_logger(), (std::string("remote status received: ") +
+    "[ " + msg->robot_id + " : " + msg->mission_id + " ]").c_str());
   remote_status_ = std::move(msg);
   t_last_status_ = node_->now();
 }
@@ -125,17 +126,20 @@ DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
   if (msg->msg_type != bf_msgs::msg::Mission::REQUEST) {
     return;
   }
-  RCLCPP_INFO(node_->get_logger(), (std::string("poll request received: ") + "[ " + msg->robot_id + " ]").c_str());
+  RCLCPP_INFO(node_->get_logger(), (std::string("poll request received: ") +
+    "[ " + msg->robot_id +  " : " + msg->mission_id + " ]").c_str());
   // ignore answers from other robots
   if (!remote_identified_) {
     // check if the remote should be excluded
     if (is_remote_excluded(msg->robot_id)) {
-      RCLCPP_INFO(node_->get_logger(), (std::string("remote excluded: ") + "[ " + msg->robot_id + " ]").c_str());
+      RCLCPP_INFO(node_->get_logger(), (std::string("remote excluded: ") +
+        "[ " + msg->robot_id + " ]").c_str());
       return;
     }
     poll_answ_ = std::move(msg);
     remote_id_ = poll_answ_->robot_id;
-    RCLCPP_INFO(node_->get_logger(), (std::string("remote identified: ") + "[ " + remote_id_ + " ]").c_str());
+    RCLCPP_INFO(node_->get_logger(), (std::string("remote identified: ")
+      + "[ " + remote_id_  + " : " + msg->mission_id + " ]").c_str());
 
     remote_sub_ = node_->create_subscription<bf_msgs::msg::Mission>(
       "/" + remote_id_ + "/mission_status", rclcpp::SensorDataQoS(),

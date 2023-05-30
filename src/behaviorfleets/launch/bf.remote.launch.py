@@ -35,7 +35,7 @@ def generate_launch_description():
   
     remote_cmd = Node(
         package='behaviorfleets',
-        executable='remote_tree',
+        executable='remoteconfig_tree',
         name='remote_tree',
         output='screen',
         parameters=[params])  
