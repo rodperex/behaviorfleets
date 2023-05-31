@@ -169,7 +169,12 @@ RemoteDelegateActionNode::create_tree()
 void
 RemoteDelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
 {
-  if (msg->msg_type != bf_msgs::msg::Mission::COMMAND) {
+  if (msg->msg_type != bf_msgs::msg::Mission::COMMAND) {ç
+    // check if a REJECT message was received; if so, refrain from sending requests for a while
+    // PROBLEM: the node will not respond to a new mission request until the timer expires
+    // if (msg->msg_type != bf_msgs::msg::Mission::REJECT) {
+    //   return;
+    // }
     return;
   }
   // ignore missions if already working
@@ -180,12 +185,6 @@ RemoteDelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr
     RCLCPP_INFO(
       get_logger(),
       ("[ " + id_ + " ] " + "robot_id to execute the bt: " + mission_->robot_id).c_str());
-
-    // check if a REJECT message was received; if so, refrain from sending requests for a while
-    // PROBLEM: the node will not respond to a new mission request until the timer expires
-    // if (msg->msg_type != bf_msgs::msg::Mission::REJECT) {
-    //   return;
-    // }
 
     if (((mission_->robot_id).length() > 0) && ((mission_->robot_id).compare(id_) != 0)) {
       RCLCPP_INFO(
