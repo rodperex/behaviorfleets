@@ -140,11 +140,14 @@ DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
       RCLCPP_INFO(
         node_->get_logger(), (std::string("remote excluded: ") +
         "[ " + msg->robot_id + " ]").c_str());
-        // TO DO: publish a negative answer
-        // bf_msgs::msg::Mission mission_msg;
-        // mission_msg.msg_type = bf_msgs::msg::Mission::REJECT;
-        // mission_msg.robot_id = msg->robot_id;
-        // mission_msg.mission_id = msg->mission_id;
+        // publish a negative answer
+        bf_msgs::msg::Mission reject_msg;
+        reject_msg.msg_type = bf_msgs::msg::Mission::REJECT;
+        reject_msg.robot_id = msg->robot_id;
+        reject_msg.mission_id = msg->mission_id;
+        reject_msg.mission_id = mission_id_;
+        mission_pub_->publish(reject_msg);
+        return;
     }
     poll_answ_ = std::move(msg);
     remote_id_ = poll_answ_->robot_id;
