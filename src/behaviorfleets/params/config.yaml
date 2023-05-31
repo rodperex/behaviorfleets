@@ -1,5 +1,5 @@
 source_tree: /bt_xml/test.xml
-nodes: 50
+nodes: 5
 missions:
   - generic
   - generic

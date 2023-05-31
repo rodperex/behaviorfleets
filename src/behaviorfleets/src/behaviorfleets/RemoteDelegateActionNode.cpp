@@ -14,6 +14,7 @@
 
 #include <string>
 #include <iostream>
+#include <random>
 
 #include "behaviortree_cpp/behavior_tree.h"
 #include "bf_msgs/msg/mission_status.hpp"
@@ -88,10 +89,12 @@ RemoteDelegateActionNode::control_cycle()
   status_msg.mission_id = mission_id_;
   status_msg.status = bf_msgs::msg::Mission::RUNNING;
 
-  // in case the node has drained its requests trials, wait WAITING_TIME_ seconds
+  // in case the node has drained its requests trials, wait waiting_time_ seconds (randomized)
   auto elapsed = rclcpp::Clock().now() - t_last_request_;
-  if (elapsed.seconds() > WAITING_TIME_) {
+  if ((elapsed.seconds() > waiting_time_) && (waiting_time_ > 0.0)) {
     n_tries_ = 0;
+    waiting_time_ = 0.0;
+    std::cout << "waiting time elapsed" << std::endl;
   }
 
   if (working_) {
@@ -169,7 +172,7 @@ RemoteDelegateActionNode::create_tree()
 void
 RemoteDelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
 {
-  if (msg->msg_type != bf_msgs::msg::Mission::COMMAND) {ç
+  if (msg->msg_type != bf_msgs::msg::Mission::COMMAND) {
     // check if a REJECT message was received; if so, refrain from sending requests for a while
     // PROBLEM: the node will not respond to a new mission request until the timer expires
     // if (msg->msg_type != bf_msgs::msg::Mission::REJECT) {
@@ -207,7 +210,16 @@ RemoteDelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr
         get_logger(),
         ("[ " + id_ + " ] " + "action request " + std::to_string(n_tries_ + 1) +
         " published: " + mission_id_).c_str());
-    } else {
+    } else { // either the mission is not for the node or the node is silent for a while
+      if ((n_tries_ >= (MAX_REQUEST_TRIES_ - 1)) && (waiting_time_ == 0)) {
+        // wait a random time (maximum MAX_WAITING_TIME_) before trying again
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_real_distribution<> dis(0.5, MAX_WAITING_TIME_);
+        waiting_time_ = dis(gen);
+        RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "waiting " + std::to_string(waiting_time_) +
+          " seconds before trying again").c_str());
+      }
       RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "unable to execute action").c_str());
     }
   } else {

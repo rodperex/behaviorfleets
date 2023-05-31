@@ -34,7 +34,8 @@ def generate_launch_description():
         executable='remoteconfig',
         name='remote',
         output='screen',
-        parameters=[params]
+        parameters=[params],
+        arguments=['test1.yaml']
     )
 
     # Create the launch description and populate

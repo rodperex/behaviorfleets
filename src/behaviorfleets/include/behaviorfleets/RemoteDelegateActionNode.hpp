@@ -40,7 +40,8 @@ private:
   void init();
 
   const int MAX_REQUEST_TRIES_ = 10;
-  const double WAITING_TIME_ = 10.0;
+  const double MAX_WAITING_TIME_ = 10.0;
+  double waiting_time_ = 0.0;
   int n_tries_ = 0;
   rclcpp::Time t_last_request_;
   bf_msgs::msg::Mission::UniquePtr mission_;

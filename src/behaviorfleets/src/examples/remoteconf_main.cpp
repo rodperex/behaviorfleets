@@ -27,6 +27,12 @@
 
 int main(int argc, char * argv[])
 {
+  std::string params_file = "config.yaml";
+
+  if (argc > 1) {
+    params_file = std::string(argv[1]);
+  }
+  
   rclcpp::init(argc, argv);
   rclcpp::executors::SingleThreadedExecutor exec;
 
@@ -35,7 +41,8 @@ int main(int argc, char * argv[])
   std::list<std::shared_ptr<BF::RemoteDelegateActionNode>> nodes;
 
   try {
-    std::ifstream fin(pkgpath + "/params/config.yaml");
+    std::cout << "Configuration file: " << params_file << std::endl;
+    std::ifstream fin(pkgpath + "/params/" + params_file);
     YAML::Node params = YAML::Load(fin);
     int num_nodes = params["nodes"].as<int>();
     std::vector<std::string> missions = params["missions"].as<std::vector<std::string>>();
