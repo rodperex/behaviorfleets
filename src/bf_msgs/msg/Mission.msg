@@ -3,6 +3,7 @@ uint8 COMMAND = 100
 uint8 REQUEST = 101
 uint8 STATUS = 102
 uint8 HALT = 103
+uint8 REJECT = 104
 
 # status codes
 uint8 FAILURE = 0
