@@ -1,4 +1,4 @@
-remote_tree:
+remote:
   ros__parameters:
     plugins: 
       - none

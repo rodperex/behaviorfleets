@@ -29,6 +29,13 @@
 
 int main(int argc, char * argv[])
 {
+  
+  std::string params_file = "config.yaml";
+
+  if (argc > 1) {
+    params_file = std::string(argv[1]);
+  }
+  
   rclcpp::init(argc, argv);
 
   auto node = rclcpp::Node::make_shared("source_tree");
@@ -44,11 +51,12 @@ int main(int argc, char * argv[])
 
   try {
     // Load the XML path from the YAML file
-    std::ifstream fin(pkgpath + "/params/config.yaml");
+    std::cout << "Configuration file: " << params_file << std::endl;
+    std::ifstream fin(pkgpath + "/params/" + params_file);
     YAML::Node params = YAML::Load(fin);
 
-    xml_file = pkgpath + params["tree"].as<std::string>();
-    xml_file_remote_1 = pkgpath + params["remote_tree_1"].as<std::string>();
+    xml_file = pkgpath + params["source_tree"].as<std::string>();
+    // xml_file_remote_1 = pkgpath + params["remote_tree_1"].as<std::string>();
     // remote_id_1 = params["remote_id_1"].as<std::string>();
 
     // std::ifstream file(xml_file_remote_1);
@@ -58,6 +66,9 @@ int main(int argc, char * argv[])
     // remote_tree_1 = contents_stream.str();
   } catch (YAML::Exception & e) {
     std::cerr << "Error loading YAML file: " << e.what() << std::endl;
+    return 1;
+  } catch (std::exception & e) {
+    std::cerr << "Error: " << e.what() << std::endl;
     return 1;
   }
 

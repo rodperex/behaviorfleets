@@ -35,7 +35,7 @@ int main(int argc, char * argv[])
   std::list<std::shared_ptr<BF::RemoteDelegateActionNode>> nodes;
 
   try {
-    std::ifstream fin(pkgpath + "/params/test_config.yaml");
+    std::ifstream fin(pkgpath + "/params/config.yaml");
     YAML::Node params = YAML::Load(fin);
     int num_nodes = params["nodes"].as<int>();
     std::vector<std::string> missions = params["missions"].as<std::vector<std::string>>();

@@ -37,24 +37,24 @@ foreach(bt_plugin ${plugin_libs})
   target_compile_definitions(${bt_plugin} PRIVATE BT_PLUGIN_EXPORT)
 endforeach()
 
-add_executable(source_tree src/examples/source_tree_main.cpp)
-ament_target_dependencies(source_tree ${dependencies})
-target_link_libraries(source_tree yaml-cpp)
+add_executable(source src/examples/source_main.cpp)
+ament_target_dependencies(source ${dependencies})
+target_link_libraries(source yaml-cpp)
 
-add_executable(remote_tree src/examples/remote_tree_main.cpp)
-ament_target_dependencies(remote_tree ${dependencies})
-target_link_libraries(remote_tree remote_delegate_action_node)
+add_executable(remote src/examples/remote_main.cpp)
+ament_target_dependencies(remote ${dependencies})
+target_link_libraries(remote remote_delegate_action_node)
 
-add_executable(remoteconfig_tree src/examples/remoteconf_tree_main.cpp)
-ament_target_dependencies(remoteconfig_tree ${dependencies})
-target_link_libraries(remoteconfig_tree remote_delegate_action_node yaml-cpp)
+add_executable(remoteconfig src/examples/remoteconf_main.cpp)
+ament_target_dependencies(remoteconfig ${dependencies})
+target_link_libraries(remoteconfig remote_delegate_action_node yaml-cpp)
 
 
 install(TARGETS
   ${plugin_libs}
-  source_tree
-  remote_tree
-  remoteconfig_tree
+  source
+  remote
+  remoteconfig
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}
