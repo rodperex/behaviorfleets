@@ -140,14 +140,14 @@ DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
       RCLCPP_INFO(
         node_->get_logger(), (std::string("remote excluded: ") +
         "[ " + msg->robot_id + " ]").c_str());
-        // publish a negative answer
-        bf_msgs::msg::Mission reject_msg;
-        reject_msg.msg_type = bf_msgs::msg::Mission::REJECT;
-        reject_msg.robot_id = msg->robot_id;
-        reject_msg.mission_id = msg->mission_id;
-        reject_msg.mission_id = mission_id_;
-        mission_pub_->publish(reject_msg);
-        return;
+      // publish a negative answer
+      bf_msgs::msg::Mission reject_msg;
+      reject_msg.msg_type = bf_msgs::msg::Mission::REJECT;
+      reject_msg.robot_id = msg->robot_id;
+      reject_msg.mission_id = msg->mission_id;
+      reject_msg.mission_id = mission_id_;
+      mission_pub_->publish(reject_msg);
+      return;
     }
     poll_answ_ = std::move(msg);
     remote_id_ = poll_answ_->robot_id;
@@ -206,10 +206,11 @@ DelegateActionNode::tick()
           "timed out: looking for a new one").c_str());
         n_tries_++;
         reset();
-        RCLCPP_INFO(node_->get_logger(), std::string("tries: " + std::to_string(n_tries_) +
-          " / " + std::to_string(MAX_TRIES_)).c_str());
-        if ((n_tries_ >= MAX_TRIES_) && (MAX_TRIES_ != -1))
-        {
+        RCLCPP_INFO(
+          node_->get_logger(), std::string(
+            "tries: " + std::to_string(n_tries_) +
+            " / " + std::to_string(MAX_TRIES_)).c_str());
+        if ((n_tries_ >= MAX_TRIES_) && (MAX_TRIES_ != -1)) {
           RCLCPP_INFO(
             node_->get_logger(), (std::string("remote ") + "[ " + remote_id_ + " ] " +
             "timed out: max number of tries reached").c_str());

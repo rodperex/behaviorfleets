@@ -37,15 +37,15 @@ foreach(bt_plugin ${plugin_libs})
   target_compile_definitions(${bt_plugin} PRIVATE BT_PLUGIN_EXPORT)
 endforeach()
 
-add_executable(source src/examples/source_main.cpp)
+add_executable(source src/exec/source_main.cpp)
 ament_target_dependencies(source ${dependencies})
 target_link_libraries(source yaml-cpp)
 
-add_executable(remote src/examples/remote_main.cpp)
+add_executable(remote src/exec/remote_main.cpp)
 ament_target_dependencies(remote ${dependencies})
 target_link_libraries(remote remote_delegate_action_node)
 
-add_executable(remoteconfig src/examples/remoteconf_main.cpp)
+add_executable(remoteconfig src/exec/remoteconf_main.cpp)
 ament_target_dependencies(remoteconfig ${dependencies})
 target_link_libraries(remoteconfig remote_delegate_action_node yaml-cpp)
 

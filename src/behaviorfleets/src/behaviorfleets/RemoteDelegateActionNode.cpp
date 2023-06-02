@@ -217,7 +217,8 @@ RemoteDelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr
         std::mt19937 gen(rd());
         std::uniform_real_distribution<> dis(0.5, MAX_WAITING_TIME_);
         waiting_time_ = dis(gen);
-        RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "waiting " + std::to_string(waiting_time_) +
+        RCLCPP_INFO(
+          get_logger(), ("[ " + id_ + " ] " + "waiting " + std::to_string(waiting_time_) +
           " seconds before trying again").c_str());
       }
       RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "unable to execute action").c_str());
