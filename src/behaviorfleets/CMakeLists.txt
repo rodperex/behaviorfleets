@@ -41,6 +41,10 @@ add_executable(source src/exec/source_main.cpp)
 ament_target_dependencies(source ${dependencies})
 target_link_libraries(source yaml-cpp)
 
+add_executable(bbshare src/exec/bbtest_main.cpp)
+ament_target_dependencies(bbshare ${dependencies})
+target_link_libraries(bbshare yaml-cpp)
+
 add_executable(remote src/exec/remote_main.cpp)
 ament_target_dependencies(remote ${dependencies})
 target_link_libraries(remote remote_delegate_action_node)
@@ -55,6 +59,7 @@ install(TARGETS
   source
   remote
   remoteconfig
+  bbshare
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}
