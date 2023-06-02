@@ -186,7 +186,7 @@ std::vector<std::string> check_blackboard(BT::Blackboard::Ptr bb, BT::Blackboard
   keys.reserve(string_views.size());
 
   for (const auto& string_view : string_views) {
-    keys.emplace_back(string_view.data(), string_view.size());
+    keys.push_back(string_view.data());
   }
 
   std::cout << keys.size() << std::endl;
@@ -235,6 +235,6 @@ std::vector<std::string> check_blackboard(BT::Blackboard::Ptr bb, BT::Blackboard
     } catch (const boost::bad_any_cast& e) {
       std::cerr << "\t- ERROR - Failed to cast " << key << " to its original type: " << e.what() << std::endl;
     }
-    return entries_to_propagate;
   }
+  return entries_to_propagate;
 }
