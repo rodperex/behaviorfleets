@@ -12,20 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <string>
-#include <iostream>
-#include <random>
-
-#include "behaviortree_cpp/behavior_tree.h"
-#include "bf_msgs/msg/mission_status.hpp"
-#include "behaviortree_cpp/bt_factory.h"
-#include "ament_index_cpp/get_package_share_directory.hpp"
-
-#include "behaviortree_cpp/utils/shared_library.h"
-#include "rclcpp/rclcpp.hpp"
-
 #include "behaviorfleets/RemoteDelegateActionNode.hpp"
-
 
 namespace BF
 {

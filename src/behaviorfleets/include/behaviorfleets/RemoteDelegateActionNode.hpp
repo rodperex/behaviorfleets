@@ -16,11 +16,18 @@
 #define BEHAVIORFLEETS__REMOTEDELEGATEACTIONNODE_HPP_
 
 #include <string>
+#include <iostream>
+#include <random>
 
 #include "rclcpp/rclcpp.hpp"
-#include "bf_msgs/msg/mission.hpp"
-#include "behaviortree_cpp/bt_factory.h"
 
+#include "behaviortree_cpp/bt_factory.h"
+#include "behaviortree_cpp/behavior_tree.h"
+#include "ament_index_cpp/get_package_share_directory.hpp"
+#include "behaviortree_cpp/utils/shared_library.h"
+
+#include "bf_msgs/msg/mission.hpp"
+#include "bf_msgs/msg/mission_status.hpp"
 
 namespace BF
 {

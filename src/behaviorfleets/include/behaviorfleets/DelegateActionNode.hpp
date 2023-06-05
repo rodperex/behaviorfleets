@@ -17,10 +17,16 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
+#include <fstream>
+#include <sstream>
 
 #include "behaviortree_cpp/behavior_tree.h"
 #include "behaviortree_cpp/bt_factory.h"
 #include "behaviortree_cpp/decorator_node.h"
+#include "behaviortree_cpp/utils/shared_library.h"
+#include "ament_index_cpp/get_package_share_directory.hpp"
+
 
 #include "bf_msgs/msg/mission.hpp"
 

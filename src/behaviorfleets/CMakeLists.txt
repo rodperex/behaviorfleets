@@ -24,8 +24,10 @@ set(dependencies
 include_directories(include)
 
 
+# add_library(blackboard_manager SHARED src/behaviorfleets/BlackboardManager.cpp)
 add_library(delegate_action_node SHARED src/behaviorfleets/DelegateActionNode.cpp)
 add_library(remote_delegate_action_node SHARED src/behaviorfleets/RemoteDelegateActionNode.cpp)
+
 
 list(APPEND plugin_libs
   delegate_action_node
