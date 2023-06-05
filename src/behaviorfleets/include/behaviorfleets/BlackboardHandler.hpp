@@ -33,8 +33,8 @@ public:
   
 private:
   void blackboard_callback(bf_msgs::msg::Mission::Blackboard msg);
-  void control_cycle(); // checks if the local blackboard has been updated
-  void update_bb(); // updates the global blackboard
+  void control_cycle();
+  void propagate_bb_update();
 
   BT::Blackboard::Ptr blackboard_;
   BT::Blackboard bb_cache_;

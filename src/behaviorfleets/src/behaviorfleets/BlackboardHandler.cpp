@@ -39,7 +39,7 @@ BlackboardHandler::BlackboardHandler(
 
 void control_cycle()
 {
-
+  // checks if the local blackboard has been updated
 }
 
 
