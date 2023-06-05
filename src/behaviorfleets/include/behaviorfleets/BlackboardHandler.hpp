@@ -12,11 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef BEHAVIORFLEETS__BLACKBOARDMANAGER_HPP_
-#define BEHAVIORFLEETS__BLACKBOARDMANAGER_HPP_
+#ifndef BEHAVIORFLEETS__BLACKBOARDHANDLER_HPP_
+#define BEHAVIORFLEETS__BLACKBOARDHANDLER_HPP_
 
 #include <string>
-#include <queue>
 
 #include "behaviortree_cpp/blackboard.h"
 
@@ -27,22 +26,19 @@
 namespace BF
 {
 
-class BlackboardManager : public rclcpp::Node
+class BlackboardHandler : public rclcpp::Node
 {
 public:
-  BlackboardManager();
+  BlackboardHandler(const std::string robot_id, BT::Blackboard::Ptr blackboard); // bb_cache_ = BT::Blackboard(blackboard);
   
 private:
   void blackboard_callback(bf_msgs::msg::Mission::Blackboard msg);
-  void control_cycle();
-  void grant_bb();
+  void control_cycle(); // checks if the local blackboard has been updated
+  void update_bb(); // updates the global blackboard
 
   BT::Blackboard::Ptr blackboard_;
   BT::Blackboard bb_cache_;
-  // bf_msgs::msg::Blackboard bb_msg_;
-  bool lock_;
   std::string robot_id_;
-  std::queue<std::string> q_;
 
   rclcpp::Publisher<bf_msgs::msg::Blackboard>::SharedPtr bb_pub_;
   rclcpp::Subscription<bf_msgs::msg::Blackboard>::SharedPtr bb_sub_;
@@ -50,4 +46,4 @@ private:
 
 }   // namespace BF
 
-#endif  // BEHAVIORFLEETS__BLACKBOARDMANAGER_HPP_
+#endif  // BEHAVIORFLEETS__BLACKBOARDHANDLER_HPP_

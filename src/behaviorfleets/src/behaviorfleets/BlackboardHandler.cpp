@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "behaviorfleets/BlackboardManager.hpp"
+#include "behaviorfleets/BlackboardHandler.hpp"
 
 #include "behaviortree_cpp/blackboard.h"
 #include "bf_msgs/msg/blackboard.hpp"
@@ -20,13 +20,15 @@
 namespace BF
 {
 
-BlackboardManager::BlackboardManager()
-  : Node("blackboard_manager")
+BlackboardHandler::BlackboardHandler(
+  const std::string robot_id,
+  BT::Blackboard::Ptr blackboard)
+  : Node("blackboard_handler"),
+  robot_id_(robot_id),
+  blackboard_(blackboard)
 {
   bb_cache_ = BT::Blackboard(*blackboard_);
-  lock_ = false;
-  robot_id_ = "";
-    
+  
   bb_pub_ = create_publisher<bf_msgs::msg::Blackboard>(
     "/shared_bb", 100);
   
@@ -37,36 +39,13 @@ BlackboardManager::BlackboardManager()
 
 void control_cycle()
 {
-  if (!lock_ && !q_.empty()) {
-    robot_id_  = q_.pop();
-    grant_bb();
-  }
+
 }
 
-void grant_bb() {
-  bf_msgs::msg::Blackboard answ;
-  answ.type = bf_msgs::Blackboard::GRANT;
-  answ.robot_id = robot_id_;
-  bb_pub_->publish(answ);
-  lock_ = true;
-}
 
 void BlackboardManager::blackboard_callback(bf_msgs::msg::Blackboard msg)
 {
-  // bb_msg_ = std::move(msg);
-  bf_msgs::msg::Blackboard answ;
 
-  if (lock_) {
-    if ((robot_id_ != msg->robot_id) && (msg->type == bf_msgs::Blackboard::REQUEST)) {
-      q_.push(msg->robot_id);
-    } else if (msg->type == bf_msgs::Blackboard::UPDATE) {
-        // update the blackboard
-    }
-  } else if (msg->type == bf_msgs::Blackboard::REQUEST) {
-      robot_id_ = msg->robot_id;
-      grant_bb()
-  }
-  
 }
 
 }  // namespace BF

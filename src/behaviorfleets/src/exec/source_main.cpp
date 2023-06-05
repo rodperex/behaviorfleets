@@ -27,9 +27,6 @@
 
 #include "yaml-cpp/yaml.h"
 
-bool is_pointer(const std::string & type_name);
-std::vector<std::string> check_blackboard(BT::Blackboard::Ptr bb, BT::Blackboard::Ptr bb_cache);
-
 int main(int argc, char * argv[])
 {
   std::string params_file = "config.yaml";
@@ -71,20 +68,6 @@ int main(int argc, char * argv[])
   blackboard->set("node", node);
   blackboard->set("pkgpath", pkgpath + "/bt_xml/");
 
-  blackboard->set("double", 33.22);
-  float * b = new float(20);
-  blackboard->set("b", b);
-  char * c = new char('c');
-  blackboard->set("c", c);
-  blackboard->set("entero", 3);
-
-  auto bb_cache = BT::Blackboard::create();
-  bb_cache->set("pkgpath", blackboard->get<std::string>("pkgpath"));
-  bb_cache->set("double", 33.22);
-  bb_cache->set("b", b);
-  bb_cache->set("c", c);
-  bb_cache->set("entero", 3);
-
   BT::Tree tree = factory.createTreeFromFile(xml_file, blackboard);
 
   std::cout << "\t- Tree created from file" << std::endl;
@@ -103,4 +86,3 @@ int main(int argc, char * argv[])
   rclcpp::shutdown();
   return 0;
 }
-

@@ -28,7 +28,7 @@ RemoteDelegateActionNode::RemoteDelegateActionNode()
 RemoteDelegateActionNode::RemoteDelegateActionNode(
   const std::string robot_id,
   const std::string mission_id)
-: Node(robot_id + "_remote_delegate_action_node"),
+  : Node(robot_id + "_remote_delegate_action_node"),
   id_(robot_id),
   mission_id_(mission_id)
 {
