@@ -3,8 +3,8 @@
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
         <Action ID="DelegateActionNode"
-        remote_id="dummy17"
-        exclude ="dummy1"   
+        remote_id="dummy1"
+        exclude ="dummy17"   
         mission_id="generic"
         plugins=""
         remote_tree="remote_dummy.xml"

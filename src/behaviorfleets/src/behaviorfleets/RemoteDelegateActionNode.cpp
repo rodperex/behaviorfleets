@@ -89,6 +89,7 @@ RemoteDelegateActionNode::control_cycle()
 
     // spin bb_handler_ activate the callbacks to keep the shared blackboard updated
     rclcpp::spin_some(bb_handler_);
+    RCLCPP_INFO(get_logger(), "blackboard handler spinned");
 
     switch (status) {
       case BT::NodeStatus::RUNNING:
@@ -146,6 +147,7 @@ RemoteDelegateActionNode::create_tree()
 
     // create a blackboard handler to work with a shared blackboard
     bb_handler_ = std::make_shared<BlackboardHandler>(id_, blackboard);
+    RCLCPP_INFO(get_logger(), "blackboard handler created");
 
     return true;
   } catch (std::exception & e) {
