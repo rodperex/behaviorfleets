@@ -71,6 +71,7 @@ void BlackboardManager::control_cycle()
 
 void BlackboardManager::grant_blackboard()
 {
+  RCLCPP_INFO(get_logger(), "granting blackboard to [%s]", robot_id_.c_str());
   bf_msgs::msg::Blackboard answ;
   answ.type = bf_msgs::msg::Blackboard::GRANT;
   answ.robot_id = robot_id_;
@@ -102,7 +103,7 @@ void BlackboardManager::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr 
 
 void BlackboardManager::update_blackboard()
 {
-  RCLCPP_INFO(get_logger(), "Robot %s updating blackboard", robot_id_.c_str());
+  RCLCPP_INFO(get_logger(), "robot %s updating blackboard", robot_id_.c_str());
 
   std::vector<std::string> keys = update_bb_msg_->keys;
   std::vector<std::string> values = update_bb_msg_->values;
@@ -119,7 +120,7 @@ void BlackboardManager::update_blackboard()
 
 void BlackboardManager::publish_blackboard()
 {
-  RCLCPP_INFO(get_logger(), "Publishing blackboard");
+  RCLCPP_INFO(get_logger(), "publishing blackboard");
 
   // while (lock_) {
   //   std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -129,20 +130,22 @@ void BlackboardManager::publish_blackboard()
     lock_ = true;
     bf_msgs::msg::Blackboard msg;
     std::vector<BT::StringView> string_views = blackboard_->getKeys();
-    int i = 0;
 
     msg.type = bf_msgs::msg::Blackboard::PUBLISH;
     msg.robot_id = "all";
+    std::vector<std::string> keys;
+    std::vector<std::string> values;
 
     for (const auto & string_view : string_views) {
       try {
-        msg.keys[i] = string_view.data();
-        msg.values[i] = blackboard_->get<std::string>(string_view.data());
-        i++;
+        keys.push_back(string_view.data());
+        values.push_back(blackboard_->get<std::string>(string_view.data()));
       } catch (const std::exception & e) {
-        RCLCPP_INFO(get_logger(), "Key %s skipped", string_view.data());
+        RCLCPP_INFO(get_logger(), "key %s skipped", string_view.data());
       }
     }
+    msg.keys = keys;
+    msg.values = values;  
     bb_pub_->publish(msg);
     lock_ = false;
   }
@@ -156,9 +159,9 @@ void BlackboardManager::copy_blackboard(BT::Blackboard::Ptr source_bb)
   for (const auto & string_view : string_views) {
     try {
       blackboard_->set(string_view.data(), blackboard_->get<std::string>(string_view.data()));
-      RCLCPP_INFO(get_logger(), "Key %s copied", string_view.data());
+      RCLCPP_INFO(get_logger(), "key %s copied", string_view.data());
     } catch (const std::exception & e) {
-      RCLCPP_INFO(get_logger(), "Key %s skipped", string_view.data());
+      RCLCPP_INFO(get_logger(), "key %s skipped", string_view.data());
     }
   }
 }

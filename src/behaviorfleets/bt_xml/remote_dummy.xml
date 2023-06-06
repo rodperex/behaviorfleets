@@ -4,8 +4,8 @@
     <BehaviorTree ID="BehaviorTree">
         <Repeat num_cycles="10">
             <ReactiveFallback>
-                <AlwaysFailure/>
-                <AlwaysFailure/>
+                <AlwaysSuccess/>
+                <AlwaysSuccess/>
             </ReactiveFallback>
         </Repeat>
     </BehaviorTree>

@@ -78,7 +78,7 @@ int main(int argc, char * argv[])
 
   std::cout << "\t- Tree created from file" << std::endl;
 
-  rclcpp::Rate rate(10);
+  rclcpp::Rate rate(0.2);
 
   auto bb_manager = std::make_shared<BF::BlackboardManager>();
 

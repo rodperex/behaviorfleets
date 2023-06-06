@@ -42,6 +42,9 @@ BlackboardHandler::BlackboardHandler(
     std::bind(&BlackboardHandler::blackboard_callback, this, std::placeholders::_1));
 
   timer_ = create_wall_timer(50ms, std::bind(&BlackboardHandler::control_cycle, this));
+
+  // to test stuff. REMOVE
+  // blackboard_->set("robot_id", robot_id_);
 }
 
 void BlackboardHandler::control_cycle()
@@ -67,12 +70,12 @@ bool BlackboardHandler::has_bb_changed()
     }
     if (std::find(sv_cache_bb.begin(), sv_cache_bb.end(), entry_bb) == sv_cache_bb.end()) {
       // the key is not in the cache
-      RCLCPP_INFO(get_logger(), "Key %s not in cache", entry_bb.data());
+      RCLCPP_INFO(get_logger(), "key %s not in cache", entry_bb.data());
       return true;
     } else if (blackboard_->get<std::string>(entry_bb.data()) !=
       bb_cache_->get<std::string>(entry_bb.data()))
     {
-      RCLCPP_INFO(get_logger(), "Key %s has changed", entry_bb.data());
+      RCLCPP_INFO(get_logger(), "key %s has changed", entry_bb.data());
       return true;
     }
   }
@@ -82,20 +85,21 @@ bool BlackboardHandler::has_bb_changed()
 void BlackboardHandler::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr msg)
 {
   if ((msg->type == bf_msgs::msg::Blackboard::GRANT) && (msg->robot_id == robot_id_)) {
-    RCLCPP_INFO(get_logger(), "Access to blackboard granted");
+    RCLCPP_INFO(get_logger(), "access to blackboard granted");
     access_granted_ = true;
+    update_blackboard();
     return;
   }
   if ((msg->type == bf_msgs::msg::Blackboard::PUBLISH) && (msg->robot_id == "all")) {
-    RCLCPP_INFO(get_logger(), "Updating local blackboard from the shared one");
+    RCLCPP_INFO(get_logger(), "updating local blackboard from the shared one");
     for (int i = 0; i < msg->keys.size(); i++) {
-      blackboard_->set(msg->keys[i], msg->values[i]);
+      blackboard_->set(msg->keys.at(i), msg->values[i]);
     }
     cache_blackboard();
     return;
   }
   if ((msg->type == bf_msgs::msg::Blackboard::DENY) && (msg->robot_id != robot_id_)) {
-    RCLCPP_INFO(get_logger(), "Access to blackboard denied");
+    RCLCPP_INFO(get_logger(), "access to blackboard denied");
     request_sent_ = false;
     return;
   }
@@ -109,10 +113,10 @@ void BlackboardHandler::cache_blackboard()
   for (const auto & string_view : string_views) {
     try {
       bb_cache_->set(string_view.data(), blackboard_->get<std::string>(string_view.data()));
-      RCLCPP_INFO(get_logger(), "Key %s cached", string_view.data());
+      RCLCPP_INFO(get_logger(), "key %s cached", string_view.data());
     } catch (const std::exception & e) {
       excluded_keys_.push_back(string_view.data());
-      RCLCPP_INFO(get_logger(), "Key %s skipped", string_view.data());
+      RCLCPP_INFO(get_logger(), "key %s skipped", string_view.data());
     }
   }
 }
@@ -122,27 +126,32 @@ void BlackboardHandler::update_blackboard()
   bf_msgs::msg::Blackboard msg;
 
   if (access_granted_) {
-    RCLCPP_INFO(get_logger(), "Access to blackboard granted");
+    RCLCPP_INFO(get_logger(), "updating blackboard");
     std::vector<BT::StringView> string_views = blackboard_->getKeys();
-    int i = 0;
     msg.robot_id = robot_id_;
     msg.type = bf_msgs::msg::Blackboard::UPDATE;
-    for (const auto & string_view : string_views) {
+    std::vector<std::string> keys;
+    std::vector<std::string> values;
+    msg.values = {};
+    for (const auto &string_view : string_views)
+    {
       if (std::find(
           excluded_keys_.begin(), excluded_keys_.end(),
           string_view.data()) == excluded_keys_.end())
       {
-        msg.keys[i] = string_view.data();
-        msg.values[i] = blackboard_->get<std::string>(string_view.data());
-        i++;
+        keys.push_back(string_view.data());
+        values.push_back(blackboard_->get<std::string>(string_view.data()));
       }
     }
+    msg.keys = keys;
+    msg.values = values;  
     bb_pub_->publish(msg);
     request_sent_ = false;
     access_granted_ = false;
   } else {
-    RCLCPP_INFO(get_logger(), "Requesting access to blackboard");
+    RCLCPP_INFO(get_logger(), "requesting access to blackboard");
     msg.type = bf_msgs::msg::Blackboard::REQUEST;
+    msg.robot_id = robot_id_;
     if (!request_sent_) {
       bb_pub_->publish(msg);
       request_sent_ = true;
