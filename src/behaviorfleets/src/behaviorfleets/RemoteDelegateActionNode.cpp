@@ -86,6 +86,7 @@ RemoteDelegateActionNode::control_cycle()
 
   if (working_) {
     BT::NodeStatus status = tree_.rootNode()->executeTick();
+    // rclcpp::spin_some(bb_handler_);
     switch (status) {
       case BT::NodeStatus::RUNNING:
         status_msg.status = bf_msgs::msg::Mission::RUNNING;
