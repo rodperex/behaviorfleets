@@ -16,12 +16,13 @@
 #define BEHAVIORFLEETS__BLACKBOARDHANDLER_HPP_
 
 #include <string>
+#include <chrono>
+
+#include "rclcpp/rclcpp.hpp"
 
 #include "behaviortree_cpp/blackboard.h"
 
 #include "bf_msgs/msg/blackboard.hpp"
-
-#include "rclcpp/rclcpp.hpp"
 
 namespace BF
 {
@@ -29,19 +30,23 @@ namespace BF
 class BlackboardHandler : public rclcpp::Node
 {
 public:
-  BlackboardHandler(const std::string robot_id, BT::Blackboard::Ptr blackboard); // bb_cache_ = BT::Blackboard(blackboard);
+  BlackboardHandler(const std::string robot_id, BT::Blackboard::Ptr blackboard);
   
 private:
-  void blackboard_callback(bf_msgs::msg::Mission::Blackboard msg);
+  void blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr msg);
   void control_cycle();
   void propagate_bb_update();
+  void cache_blackboard();
 
-  BT::Blackboard::Ptr blackboard_;
-  BT::Blackboard bb_cache_;
+  BT::Blackboard::Ptr blackboard_, bb_cache_;
   std::string robot_id_;
+  std::vector<std::string> excluded_keys_;
+  bool access_granted_, request_sent_;
 
   rclcpp::Publisher<bf_msgs::msg::Blackboard>::SharedPtr bb_pub_;
   rclcpp::Subscription<bf_msgs::msg::Blackboard>::SharedPtr bb_sub_;
+
+  rclcpp::TimerBase::SharedPtr timer_;
 };
 
 }   // namespace BF

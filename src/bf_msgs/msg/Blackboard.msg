@@ -13,5 +13,6 @@ uint8 PUBLISH = 6
 
 uint8 type
 string robot_id
-string blackboard # serialized blackboard
+string[] keys
+string[] values
 

@@ -17,6 +17,7 @@
 
 #include <string>
 #include <queue>
+#include <chrono>
 
 #include "behaviortree_cpp/blackboard.h"
 
@@ -31,21 +32,26 @@ class BlackboardManager : public rclcpp::Node
 {
 public:
   BlackboardManager();
+  BlackboardManager(std::chrono::milliseconds milis);
   
 private:
-  void blackboard_callback(bf_msgs::msg::Mission::Blackboard msg);
+  void blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr msg);
   void control_cycle();
   void grant_bb();
+  void update_bb();
+  void propagate_bb();
+  void init();
 
+  bf_msgs::msg::Blackboard::UniquePtr update_bb_msg_;
   BT::Blackboard::Ptr blackboard_;
-  BT::Blackboard bb_cache_;
-  // bf_msgs::msg::Blackboard bb_msg_;
   bool lock_;
   std::string robot_id_;
   std::queue<std::string> q_;
 
   rclcpp::Publisher<bf_msgs::msg::Blackboard>::SharedPtr bb_pub_;
   rclcpp::Subscription<bf_msgs::msg::Blackboard>::SharedPtr bb_sub_;
+
+  rclcpp::TimerBase::SharedPtr timer_;
 };
 
 }   // namespace BF

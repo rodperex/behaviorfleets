@@ -23,15 +23,16 @@ set(dependencies
 
 include_directories(include)
 
-
-# add_library(blackboard_manager SHARED src/behaviorfleets/BlackboardManager.cpp)
 add_library(delegate_action_node SHARED src/behaviorfleets/DelegateActionNode.cpp)
 add_library(remote_delegate_action_node SHARED src/behaviorfleets/RemoteDelegateActionNode.cpp)
-
+add_library(blackboard_manager SHARED src/behaviorfleets/BlackboardManager.cpp)
+add_library(blackboard_handler SHARED src/behaviorfleets/BlackboardHandler.cpp)
 
 list(APPEND plugin_libs
   delegate_action_node
   remote_delegate_action_node
+  blackboard_manager
+  blackboard_handler
 )
 
 foreach(bt_plugin ${plugin_libs})
@@ -45,7 +46,7 @@ target_link_libraries(source yaml-cpp)
 
 add_executable(bbshare src/exec/bbtest_main.cpp)
 ament_target_dependencies(bbshare ${dependencies})
-target_link_libraries(bbshare yaml-cpp)
+target_link_libraries(bbshare yaml-cpp blackboard_handler)
 
 add_executable(remote src/exec/remote_main.cpp)
 ament_target_dependencies(remote ${dependencies})
