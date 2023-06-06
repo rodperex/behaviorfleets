@@ -123,7 +123,7 @@ void BlackboardHandler::update_blackboard()
 
   if (access_granted_) {
     RCLCPP_INFO(get_logger(), "Access to blackboard granted");
-    std::vector<BT::StringView> string_views = blackboard_->getKeys();  
+    std::vector<BT::StringView> string_views = blackboard_->getKeys();
     int i = 0;
     msg.robot_id = robot_id_;
     msg.type = bf_msgs::msg::Blackboard::UPDATE;

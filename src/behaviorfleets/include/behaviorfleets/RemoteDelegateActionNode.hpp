@@ -61,10 +61,11 @@ private:
   rclcpp::Subscription<bf_msgs::msg::Mission>::SharedPtr mission_sub_;
   rclcpp::Subscription<bf_msgs::msg::Mission>::SharedPtr poll_sub_;
 
+  BF::BlackboardHandler::SharedPtr bb_handler_;
+
   BT::Tree tree_;
   rclcpp::TimerBase::SharedPtr timer_;
 
-  // BF::BlackboardHandler bb_handler_;
 };
 
 }  // namespace BF

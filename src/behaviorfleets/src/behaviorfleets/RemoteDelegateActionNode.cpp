@@ -86,7 +86,10 @@ RemoteDelegateActionNode::control_cycle()
 
   if (working_) {
     BT::NodeStatus status = tree_.rootNode()->executeTick();
-    // rclcpp::spin_some(bb_handler_);
+
+    // spin bb_handler_ activate the callbacks to keep the shared blackboard updated
+    rclcpp::spin_some(bb_handler_);
+
     switch (status) {
       case BT::NodeStatus::RUNNING:
         status_msg.status = bf_msgs::msg::Mission::RUNNING;
@@ -105,12 +108,7 @@ RemoteDelegateActionNode::control_cycle()
     }
     status_pub_->publish(status_msg);
   } else {
-    // if (can_do_it_) {
     status_msg.status = bf_msgs::msg::Mission::IDLE;
-    // } else {
-    //   status_msg.status = bf_msgs::msg::Mission::FAILURE;
-    //   status_pub_->publish(status_msg);
-    // }
   }
 }
 
@@ -146,7 +144,8 @@ RemoteDelegateActionNode::create_tree()
 
     RCLCPP_INFO(get_logger(), "tree created");
 
-    // bb_handler_ = std::make_shared<BlackboardHandler>(id_, blackboard);
+    // create a blackboard handler to work with a shared blackboard
+    bb_handler_ = std::make_shared<BlackboardHandler>(id_, blackboard);
 
     return true;
   } catch (std::exception & e) {
@@ -173,7 +172,6 @@ RemoteDelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr
   }
   // ignore missions if already working
   if (!working_) {
-    // can_do_it_ = true;
     mission_ = std::move(msg);
 
     RCLCPP_INFO(
@@ -244,7 +242,6 @@ RemoteDelegateActionNode::mission_callback(bf_msgs::msg::Mission::UniquePtr msg)
       RCLCPP_INFO(
         get_logger(), ("[ " + id_ + " ] " + "tree received:\n" + mission_->mission_tree).c_str());
       working_ = create_tree();
-      // can_do_it_ = working_;
     } else {
       RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "tree received but not for me").c_str());
     }
