@@ -28,7 +28,7 @@ RemoteDelegateActionNode::RemoteDelegateActionNode()
 RemoteDelegateActionNode::RemoteDelegateActionNode(
   const std::string robot_id,
   const std::string mission_id)
-  : Node(robot_id + "_remote_delegate_action_node"),
+: Node(robot_id + "_remote_delegate_action_node"),
   id_(robot_id),
   mission_id_(mission_id)
 {
@@ -144,6 +144,9 @@ RemoteDelegateActionNode::create_tree()
     tree_ = factory.createTreeFromText(mission_->mission_tree, blackboard);
 
     RCLCPP_INFO(get_logger(), "tree created");
+
+    // bb_handler_ = std::make_shared<BlackboardHandler>(id_, blackboard);
+
     return true;
   } catch (std::exception & e) {
     bf_msgs::msg::Mission status_msg;

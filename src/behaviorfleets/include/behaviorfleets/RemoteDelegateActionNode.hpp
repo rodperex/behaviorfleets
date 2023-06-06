@@ -29,6 +29,8 @@
 #include "bf_msgs/msg/mission.hpp"
 #include "bf_msgs/msg/mission_status.hpp"
 
+#include "behaviorfleets/BlackboardHandler.hpp"
+
 namespace BF
 {
 
@@ -61,6 +63,8 @@ private:
 
   BT::Tree tree_;
   rclcpp::TimerBase::SharedPtr timer_;
+
+  // BF::BlackboardHandler bb_handler_;
 };
 
 }  // namespace BF

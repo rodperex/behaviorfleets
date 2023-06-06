@@ -32,14 +32,16 @@ class BlackboardManager : public rclcpp::Node
 {
 public:
   BlackboardManager();
-  BlackboardManager(std::chrono::milliseconds milis);
-  
+  BlackboardManager(BT::Blackboard::Ptr blackboard);
+  BlackboardManager(BT::Blackboard::Ptr blackboard, std::chrono::milliseconds milis);
+
 private:
   void blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr msg);
+  void copy_blackboard(BT::Blackboard::Ptr source_bb);
   void control_cycle();
-  void grant_bb();
-  void update_bb();
-  void propagate_bb();
+  void grant_blackboard();
+  void update_blackboard();
+  void publish_blackboard();
   void init();
 
   bf_msgs::msg::Blackboard::UniquePtr update_bb_msg_;

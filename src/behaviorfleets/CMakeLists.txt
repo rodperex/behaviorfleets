@@ -23,10 +23,12 @@ set(dependencies
 
 include_directories(include)
 
-add_library(delegate_action_node SHARED src/behaviorfleets/DelegateActionNode.cpp)
-add_library(remote_delegate_action_node SHARED src/behaviorfleets/RemoteDelegateActionNode.cpp)
 add_library(blackboard_manager SHARED src/behaviorfleets/BlackboardManager.cpp)
 add_library(blackboard_handler SHARED src/behaviorfleets/BlackboardHandler.cpp)
+add_library(delegate_action_node SHARED src/behaviorfleets/DelegateActionNode.cpp)
+add_library(remote_delegate_action_node SHARED src/behaviorfleets/RemoteDelegateActionNode.cpp)
+# target_link_libraries(remote_delegate_action_node blackboard_handler)
+
 
 list(APPEND plugin_libs
   delegate_action_node
@@ -44,9 +46,9 @@ add_executable(source src/exec/source_main.cpp)
 ament_target_dependencies(source ${dependencies})
 target_link_libraries(source yaml-cpp)
 
-add_executable(bbshare src/exec/bbtest_main.cpp)
-ament_target_dependencies(bbshare ${dependencies})
-target_link_libraries(bbshare yaml-cpp blackboard_handler)
+add_executable(bb_source src/exec/bb_source_main.cpp)
+ament_target_dependencies(bb_source ${dependencies})
+target_link_libraries(bb_source yaml-cpp blackboard_manager)
 
 add_executable(remote src/exec/remote_main.cpp)
 ament_target_dependencies(remote ${dependencies})
@@ -56,13 +58,18 @@ add_executable(remoteconfig src/exec/remoteconf_main.cpp)
 ament_target_dependencies(remoteconfig ${dependencies})
 target_link_libraries(remoteconfig remote_delegate_action_node yaml-cpp)
 
+add_executable(bb_remoteconfig src/exec/remoteconf_main.cpp)
+ament_target_dependencies(bb_remoteconfig ${dependencies})
+target_link_libraries(bb_remoteconfig remote_delegate_action_node yaml-cpp blackboard_handler)
+
 
 install(TARGETS
   ${plugin_libs}
   source
   remote
   remoteconfig
-  bbshare
+  bb_source
+  bb_remoteconfig
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}

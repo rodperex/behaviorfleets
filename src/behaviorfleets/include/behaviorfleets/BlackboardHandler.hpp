@@ -31,12 +31,13 @@ class BlackboardHandler : public rclcpp::Node
 {
 public:
   BlackboardHandler(const std::string robot_id, BT::Blackboard::Ptr blackboard);
-  
+
 private:
   void blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr msg);
   void control_cycle();
-  void propagate_bb_update();
+  void update_blackboard();
   void cache_blackboard();
+  bool has_bb_changed();
 
   BT::Blackboard::Ptr blackboard_, bb_cache_;
   std::string robot_id_;

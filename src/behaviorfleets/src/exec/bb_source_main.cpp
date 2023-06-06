@@ -28,7 +28,7 @@
 
 #include "yaml-cpp/yaml.h"
 
-#include "behaviorfleets/BlackboardHandler.hpp"
+#include "behaviorfleets/BlackboardManager.hpp"
 
 bool is_pointer(const std::string & type_name);
 std::vector<std::string> check_blackboard(BT::Blackboard::Ptr bb, BT::Blackboard::Ptr bb_cache);
@@ -74,26 +74,18 @@ int main(int argc, char * argv[])
   blackboard->set("node", node);
   blackboard->set("pkgpath", pkgpath + "/bt_xml/");
 
-  blackboard->set("double", 33.22);
-  float * b = new float(20);
-  blackboard->set("b", b);
-  char * c = new char('c');
-  blackboard->set("c", c);
-  blackboard->set("entero", 3);
-
-
   BT::Tree tree = factory.createTreeFromFile(xml_file, blackboard);
 
   std::cout << "\t- Tree created from file" << std::endl;
 
   rclcpp::Rate rate(10);
 
-  auto bb_handler = std::make_shared<BF::BlackboardHandler>("name", blackboard);
+  auto bb_manager = std::make_shared<BF::BlackboardManager>();
 
   bool finish = false;
   while (!finish && rclcpp::ok()) {
-    // finish = tree.rootNode()->executeTick() != BT::NodeStatus::RUNNING;
-    rclcpp::spin_some(bb_handler);
+    finish = tree.rootNode()->executeTick() != BT::NodeStatus::RUNNING;
+    rclcpp::spin_some(bb_manager);
     rclcpp::spin_some(node);
     rate.sleep();
   }

@@ -1,7 +1,7 @@
 # message type
 uint8 REQUEST = 1
 uint8 GRANT = 2
-uint8 RELEASE = 3
+uint8 ACK = 3
 uint8 DENY = 4
 uint8 UPDATE = 5
 uint8 PUBLISH = 6

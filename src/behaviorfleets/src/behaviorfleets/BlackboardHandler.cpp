@@ -23,7 +23,7 @@ namespace BF
 BlackboardHandler::BlackboardHandler(
   const std::string robot_id,
   BT::Blackboard::Ptr blackboard)
-  : Node("blackboard_handler"),
+: Node("blackboard_handler"),
   robot_id_(robot_id),
   blackboard_(blackboard),
   access_granted_(false),
@@ -31,84 +31,107 @@ BlackboardHandler::BlackboardHandler(
 {
   using namespace std::chrono_literals;
 
+  bb_cache_ = BT::Blackboard::create();
   cache_blackboard();
 
   bb_pub_ = create_publisher<bf_msgs::msg::Blackboard>(
-      "/shared_bb", 100);
+    "/blackboard", 100);
 
   bb_sub_ = create_subscription<bf_msgs::msg::Blackboard>(
-    "/shared_bb", rclcpp::SensorDataQoS(),
+    "/blackboard", rclcpp::SensorDataQoS(),
     std::bind(&BlackboardHandler::blackboard_callback, this, std::placeholders::_1));
 
-  timer_ = create_wall_timer(50ms, std::bind(&BlackboardHandler::control_cycle, this));   
+  timer_ = create_wall_timer(50ms, std::bind(&BlackboardHandler::control_cycle, this));
 }
 
 void BlackboardHandler::control_cycle()
 {
-  // checks if the local blackboard has been updated
+  if (has_bb_changed()) {
+    update_blackboard();
+    cache_blackboard();
+  }
+}
+
+bool BlackboardHandler::has_bb_changed()
+{
   std::vector<BT::StringView> sv_bb = blackboard_->getKeys();
   std::vector<BT::StringView> sv_cache_bb = bb_cache_->getKeys();
-  bool propagated = false;
 
   for (const auto & entry_bb : sv_bb) {
-    if (std::find(excluded_keys_.begin(), excluded_keys_.end(), entry_bb.data()) != excluded_keys_.end()) {
+    if (std::find(
+        excluded_keys_.begin(), excluded_keys_.end(),
+        entry_bb.data()) != excluded_keys_.end())
+    {
       // the key is in the exclusion list
       continue;
     }
     if (std::find(sv_cache_bb.begin(), sv_cache_bb.end(), entry_bb) == sv_cache_bb.end()) {
       // the key is not in the cache
       RCLCPP_INFO(get_logger(), "Key %s not in cache", entry_bb.data());
-      propagate_bb_update();
-      propagated = true;
-    } else if (blackboard_->get<std::string>(entry_bb.data()) != bb_cache_->get<std::string>(entry_bb.data())) {
-        // the value has changed
-        RCLCPP_INFO(get_logger(), "Key %s has changed", entry_bb.data());
-        propagate_bb_update();
-        propagated = true;
+      return true;
+    } else if (blackboard_->get<std::string>(entry_bb.data()) !=
+      bb_cache_->get<std::string>(entry_bb.data()))
+    {
+      RCLCPP_INFO(get_logger(), "Key %s has changed", entry_bb.data());
+      return true;
     }
   }
-
-  if (propagated) {
-    cache_blackboard();
-  }
+  return false;
 }
-
 
 void BlackboardHandler::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr msg)
 {
   if ((msg->type == bf_msgs::msg::Blackboard::GRANT) && (msg->robot_id == robot_id_)) {
-    access_granted_ = true;  
+    RCLCPP_INFO(get_logger(), "Access to blackboard granted");
+    access_granted_ = true;
+    return;
+  }
+  if ((msg->type == bf_msgs::msg::Blackboard::PUBLISH) && (msg->robot_id == "all")) {
+    RCLCPP_INFO(get_logger(), "Updating local blackboard from the shared one");
+    for (int i = 0; i < msg->keys.size(); i++) {
+      blackboard_->set(msg->keys[i], msg->values[i]);
+    }
+    cache_blackboard();
+    return;
+  }
+  if ((msg->type == bf_msgs::msg::Blackboard::DENY) && (msg->robot_id != robot_id_)) {
+    RCLCPP_INFO(get_logger(), "Access to blackboard denied");
+    request_sent_ = false;
+    return;
   }
 }
 
 void BlackboardHandler::cache_blackboard()
 {
-  bb_cache_ = BT::Blackboard::create();
+  bb_cache_->clear();
 
   std::vector<BT::StringView> string_views = blackboard_->getKeys();
   for (const auto & string_view : string_views) {
     try {
       bb_cache_->set(string_view.data(), blackboard_->get<std::string>(string_view.data()));
-    } catch (const std::exception& e) {
+      RCLCPP_INFO(get_logger(), "Key %s cached", string_view.data());
+    } catch (const std::exception & e) {
       excluded_keys_.push_back(string_view.data());
       RCLCPP_INFO(get_logger(), "Key %s skipped", string_view.data());
     }
   }
 }
 
-void BlackboardHandler::propagate_bb_update()
+void BlackboardHandler::update_blackboard()
 {
-  RCLCPP_INFO(get_logger(), "Propagating blackboard update");
-  std::vector<BT::StringView> string_views = blackboard_->getKeys();
   bf_msgs::msg::Blackboard msg;
-  int i = 0;
 
-  msg.robot_id = robot_id_;
-  
   if (access_granted_) {
+    RCLCPP_INFO(get_logger(), "Access to blackboard granted");
+    std::vector<BT::StringView> string_views = blackboard_->getKeys();  
+    int i = 0;
+    msg.robot_id = robot_id_;
     msg.type = bf_msgs::msg::Blackboard::UPDATE;
-    for (const auto &string_view : string_views) {
-      if (std::find(excluded_keys_.begin(), excluded_keys_.end(), string_view.data()) == excluded_keys_.end()) {
+    for (const auto & string_view : string_views) {
+      if (std::find(
+          excluded_keys_.begin(), excluded_keys_.end(),
+          string_view.data()) == excluded_keys_.end())
+      {
         msg.keys[i] = string_view.data();
         msg.values[i] = blackboard_->get<std::string>(string_view.data());
         i++;
@@ -118,10 +141,13 @@ void BlackboardHandler::propagate_bb_update()
     request_sent_ = false;
     access_granted_ = false;
   } else {
+    RCLCPP_INFO(get_logger(), "Requesting access to blackboard");
     msg.type = bf_msgs::msg::Blackboard::REQUEST;
     if (!request_sent_) {
       bb_pub_->publish(msg);
       request_sent_ = true;
+    } else {
+      RCLCPP_INFO(get_logger(), "Waiting for access to blackboard");
     }
   }
 }
