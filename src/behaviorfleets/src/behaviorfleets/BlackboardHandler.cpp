@@ -14,16 +14,13 @@
 
 #include "behaviorfleets/BlackboardHandler.hpp"
 
-#include "behaviortree_cpp/blackboard.h"
-#include "bf_msgs/msg/blackboard.hpp"
-
 namespace BF
 {
 
 BlackboardHandler::BlackboardHandler(
   const std::string robot_id,
   BT::Blackboard::Ptr blackboard)
-: Node("blackboard_handler"),
+: Node(robot_id + "_blackboard_handler"),
   robot_id_(robot_id),
   blackboard_(blackboard),
   access_granted_(false),

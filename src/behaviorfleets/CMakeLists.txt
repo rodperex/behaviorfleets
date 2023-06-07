@@ -23,12 +23,18 @@ set(dependencies
 
 include_directories(include)
 
+# Shared blackboard libraries
 add_library(blackboard_manager SHARED src/behaviorfleets/BlackboardManager.cpp)
 add_library(blackboard_handler SHARED src/behaviorfleets/BlackboardHandler.cpp)
+
+# Remote BTs libraries
 add_library(delegate_action_node SHARED src/behaviorfleets/DelegateActionNode.cpp)
 add_library(remote_delegate_action_node SHARED src/behaviorfleets/RemoteDelegateActionNode.cpp)
-
 target_link_libraries(remote_delegate_action_node blackboard_handler)
+
+# Test libraries
+add_library(blackboard_stresser SHARED src/test/BlackboardStresser.cpp)
+target_link_libraries(blackboard_stresser blackboard_handler)
 
 
 list(APPEND plugin_libs
