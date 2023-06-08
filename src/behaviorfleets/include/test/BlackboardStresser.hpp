@@ -32,8 +32,11 @@ namespace BF
 class BlackboardStresser : public rclcpp::Node
 {
 public:
-  BlackboardStresser(const std::string robot_id, const int n_keys,
-    std::chrono::milliseconds milis);
+  BlackboardStresser(
+    const std::string robot_id, const int n_keys,
+    std::chrono::milliseconds milis,
+    std::chrono::seconds op_time,
+    std::chrono::seconds delay);
 
 private:
   void control_cycle();
@@ -46,10 +49,14 @@ private:
   std::vector<std::string> keys_;
 
   BT::Blackboard::Ptr blackboard_;
-  
+
   BF::BlackboardHandler::SharedPtr bb_handler_;
 
   rclcpp::TimerBase::SharedPtr timer_;
+
+  rclcpp::Time t_start_;
+
+  std::chrono::seconds op_time_, delay_;
 };
 
 }   // namespace BF

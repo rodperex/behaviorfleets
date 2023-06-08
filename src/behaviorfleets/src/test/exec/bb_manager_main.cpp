@@ -13,18 +13,14 @@
 // limitations under the License.
 
 #include <string>
-#include <memory>
 #include <fstream>
-#include <boost/any.hpp>
+#include <chrono>
 
-#include "behaviortree_cpp/behavior_tree.h"
-#include "behaviortree_cpp/bt_factory.h"
-#include "behaviortree_cpp/utils/shared_library.h"
-#include "behaviortree_cpp/utils/safe_any.hpp"
-
-#include "ament_index_cpp/get_package_share_directory.hpp"
+#include "behaviortree_cpp/blackboard.h"
 
 #include "rclcpp/rclcpp.hpp"
+
+#include "ament_index_cpp/get_package_share_directory.hpp"
 
 #include "yaml-cpp/yaml.h"
 
@@ -32,7 +28,7 @@
 
 int main(int argc, char * argv[])
 {
-  std::string params_file = "config.yaml";
+  std::string params_file = "stress_test_config.yaml";
 
   if (argc > 1) {
     params_file = std::string(argv[1]);
@@ -40,16 +36,7 @@ int main(int argc, char * argv[])
 
   rclcpp::init(argc, argv);
 
-  auto node = rclcpp::Node::make_shared("source_tree");
-
-  BT::SharedLibrary loader;
-  BT::BehaviorTreeFactory factory;
-
-  factory.registerFromPlugin(loader.getOSName("delegate_action_node"));
-
   std::string pkgpath = ament_index_cpp::get_package_share_directory("behaviorfleets");
-
-  std::string xml_file;
 
   try {
     // Load the XML path from the YAML file
@@ -57,7 +44,22 @@ int main(int argc, char * argv[])
     std::ifstream fin(pkgpath + "/params/" + params_file);
     YAML::Node params = YAML::Load(fin);
 
-    xml_file = pkgpath + params["source_tree"].as<std::string>();
+    float freq = params["manager_hz"].as<float>();
+
+    auto period = std::chrono::duration_cast<std::chrono::milliseconds>(
+      std::chrono::duration<float, std::milli>((1 / freq) * 1000)
+    );
+
+    auto blackboard = BT::Blackboard::create();
+
+    // auto bb_manager = std::make_shared<BF::BlackboardManager>(blackboard, period);
+    auto bb_manager = std::make_shared<BF::BlackboardManager>(blackboard);
+
+    rclcpp::spin(bb_manager);
+
+    std::cout << "Finished" << std::endl;
+    rclcpp::shutdown();
+    return 0;
 
   } catch (YAML::Exception & e) {
     std::cerr << "Error loading YAML file: " << e.what() << std::endl;
@@ -66,28 +68,4 @@ int main(int argc, char * argv[])
     std::cerr << "Error: " << e.what() << std::endl;
     return 1;
   }
-
-  auto blackboard = BT::Blackboard::create();
-  blackboard->set("node", node);
-  blackboard->set("pkgpath", pkgpath + "/bt_xml/");
-
-  BT::Tree tree = factory.createTreeFromFile(xml_file, blackboard);
-
-  std::cout << "\t- Tree created from file" << std::endl;
-
-  rclcpp::Rate rate(0.2);
-
-  auto bb_manager = std::make_shared<BF::BlackboardManager>();
-
-  bool finish = false;
-  while (!finish && rclcpp::ok()) {
-    finish = tree.rootNode()->executeTick() != BT::NodeStatus::RUNNING;
-    rclcpp::spin_some(bb_manager);
-    rclcpp::spin_some(node);
-    rate.sleep();
-  }
-
-  std::cout << "Finished" << std::endl;
-  rclcpp::shutdown();
-  return 0;
 }

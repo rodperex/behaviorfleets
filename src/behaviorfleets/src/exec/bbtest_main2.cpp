@@ -101,67 +101,67 @@ int main(int argc, char * argv[])
     std::vector<std::string> entries_to_propagate = check_blackboard(blackboard, bb_cache);
 
     // analyze the blackboard to propagate
-  //   std::vector<BT::StringView> string_views = blackboard->getKeys();
-  //   std::vector<std::string> keys;
-  //   keys.reserve(string_views.size());
+    //   std::vector<BT::StringView> string_views = blackboard->getKeys();
+    //   std::vector<std::string> keys;
+    //   keys.reserve(string_views.size());
 
-  //   for (const auto & string_view : string_views) {
-  //     keys.emplace_back(string_view.data(), string_view.size());
-  //   }
+    //   for (const auto & string_view : string_views) {
+    //     keys.emplace_back(string_view.data(), string_view.size());
+    //   }
 
-  //   std::vector<std::string> entries_to_propagate;
-  //   for (const std::string & key : keys) {
-  //     const auto & value = blackboard->getAny(key);
+    //   std::vector<std::string> entries_to_propagate;
+    //   for (const std::string & key : keys) {
+    //     const auto & value = blackboard->getAny(key);
 
-  //     std::cout << "Key: " << key << "; type: " << value->type().name() << std::endl;
-  //     if (is_pointer(value->type().name())) {
-  //       continue;
-  //     }
-  //     try {
-  //       if ((value->type() == typeid(int)) || (value->type() == typeid(int64_t)) ||
-  //         (value->type() == typeid(uint64_t)))
-  //       {
-  //         int64_t val = value->cast<int64_t>();
-  //         std::cout << "\t" << val << std::endl;
-  //         int aux;
-  //         bb_cache->get(key, aux);
-  //         if (aux != val) {
-  //           std::cout << "cache = " << aux << "actual = " << val << std::endl;
-  //           entries_to_propagate.push_back(key);
-  //         }
-  //       }
-  //       if (value->type() == typeid(double)) {
-  //         double val = value->cast<double>();
-  //         std::cout << "\t" << val << std::endl;
-  //         double aux;
-  //         bb_cache->get(key, aux);
-  //         if (aux != val) {
-  //           std::cout << "cache = " << aux << "actual = " << val << std::endl;
-  //           entries_to_propagate.push_back(key);
-  //         }
-  //       }
-  //       if (value->type() == typeid(std::string)) {
-  //         std::string val = value->cast<std::string>();
-  //         std::cout << "\t" << val << std::endl;
-  //         std::string aux;
-  //         bb_cache->get(key, aux);
-  //         if (aux != val) {
-  //           std::cout << "propagate" << std::endl;
-  //           entries_to_propagate.push_back(key);
-  //         }
-  //       }
-  //     } catch (const boost::bad_any_cast & e) {
-  //       std::cerr << "\t- ERROR - Failed to cast " << key << " to its original type: " <<
-  //         e.what() << std::endl;
-  //     }
-  //   }
-  //   if (entries_to_propagate.size() > 0) {
-  //     std::cout << "Propagating updated entries" << std::endl;
-  //     for (const std::string & key : entries_to_propagate) {
-  //       const auto & value = blackboard->getAny(key);
-  //       // TODO: publish entry
-  //     }
-  //   }
+    //     std::cout << "Key: " << key << "; type: " << value->type().name() << std::endl;
+    //     if (is_pointer(value->type().name())) {
+    //       continue;
+    //     }
+    //     try {
+    //       if ((value->type() == typeid(int)) || (value->type() == typeid(int64_t)) ||
+    //         (value->type() == typeid(uint64_t)))
+    //       {
+    //         int64_t val = value->cast<int64_t>();
+    //         std::cout << "\t" << val << std::endl;
+    //         int aux;
+    //         bb_cache->get(key, aux);
+    //         if (aux != val) {
+    //           std::cout << "cache = " << aux << "actual = " << val << std::endl;
+    //           entries_to_propagate.push_back(key);
+    //         }
+    //       }
+    //       if (value->type() == typeid(double)) {
+    //         double val = value->cast<double>();
+    //         std::cout << "\t" << val << std::endl;
+    //         double aux;
+    //         bb_cache->get(key, aux);
+    //         if (aux != val) {
+    //           std::cout << "cache = " << aux << "actual = " << val << std::endl;
+    //           entries_to_propagate.push_back(key);
+    //         }
+    //       }
+    //       if (value->type() == typeid(std::string)) {
+    //         std::string val = value->cast<std::string>();
+    //         std::cout << "\t" << val << std::endl;
+    //         std::string aux;
+    //         bb_cache->get(key, aux);
+    //         if (aux != val) {
+    //           std::cout << "propagate" << std::endl;
+    //           entries_to_propagate.push_back(key);
+    //         }
+    //       }
+    //     } catch (const boost::bad_any_cast & e) {
+    //       std::cerr << "\t- ERROR - Failed to cast " << key << " to its original type: " <<
+    //         e.what() << std::endl;
+    //     }
+    //   }
+    //   if (entries_to_propagate.size() > 0) {
+    //     std::cout << "Propagating updated entries" << std::endl;
+    //     for (const std::string & key : entries_to_propagate) {
+    //       const auto & value = blackboard->getAny(key);
+    //       // TODO: publish entry
+    //     }
+    //   }
 
   }
 
@@ -185,7 +185,7 @@ std::vector<std::string> check_blackboard(BT::Blackboard::Ptr bb, BT::Blackboard
 
   keys.reserve(string_views.size());
 
-  for (const auto& string_view : string_views) {
+  for (const auto & string_view : string_views) {
     keys.push_back(string_view.data());
   }
 
@@ -193,23 +193,24 @@ std::vector<std::string> check_blackboard(BT::Blackboard::Ptr bb, BT::Blackboard
 
   for (const std::string & key : keys) {
     std::cout << key << std::endl;
-    const auto& value = bb->getAny(key);
+    const auto & value = bb->getAny(key);
     std::cout << "------------------------" << std::endl;
     std::cout << "Key: " << key << "; type: " << value->type().name() << std::endl;
     if (is_pointer(value->type().name())) {
-        continue;
+      continue;
     }
     try {
       if ((value->type() == typeid(int)) || (value->type() == typeid(int64_t)) ||
-        (value->type() == typeid(uint64_t))) {
-          int64_t val = value->cast<int64_t>();
-          std::cout << "\t" << val << std::endl;
-          int aux;
-          bb_cache->get(key, aux);
-          if (aux != val) {
-            std::cout << "cache = " << aux << "actual = " << val <<std::endl;
-            entries_to_propagate.push_back(key);
-          }
+        (value->type() == typeid(uint64_t)))
+      {
+        int64_t val = value->cast<int64_t>();
+        std::cout << "\t" << val << std::endl;
+        int aux;
+        bb_cache->get(key, aux);
+        if (aux != val) {
+          std::cout << "cache = " << aux << "actual = " << val << std::endl;
+          entries_to_propagate.push_back(key);
+        }
       }
       if (value->type() == typeid(double)) {
         double val = value->cast<double>();
@@ -218,7 +219,7 @@ std::vector<std::string> check_blackboard(BT::Blackboard::Ptr bb, BT::Blackboard
         aux = 22;
         bb_cache->get(key, aux);
         if (aux != val) {
-          std::cout << "cache = " << aux << "actual = " << val <<std::endl;
+          std::cout << "cache = " << aux << "actual = " << val << std::endl;
           entries_to_propagate.push_back(key);
         }
       }
@@ -232,8 +233,9 @@ std::vector<std::string> check_blackboard(BT::Blackboard::Ptr bb, BT::Blackboard
           entries_to_propagate.push_back(key);
         }
       }
-    } catch (const boost::bad_any_cast& e) {
-      std::cerr << "\t- ERROR - Failed to cast " << key << " to its original type: " << e.what() << std::endl;
+    } catch (const boost::bad_any_cast & e) {
+      std::cerr << "\t- ERROR - Failed to cast " << key << " to its original type: " << e.what() <<
+        std::endl;
     }
   }
   return entries_to_propagate;

@@ -18,6 +18,8 @@
 #include <string>
 #include <queue>
 #include <chrono>
+#include <fstream>
+#include <iostream>
 
 #include "behaviortree_cpp/blackboard.h"
 
@@ -38,11 +40,12 @@ public:
 private:
   void blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr msg);
   void copy_blackboard(BT::Blackboard::Ptr source_bb);
+  void init();
   void control_cycle();
   void grant_blackboard();
   void update_blackboard();
   void publish_blackboard();
-  void init();
+  void dump_blackboard();
 
   bf_msgs::msg::Blackboard::UniquePtr update_bb_msg_;
   BT::Blackboard::Ptr blackboard_;
@@ -50,10 +53,13 @@ private:
   std::string robot_id_;
   std::queue<std::string> q_;
 
+  rclcpp::Time t_last_grant_;
+
   rclcpp::Publisher<bf_msgs::msg::Blackboard>::SharedPtr bb_pub_;
   rclcpp::Subscription<bf_msgs::msg::Blackboard>::SharedPtr bb_sub_;
 
-  rclcpp::TimerBase::SharedPtr timer_;
+  rclcpp::TimerBase::SharedPtr timer_publish_, timer_cycle_;
+
 };
 
 }   // namespace BF
