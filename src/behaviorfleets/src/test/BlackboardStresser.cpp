@@ -98,7 +98,8 @@ void BlackboardStresser::update_blackboard()
   int i = random_int(0, keys_.size() - 1);
   int val = random_int(0, 100);
   RCLCPP_INFO(get_logger(), "updating key: %s to %d", keys_[i].c_str(), val);
-  blackboard_->set(keys_[i], std::to_string(val));
+  // blackboard_->set(keys_[i], std::to_string(val));
+  blackboard_->set(keys_[i], val);
 }
 
 int BlackboardStresser::random_int(int min, int max)

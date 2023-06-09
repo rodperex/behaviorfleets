@@ -17,6 +17,8 @@
 
 #include <string>
 #include <chrono>
+#include <cxxabi.h>
+#include <cstdlib>
 
 #include "rclcpp/rclcpp.hpp"
 
@@ -34,6 +36,7 @@ public:
 
 private:
   void blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr msg);
+  std::string get_type(const char * port_name);
   void control_cycle();
   void update_blackboard();
   void cache_blackboard();

@@ -14,9 +14,6 @@
 
 #include "behaviorfleets/BlackboardManager.hpp"
 
-#include "behaviortree_cpp/blackboard.h"
-#include "bf_msgs/msg/blackboard.hpp"
-
 namespace BF
 {
 
@@ -42,13 +39,14 @@ BlackboardManager::BlackboardManager(
   init();
   copy_blackboard(blackboard);
 
-  timer_publish_ = create_wall_timer(milis, std::bind(&BlackboardManager::publish_blackboard, this));
+  timer_publish_ =
+    create_wall_timer(milis, std::bind(&BlackboardManager::publish_blackboard, this));
 }
 
 void BlackboardManager::init()
 {
-  using::std::chrono_literals::operator""ms;
-  
+  using ::std::chrono_literals::operator""ms;
+
   lock_ = false;
   robot_id_ = "";
 
@@ -62,14 +60,16 @@ void BlackboardManager::init()
     std::bind(&BlackboardManager::blackboard_callback, this, std::placeholders::_1));
 
   timer_cycle_ = create_wall_timer(50ms, std::bind(&BlackboardManager::control_cycle, this));
-  
+
   rclcpp::on_shutdown([this]() {dump_blackboard();});
 }
 
 void BlackboardManager::control_cycle()
 {
   if (!lock_ && !q_.empty()) {
-    RCLCPP_INFO(get_logger(), "dequeuing robot %s (%zu pending)", q_.front().c_str(), q_.size() - 1);
+    RCLCPP_INFO(
+      get_logger(), "dequeuing robot %s (%zu pending)", q_.front().c_str(),
+      q_.size() - 1);
     robot_id_ = q_.front();
     q_.pop();
     grant_blackboard();
@@ -101,9 +101,10 @@ void BlackboardManager::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr 
     q_.push(update_bb_msg_->robot_id);
     RCLCPP_INFO(get_logger(), "request from robot %s enqueued", update_bb_msg_->robot_id.c_str());
   } else if ((update_bb_msg_->type == bf_msgs::msg::Blackboard::UPDATE) &&
-    (update_bb_msg_->robot_id == robot_id_)) {
-      // attend update request coming from the robot that has the blackboard
-      update_blackboard();
+    (update_bb_msg_->robot_id == robot_id_))
+  {
+    // attend update request coming from the robot that has the blackboard
+    update_blackboard();
   }
 }
 
@@ -113,11 +114,20 @@ void BlackboardManager::update_blackboard()
 
   std::vector<std::string> keys = update_bb_msg_->keys;
   std::vector<std::string> values = update_bb_msg_->values;
+  std::vector<std::string> types = update_bb_msg_->key_types;
 
   // blackboard_->clear();
   // manager cannot clear the blackboard, only update it
   for (int i = 0; i < keys.size(); i++) {
-    blackboard_->set(keys[i], values[i]);
+    // ORIGINAL CODE
+    // blackboard_->set(keys[i], values[i]);
+
+    // NEW CODE
+    if (types[i] == "string" || types[i] == "unknown") {
+      blackboard_->set(keys[i], values[i]);
+    } else if (types[i] == "int") {
+      blackboard_->set(keys[i], std::stoi(values[i]));
+    }
   }
 
   lock_ = false;
@@ -143,17 +153,24 @@ void BlackboardManager::publish_blackboard()
     msg.robot_id = robot_id_;
     std::vector<std::string> keys;
     std::vector<std::string> values;
+    std::vector<std::string> types;
 
     for (const auto & string_view : string_views) {
       try {
         keys.push_back(string_view.data());
         values.push_back(blackboard_->get<std::string>(string_view.data()));
+        if (get_type(string_view.data()) == "string") {
+          types.push_back("string");
+        } else if (get_type(string_view.data()) == "int") {
+          types.push_back("int");
+        }
       } catch (const std::exception & e) {
         RCLCPP_INFO(get_logger(), "key %s skipped", string_view.data());
       }
     }
     msg.keys = keys;
-    msg.values = values;  
+    msg.values = values;
+    msg.key_types = types;
     bb_pub_->publish(msg);
     lock_ = false;
     robot_id_ = "";
@@ -181,29 +198,26 @@ void BlackboardManager::dump_blackboard()
 {
   RCLCPP_INFO(get_logger(), "dumping blackboard");
   std::string filename = "src/behaviorfleets/results/manager.txt";
-  std::ofstream file(filename,std::ofstream::out);
+  std::ofstream file(filename, std::ofstream::out);
 
   std::vector<std::pair<std::string, std::string>> kv_pairs;
   std::vector<BT::StringView> string_views = blackboard_->getKeys();
-  
+
   for (const auto & string_view : string_views) {
-    kv_pairs.push_back(std::make_pair(string_view.data(),
-      blackboard_->get<std::string>(string_view.data())));
+    kv_pairs.push_back(
+      std::make_pair(
+        string_view.data(),
+        blackboard_->get<std::string>(string_view.data())));
   }
 
-  std::sort(kv_pairs.begin(), kv_pairs.end(),
-    [](const std::pair<std::string, std::string>& a,
-    const std::pair<std::string, std::string>& b) {
+  std::sort(
+    kv_pairs.begin(), kv_pairs.end(),
+    [](const std::pair<std::string, std::string> & a,
+    const std::pair<std::string, std::string> & b) {
       return a.first < b.first;
-  });
+    });
 
   if (file.is_open()) {
-
-    // std::vector<BT::StringView> string_views = blackboard_->getKeys();
-    // for (const auto & string_view : string_views) {
-    //   file << string_view.data() << ":" << blackboard_->get<std::string>(string_view.data()) << std::endl;
-    // }
-
     for (const auto & kv_pair : kv_pairs) {
       file << kv_pair.first << ":" << kv_pair.second << std::endl;
     }
@@ -213,6 +227,23 @@ void BlackboardManager::dump_blackboard()
   } else {
     RCLCPP_INFO(get_logger(), "blackboard could NOT be dumped to file: %s", filename.c_str());
   }
+}
+
+std::string BlackboardManager::get_type(const char * port_name)
+{
+  const BT::PortInfo * port = blackboard_->portInfo(port_name);
+  int status;
+  char * port_type = abi::__cxa_demangle(port->type().name(), nullptr, nullptr, &status);
+  std::string type(port_type);
+  std::free(port_type);
+
+  if (type.find("string") != std::string::npos) {
+    return "string";
+  }
+  if (type.find("int") != std::string::npos) {
+    return "int";
+  }
+  return "unknown";
 }
 
 }  // namespace BF

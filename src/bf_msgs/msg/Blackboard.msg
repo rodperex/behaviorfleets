@@ -14,5 +14,6 @@ uint8 PUBLISH = 6
 uint8 type
 string robot_id
 string[] keys
+string[] key_types
 string[] values
 

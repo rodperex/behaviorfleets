@@ -42,13 +42,14 @@ BlackboardManager::BlackboardManager(
   init();
   copy_blackboard(blackboard);
 
-  timer_publish_ = create_wall_timer(milis, std::bind(&BlackboardManager::publish_blackboard, this));
+  timer_publish_ =
+    create_wall_timer(milis, std::bind(&BlackboardManager::publish_blackboard, this));
 }
 
 void BlackboardManager::init()
 {
-  using::std::chrono_literals::operator""ms;
-  
+  using ::std::chrono_literals::operator""ms;
+
   lock_ = false;
   robot_id_ = "";
 
@@ -67,7 +68,9 @@ void BlackboardManager::init()
 void BlackboardManager::control_cycle()
 {
   if (!lock_ && !q_.empty()) {
-    RCLCPP_INFO(get_logger(), "dequeuing robot %s (%zu pending)", q_.front().c_str(), q_.size() - 1);
+    RCLCPP_INFO(
+      get_logger(), "dequeuing robot %s (%zu pending)", q_.front().c_str(),
+      q_.size() - 1);
     robot_id_ = q_.front();
     q_.pop();
     grant_blackboard();
@@ -111,7 +114,7 @@ void BlackboardManager::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr 
       RCLCPP_INFO(get_logger(), "request from robot %s enqueued", update_bb_msg_->robot_id.c_str());
       q_.push(update_bb_msg_->robot_id);
     }
-    
+
   }
 }
 
@@ -160,7 +163,7 @@ void BlackboardManager::publish_blackboard()
       }
     }
     msg.keys = keys;
-    msg.values = values;  
+    msg.values = values;
     bb_pub_->publish(msg);
     lock_ = false;
     robot_id_ = "";

@@ -1,7 +1,7 @@
 nodes: 10
-n_keys: 100
-op_time: 60
-max_delay: 5
-stresser_hz: 10
+n_keys: 10
+op_time: 10
+max_delay: 3
+stresser_hz: 3
 dev_hz: 10
 manager_hz: 1

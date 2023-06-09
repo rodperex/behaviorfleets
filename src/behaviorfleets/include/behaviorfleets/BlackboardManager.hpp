@@ -20,6 +20,8 @@
 #include <chrono>
 #include <fstream>
 #include <iostream>
+#include <cxxabi.h>
+#include <cstdlib>
 
 #include "behaviortree_cpp/blackboard.h"
 
@@ -40,6 +42,7 @@ public:
 private:
   void blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr msg);
   void copy_blackboard(BT::Blackboard::Ptr source_bb);
+  std::string get_type(const char * port_name);
   void init();
   void control_cycle();
   void grant_blackboard();

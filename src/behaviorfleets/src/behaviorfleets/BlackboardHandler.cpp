@@ -48,6 +48,9 @@ void BlackboardHandler::control_cycle()
     update_blackboard();
     cache_blackboard();
   }
+
+  // POSSIBLE ENHANCEMENT: although a request has been sent, if the blackboard has not changed,
+  // cancel the request
 }
 
 bool BlackboardHandler::has_bb_changed()
@@ -78,7 +81,7 @@ bool BlackboardHandler::has_bb_changed()
 }
 
 void BlackboardHandler::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr msg)
-{ 
+{
   if ((msg->type == bf_msgs::msg::Blackboard::GRANT) && (msg->robot_id == robot_id_)) {
     RCLCPP_INFO(get_logger(), "access to blackboard granted");
     access_granted_ = true;
@@ -92,7 +95,13 @@ void BlackboardHandler::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr 
     RCLCPP_INFO(get_logger(), "updating local blackboard from the shared one");
     // blackboard_->clear();
     for (int i = 0; i < msg->keys.size(); i++) {
-      blackboard_->set(msg->keys.at(i), msg->values.at(i));
+      // blackboard_->set(msg->keys.at(i), msg->values.at(i));
+      // NEW CODE
+      if (msg->key_types[i] == "string") {
+        blackboard_->set(msg->keys.at(i), msg->values.at(i));
+      } else if (msg->key_types[i] == "int") {
+        blackboard_->set(msg->keys.at(i), std::stoi(msg->values.at(i)));
+      }
     }
     cache_blackboard();
     return;
@@ -111,7 +120,20 @@ void BlackboardHandler::cache_blackboard()
   std::vector<BT::StringView> string_views = blackboard_->getKeys();
   for (const auto & string_view : string_views) {
     try {
-      bb_cache_->set(string_view.data(), blackboard_->get<std::string>(string_view.data()));
+      // ORIGINAL CODE
+      // bb_cache_->set(string_view.data(), blackboard_->get<std::string>(string_view.data()));
+
+      // CHANGES TO CONSIDER TYPES
+      std::string type = get_type(string_view.data());
+
+      if (type == "string" || type == "unknown") {
+        bb_cache_->set(string_view.data(), blackboard_->get<std::string>(string_view.data()));
+      } else if (type == "int") {
+        bb_cache_->set(string_view.data(), blackboard_->get<int>(string_view.data()));
+      }
+
+      // END CHANGES
+
       // RCLCPP_INFO(get_logger(), "key %s cached", string_view.data());
     } catch (const std::exception & e) {
       excluded_keys_.push_back(string_view.data());
@@ -132,19 +154,29 @@ void BlackboardHandler::update_blackboard()
     msg.type = bf_msgs::msg::Blackboard::UPDATE;
     std::vector<std::string> keys;
     std::vector<std::string> values;
+    std::vector<std::string> types;
     msg.values = {};
-    for (const auto &string_view : string_views)
-    {
+    for (const auto & string_view : string_views) {
       if (std::find(
           excluded_keys_.begin(), excluded_keys_.end(),
           string_view.data()) == excluded_keys_.end())
       {
         keys.push_back(string_view.data());
         values.push_back(blackboard_->get<std::string>(string_view.data()));
+
+        // CHANGES TO CONSIDER TYPES
+        if (get_type(string_view.data()) == "string") {
+          types.push_back("string");
+        } else if (get_type(string_view.data()) == "int") {
+          types.push_back("int");
+        } else if (get_type(string_view.data()) == "unknown") {
+          types.push_back("unknown");
+        }
       }
     }
     msg.keys = keys;
-    msg.values = values;  
+    msg.values = values;
+    msg.key_types = types;
     bb_pub_->publish(msg);
     request_sent_ = false;
     access_granted_ = false;
@@ -166,4 +198,21 @@ void BlackboardHandler::update_blackboard()
   }
 }
 
-}  // namespace BF
+std::string BlackboardHandler::get_type(const char * port_name)
+{
+  const BT::PortInfo * port = blackboard_->portInfo(port_name);
+  int status;
+  char * port_type = abi::__cxa_demangle(port->type().name(), nullptr, nullptr, &status);
+  std::string type(port_type);
+  std::free(port_type);
+
+  if (type.find("string") != std::string::npos) {
+    return "string";
+  }
+  if (type.find("int") != std::string::npos) {
+    return "int";
+  }
+  return "unknown";
+}
+
+} // namespace BF
