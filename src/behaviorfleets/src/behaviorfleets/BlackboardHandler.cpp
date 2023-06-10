@@ -101,6 +101,14 @@ void BlackboardHandler::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr 
         blackboard_->set(msg->keys.at(i), msg->values.at(i));
       } else if (msg->key_types[i] == "int") {
         blackboard_->set(msg->keys.at(i), std::stoi(msg->values.at(i)));
+      } else if (msg->key_types[i] == "float") {
+        blackboard_->set(msg->keys.at(i), std::stof(msg->values.at(i)));
+      } else if (msg ->key_types[i] == "double") {
+        blackboard_->set(msg->keys.at(i), std::stod(msg->values.at(i)));
+      } else if (msg->key_types[i] == "bool") {
+        blackboard_->set(msg->keys.at(i), (bool)std::stoi(msg->values.at(i)));
+      } else {
+        RCLCPP_ERROR(get_logger(), "Unknown type [%s]", msg->key_types[i].c_str());
       }
     }
     cache_blackboard();
@@ -125,11 +133,19 @@ void BlackboardHandler::cache_blackboard()
 
       // CHANGES TO CONSIDER TYPES
       std::string type = get_type(string_view.data());
-
+      
       if (type == "string" || type == "unknown") {
         bb_cache_->set(string_view.data(), blackboard_->get<std::string>(string_view.data()));
       } else if (type == "int") {
         bb_cache_->set(string_view.data(), blackboard_->get<int>(string_view.data()));
+      } else if (type == "float") {
+        bb_cache_->set(string_view.data(), blackboard_->get<float>(string_view.data()));
+      } else if (type == "double") {
+        bb_cache_->set(string_view.data(), blackboard_->get<double>(string_view.data()));
+      } else if (type == "bool") {
+        bb_cache_->set(string_view.data(), blackboard_->get<bool>(string_view.data()));
+      } else {
+         RCLCPP_ERROR(get_logger(), "unknown type [%s]", type.c_str());
       }
 
       // END CHANGES
@@ -169,6 +185,12 @@ void BlackboardHandler::update_blackboard()
           types.push_back("string");
         } else if (get_type(string_view.data()) == "int") {
           types.push_back("int");
+        } else if (get_type(string_view.data()) == "float") {
+          types.push_back("float");
+        } else if (get_type(string_view.data()) == "double") {
+          types.push_back("double");
+        } else if (get_type(string_view.data()) == "bool") {
+          types.push_back("bool");
         } else if (get_type(string_view.data()) == "unknown") {
           types.push_back("unknown");
         }
@@ -212,6 +234,16 @@ std::string BlackboardHandler::get_type(const char * port_name)
   if (type.find("int") != std::string::npos) {
     return "int";
   }
+  if (type.find("float") != std::string::npos) {
+    return "float";
+  }
+  if (type.find("double") != std::string::npos) {
+    return "double";
+  }
+  if (type.find("bool") != std::string::npos) {
+    return "bool";
+  }
+
   return "unknown";
 }
 
