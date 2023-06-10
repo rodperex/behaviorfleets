@@ -64,17 +64,6 @@ void BlackboardStresser::control_cycle()
     dump_blackboard();
   }
 
-  // if ((op_time_ != std::chrono::seconds(0)) &&
-  //   (rclcpp::Clock().now() - t_start_ > op_time_)) {
-  //     rclcpp::spin_some(bb_handler_);
-  //     return;
-  // }
-
-  // int prob = random_int(0, 100);
-  // if (random_int(0, 100) < 50) {
-  //   update_blackboard();
-  // }
-
   rclcpp::spin_some(bb_handler_);
 }
 
@@ -98,7 +87,6 @@ void BlackboardStresser::update_blackboard()
   int i = random_int(0, keys_.size() - 1);
   int val = random_int(0, 100);
   RCLCPP_INFO(get_logger(), "updating key: %s to %d", keys_[i].c_str(), val);
-  // blackboard_->set(keys_[i], std::to_string(val));
   blackboard_->set(keys_[i], val);
 }
 

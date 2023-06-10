@@ -96,7 +96,6 @@ void BlackboardHandler::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr 
     // blackboard_->clear();
     for (int i = 0; i < msg->keys.size(); i++) {
       // blackboard_->set(msg->keys.at(i), msg->values.at(i));
-      // NEW CODE
       if (msg->key_types[i] == "string") {
         blackboard_->set(msg->keys.at(i), msg->values.at(i));
       } else if (msg->key_types[i] == "int") {
@@ -179,21 +178,7 @@ void BlackboardHandler::update_blackboard()
       {
         keys.push_back(string_view.data());
         values.push_back(blackboard_->get<std::string>(string_view.data()));
-
-        // CHANGES TO CONSIDER TYPES
-        if (get_type(string_view.data()) == "string") {
-          types.push_back("string");
-        } else if (get_type(string_view.data()) == "int") {
-          types.push_back("int");
-        } else if (get_type(string_view.data()) == "float") {
-          types.push_back("float");
-        } else if (get_type(string_view.data()) == "double") {
-          types.push_back("double");
-        } else if (get_type(string_view.data()) == "bool") {
-          types.push_back("bool");
-        } else if (get_type(string_view.data()) == "unknown") {
-          types.push_back("unknown");
-        }
+        types.push_back(get_type(string_view.data()));
       }
     }
     msg.keys = keys;

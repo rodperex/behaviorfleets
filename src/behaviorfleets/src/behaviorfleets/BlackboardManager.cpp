@@ -134,7 +134,7 @@ void BlackboardManager::update_blackboard()
     } else if (types[i] == "bool") {
       blackboard_->set(keys[i], (bool)std::stoi(values[i]));
     } else {
-      RCLCPP_ERROR(get_logger(), "Unknown type [%s]", types[i].c_str());
+      RCLCPP_ERROR(get_logger(), "unknown type in the blackboard [%s]", types[i].c_str());
     }
   }
 
@@ -167,19 +167,7 @@ void BlackboardManager::publish_blackboard()
       try {
         keys.push_back(string_view.data());
         values.push_back(blackboard_->get<std::string>(string_view.data()));
-        if (get_type(string_view.data()) == "string") {
-          types.push_back("string");
-        } else if (get_type(string_view.data()) == "int") {
-          types.push_back("int");
-        } else if (get_type(string_view.data()) == "float") {
-          types.push_back("float");
-        } else if (get_type(string_view.data()) == "double") {
-          types.push_back("double");
-        } else if (get_type(string_view.data()) == "bool") {
-          types.push_back("bool");
-        } else {
-          types.push_back("unknown");
-        }
+        types.push_back(get_type(string_view.data()));
       } catch (const std::exception & e) {
         RCLCPP_INFO(get_logger(), "key %s skipped", string_view.data());
       }
