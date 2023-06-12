@@ -67,12 +67,13 @@ void BlackboardManager::init()
 void BlackboardManager::control_cycle()
 {
   if (!lock_ && !q_.empty()) {
-    RCLCPP_INFO(
-      get_logger(), "dequeuing robot %s (%zu pending)", q_.front().c_str(),
-      q_.size() - 1);
     robot_id_ = q_.front();
-    q_.pop();
     waiting_times_.push_back (rclcpp::Clock().now() - q_start_wait_.front());
+    RCLCPP_INFO(
+      get_logger(), "dequeuing robot %s (%zu pending). Waiting for %fs", q_.front().c_str(),
+      q_.size() - 1,
+      (rclcpp::Clock().now() - q_start_wait_.front()).nanoseconds() / 1e9);
+    q_.pop();   
     q_start_wait_.pop();
     grant_blackboard();
   } else if ((rclcpp::Clock().now() - t_last_grant_).seconds() > 5.0) {
@@ -229,7 +230,28 @@ void BlackboardManager::dump_blackboard()
     RCLCPP_INFO(get_logger(), "blackboard could NOT be dumped to file: %s", filename.c_str());
   }
 
+  dump_waiting_times(); 
 }
+
+void BlackboardManager::dump_waiting_times()
+{
+  RCLCPP_INFO(get_logger(), "dumping waiting times");
+  std::string filename = "src/behaviorfleets/results/waiting_times.txt";
+  std::ofstream file(filename, std::ofstream::out);
+
+  if (file.is_open()) {
+    for (const auto & wt : waiting_times_) {
+      file << (wt.nanoseconds() / 1e6) << std::endl;
+    }
+
+    file.close();
+    RCLCPP_INFO(get_logger(), "waiting times dumped to file: %s", filename.c_str());
+  } else {
+    RCLCPP_INFO(get_logger(), "waiting times could NOT be dumped to file: %s", filename.c_str());
+  }
+
+}
+
 
 
 

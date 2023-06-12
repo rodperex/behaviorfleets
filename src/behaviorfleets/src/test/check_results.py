@@ -8,7 +8,7 @@ bbs = []
 
 for file_path in os.listdir(path): 
   with open(path + '/' + file_path) as f:
-    if not ('_handler' in file_path):
+    if (not('_handler' in file_path) and not('waiting_times' in file_path)):
       lines = f.readlines()
       d = {}
       for line in lines:
@@ -23,20 +23,8 @@ for file_path in os.listdir(path):
 all_same = all(manager == item for item in bbs)
 print(all_same)
 
-# path = '/src/behaviorfleets/results/waiting_times.txt'
-# path = os.getcwd() + path
-
-# waiting_times = []
-# with open(path) as f:
-#   lines = f.readlines()
-#   for line in lines:
-#     line = line.rstrip('\n')
-#     waiting_times.append(float(line))
-
-# print(sum(waiting_times)/len(waiting_times))
-
-# path = '/src/behaviorfleets/results'
-# path = os.getcwd() + path
+path = '/src/behaviorfleets/results'
+path = os.getcwd() + path
 
 wts = []
 
@@ -51,16 +39,36 @@ for file_path in os.listdir(path):
 
 wts = [float(x) for x in wts]
 wts = [x for x in wts if not math.isnan(x)]
-wts = [x / 1000 for x in wts]  
+wts = [x / 1e3 for x in wts]  
 
-avg = 0
-for time in wts:
-  avg = avg + time
-
-avg = avg / len(wts)
+print('CLIENT SIDE')
 print('avg', end=" = ")
-print(avg)
+print(sum(wts)/len(wts))
 print('max', end=" = ")
 print(max(wts))
 print('min', end=" = ")
 print(min(wts))
+
+path = '/src/behaviorfleets/results/waiting_times.txt'
+path = os.getcwd() + path
+
+wts = []
+
+with open(path) as f:
+  lines = f.readlines()
+  for line in lines:
+    line = line.rstrip('\n')
+    wts.append(float(line))
+
+wts = [float(x) for x in wts]
+wts = [x for x in wts if not math.isnan(x)]
+wts = [x / 1e3 for x in wts] 
+
+print('SERVER SIDE')
+print('avg', end=" = ")
+print(sum(wts)/len(wts))
+print('max', end=" = ")
+print(max(wts))
+print('min', end=" = ")
+print(min(wts))
+

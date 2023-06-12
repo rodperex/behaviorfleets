@@ -49,6 +49,7 @@ private:
   void update_blackboard();
   void publish_blackboard();
   void dump_blackboard();
+  void dump_waiting_times();
 
   bf_msgs::msg::Blackboard::UniquePtr update_bb_msg_;
   BT::Blackboard::Ptr blackboard_;
