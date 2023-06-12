@@ -19,6 +19,8 @@
 #include <chrono>
 #include <cxxabi.h>
 #include <cstdlib>
+#include <fstream>
+#include <iostream>
 
 #include "rclcpp/rclcpp.hpp"
 
@@ -53,6 +55,10 @@ private:
   rclcpp::Subscription<bf_msgs::msg::Blackboard>::SharedPtr bb_sub_;
 
   rclcpp::TimerBase::SharedPtr timer_;
+
+  // test stuff
+  rclcpp::Time waiting_time_;
+  double avg_waiting_time_;
 };
 
 }   // namespace BF

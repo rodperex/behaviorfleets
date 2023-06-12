@@ -47,6 +47,13 @@ void BlackboardHandler::control_cycle()
   if (has_bb_changed()) {
     update_blackboard();
     cache_blackboard();
+
+    std::string filename = "src/behaviorfleets/results/" + robot_id_ + ".txt";
+    std::ofstream file(filename, std::ofstream::out);
+    if (file.is_open()) {
+      file <<  "avg. waiting time = " << avg_waiting_time_ << std::endl;
+      file.close();
+    }
   }
 
   // POSSIBLE ENHANCEMENT: although a request has been sent, if the blackboard has not changed,
@@ -162,8 +169,10 @@ void BlackboardHandler::update_blackboard()
   bf_msgs::msg::Blackboard msg;
 
   if (access_granted_) {
+    waiting_time_ = (rclcpp::Clock().now() - t_last_request_) + waiting_time_;
     n_success_++;
-    RCLCPP_INFO(get_logger(), "SUCCESS %d: updating shared blackboard", n_success_);
+    avg_waiting_time_ = (waiting_time_.nanoseconds() / n_success_) / 1e6; // millis
+    RCLCPP_INFO(get_logger(), "SUCCESS %d: updating shared blackboard (%f ms)", n_success_, avg_waiting_time_);
     std::vector<BT::StringView> string_views = blackboard_->getKeys();
     msg.robot_id = robot_id_;
     msg.type = bf_msgs::msg::Blackboard::UPDATE;

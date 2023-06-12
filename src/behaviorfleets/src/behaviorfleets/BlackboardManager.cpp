@@ -72,6 +72,8 @@ void BlackboardManager::control_cycle()
       q_.size() - 1);
     robot_id_ = q_.front();
     q_.pop();
+    waiting_times_.push_back (rclcpp::Clock().now() - q_start_wait_.front());
+    q_start_wait_.pop();
     grant_blackboard();
   } else if ((rclcpp::Clock().now() - t_last_grant_).seconds() > 5.0) {
     // RCLCPP_INFO(get_logger(), "blackboard free");
@@ -99,6 +101,7 @@ void BlackboardManager::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr 
   if (update_bb_msg_->type == bf_msgs::msg::Blackboard::REQUEST) {
     // enqueue all requests
     q_.push(update_bb_msg_->robot_id);
+    q_start_wait_.push(rclcpp::Clock().now());
     RCLCPP_INFO(get_logger(), "request from robot %s enqueued", update_bb_msg_->robot_id.c_str());
   } else if ((update_bb_msg_->type == bf_msgs::msg::Blackboard::UPDATE) &&
     (update_bb_msg_->robot_id == robot_id_))
@@ -145,13 +148,7 @@ void BlackboardManager::update_blackboard()
 
 void BlackboardManager::publish_blackboard()
 {
-  // RCLCPP_INFO(get_logger(), "publishing blackboard");
-
-  // while (lock_) {
-  //   std::this_thread::sleep_for(std::chrono::milliseconds(100));
-  // }
-
-  if (!lock_) {
+   if (!lock_) {
     lock_ = true;
     bf_msgs::msg::Blackboard msg;
     std::vector<BT::StringView> string_views = blackboard_->getKeys();
@@ -231,7 +228,10 @@ void BlackboardManager::dump_blackboard()
   } else {
     RCLCPP_INFO(get_logger(), "blackboard could NOT be dumped to file: %s", filename.c_str());
   }
+
 }
+
+
 
 std::string BlackboardManager::get_type(const char * port_name)
 {

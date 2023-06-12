@@ -30,7 +30,7 @@ BlackboardStresser::BlackboardStresser(
   delay_(delay)
 {
   blackboard_ = BT::Blackboard::create();
-  bb_handler_ = std::make_shared<BlackboardHandler>(robot_id_, blackboard_);
+  bb_handler_ = std::make_shared<BlackboardHandler>(robot_id_ + "_handler", blackboard_);
 
   for (int i = 0; i < n_keys; i++) {
     keys_.push_back("key_" + std::to_string(i));
@@ -60,8 +60,10 @@ void BlackboardStresser::control_cycle()
     if (random_int(0, 100) < 50) {
       update_blackboard();
     }
+    
   } else {
     dump_blackboard();
+    // bb_handler_->get_node_base_interface()->get_context()->shutdown("stress test finished");
   }
 
   rclcpp::spin_some(bb_handler_);

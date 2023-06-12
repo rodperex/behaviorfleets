@@ -63,6 +63,8 @@ private:
 
   rclcpp::TimerBase::SharedPtr timer_publish_, timer_cycle_;
 
+  std::queue<rclcpp::Time> q_start_wait_;
+  std::vector<rclcpp::Duration> waiting_times_;
 };
 
 }   // namespace BF
