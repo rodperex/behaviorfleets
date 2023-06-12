@@ -59,9 +59,6 @@ void BlackboardHandler::control_cycle()
     file <<  "avg. waiting time = " << ((waiting_time_.nanoseconds() / 1e6) / n_success_) << std::endl;
     file.close();
   }
-
-  // POSSIBLE ENHANCEMENT: although a request has been sent, if the blackboard has not changed,
-  // cancel the request
 }
 
 bool BlackboardHandler::has_bb_changed()
