@@ -38,6 +38,8 @@ public:
   BlackboardManager();
   BlackboardManager(BT::Blackboard::Ptr blackboard);
   BlackboardManager(BT::Blackboard::Ptr blackboard, std::chrono::milliseconds milis);
+  BlackboardManager(BT::Blackboard::Ptr blackboard, std::chrono::milliseconds milis,
+                      std::chrono::milliseconds bb_refresh_rate);
 
 private:
   void blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr msg);
