@@ -34,6 +34,7 @@ BlackboardStresser::BlackboardStresser(
 
   for (int i = 0; i < n_keys; i++) {
     keys_.push_back("key_" + std::to_string(i));
+    blackboard_->set(keys_[i], i);
   }
 
   RCLCPP_INFO(

@@ -1,4 +1,5 @@
 import os
+import math
 
 path = '/src/behaviorfleets/results'
 path = os.getcwd() + path
@@ -47,15 +48,19 @@ for file_path in os.listdir(path):
       for line in lines:
         pairs = (line.rstrip('\n')).split(' = ')
         wts.append(pairs[1])
-   
+
+wts = [float(x) for x in wts]
+wts = [x for x in wts if not math.isnan(x)]
+wts = [x / 1000 for x in wts]  
+
 avg = 0
 for time in wts:
-  avg = avg + float(time)
+  avg = avg + time
 
 avg = avg / len(wts)
-print('avg', end="=")
-print(avg / 1000)
-print('max', end="=")
+print('avg', end=" = ")
+print(avg)
+print('max', end=" = ")
 print(max(wts))
-print('min', end="=")
+print('min', end=" = ")
 print(min(wts))

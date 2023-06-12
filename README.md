@@ -1,11 +1,8 @@
 # behaviorfleets
 
 TO DO:
-    - Enhance protocol so when a node is excluded, it is communicated so it does not try anymore (stops potential channel block). Makes sense?
-
-SHARED BB:
-    - Centralized node that manages the BB
-    - Every remote robot has its own handler to keep the local BB sychronized with the global
-
-LIMITATION TO SOLVE:
-    - Now, when sharing blackboard, all keys should be added as strings since the global blackboard is propagated as map of strings. So if the local blackboard tries to updato one of the keys, let's say with a in integer number, we would have a type error. Thus it is necessary to parse it to string.
+    - Measure waiting time in the server side to isolate it from the client Hz
+    - Each handler dumps the number of successfuk updates
+    - Make the stressers work until all requests have been attended?
+        - When there are many nodes working, only a couple of requests are attended during the operation time
+        - Instead of providing operation time, we can provide number os successful updates as a condition to stop

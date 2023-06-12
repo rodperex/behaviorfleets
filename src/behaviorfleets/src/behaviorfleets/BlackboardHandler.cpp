@@ -48,12 +48,16 @@ void BlackboardHandler::control_cycle()
     update_blackboard();
     cache_blackboard();
 
-    std::string filename = "src/behaviorfleets/results/" + robot_id_ + ".txt";
-    std::ofstream file(filename, std::ofstream::out);
-    if (file.is_open()) {
-      file <<  "avg. waiting time = " << avg_waiting_time_ << std::endl;
-      file.close();
-    }
+  }
+
+  std::string filename = "src/behaviorfleets/results/" + robot_id_ + ".txt";
+  std::ofstream file(filename, std::ofstream::out);
+  if (file.is_open()) {
+    RCLCPP_DEBUG(get_logger(), "total waiting time = %f ms", (waiting_time_.nanoseconds() / 1e6));
+    RCLCPP_DEBUG(get_logger(), "number of successful requests =  %d", n_success_);
+    RCLCPP_DEBUG(get_logger(), "avg. waiting time =  %f ms", (waiting_time_.nanoseconds() / 1e6));
+    file <<  "avg. waiting time = " << ((waiting_time_.nanoseconds() / 1e6) / n_success_) << std::endl;
+    file.close();
   }
 
   // POSSIBLE ENHANCEMENT: although a request has been sent, if the blackboard has not changed,
@@ -89,6 +93,7 @@ bool BlackboardHandler::has_bb_changed()
 
 void BlackboardHandler::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr msg)
 {
+  RCLCPP_DEBUG(get_logger(), "blackboard_callback");
   if ((msg->type == bf_msgs::msg::Blackboard::GRANT) && (msg->robot_id == robot_id_)) {
     RCLCPP_INFO(get_logger(), "access to blackboard granted");
     access_granted_ = true;
