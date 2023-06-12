@@ -42,9 +42,6 @@ BlackboardManager::BlackboardManager(
   copy_blackboard(blackboard);
 
   timer_cycle_ = create_wall_timer(milis, std::bind(&BlackboardManager::control_cycle, this));
-
-  // timer_publish_ =
-  //   create_wall_timer(milis, std::bind(&BlackboardManager::publish_blackboard, this));
 }
 
 BlackboardManager::BlackboardManager(BT::Blackboard::Ptr blackboard, std::chrono::milliseconds milis,
