@@ -52,8 +52,8 @@ int main(int argc, char * argv[])
 
     auto blackboard = BT::Blackboard::create();
 
-    // auto bb_manager = std::make_shared<BF::BlackboardManager>(blackboard, period);
-    auto bb_manager = std::make_shared<BF::BlackboardManager>(blackboard);
+    auto bb_manager = std::make_shared<BF::BlackboardManager>(blackboard, period);
+    // auto bb_manager = std::make_shared<BF::BlackboardManager>(blackboard);
 
     rclcpp::spin(bb_manager);
 

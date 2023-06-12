@@ -27,7 +27,9 @@ BlackboardManager::BlackboardManager(
   BT::Blackboard::Ptr blackboard)
 : Node("blackboard_manager")
 {
+  using ::std::chrono_literals::operator""ms;
   init();
+  timer_cycle_ = create_wall_timer(50ms, std::bind(&BlackboardManager::control_cycle, this));
   copy_blackboard(blackboard);
 }
 
@@ -39,14 +41,26 @@ BlackboardManager::BlackboardManager(
   init();
   copy_blackboard(blackboard);
 
-  timer_publish_ =
-    create_wall_timer(milis, std::bind(&BlackboardManager::publish_blackboard, this));
+  timer_cycle_ = create_wall_timer(milis, std::bind(&BlackboardManager::control_cycle, this));
+
+  // timer_publish_ =
+  //   create_wall_timer(milis, std::bind(&BlackboardManager::publish_blackboard, this));
 }
 
+BlackboardManager::BlackboardManager(BT::Blackboard::Ptr blackboard, std::chrono::milliseconds milis,
+                      std::chrono::milliseconds bb_refresh_rate)
+  : Node("blackboard_manager")
+{
+  init();
+  copy_blackboard(blackboard);
+
+  timer_cycle_ = create_wall_timer(milis, std::bind(&BlackboardManager::control_cycle, this));
+
+  timer_publish_ =
+    create_wall_timer(bb_refresh_rate, std::bind(&BlackboardManager::publish_blackboard, this));
+}
 void BlackboardManager::init()
 {
-  using ::std::chrono_literals::operator""ms;
-
   lock_ = false;
   robot_id_ = "";
 
@@ -58,8 +72,6 @@ void BlackboardManager::init()
   bb_sub_ = create_subscription<bf_msgs::msg::Blackboard>(
     "/blackboard", rclcpp::SensorDataQoS(),
     std::bind(&BlackboardManager::blackboard_callback, this, std::placeholders::_1));
-
-  timer_cycle_ = create_wall_timer(50ms, std::bind(&BlackboardManager::control_cycle, this));
 
   rclcpp::on_shutdown([this]() {dump_blackboard();});
 }
