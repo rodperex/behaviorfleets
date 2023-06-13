@@ -1,7 +1,7 @@
 import os
 import math
 
-path = '/src/behaviorfleets/results'
+path = '/behaviorfleets/results'
 path = os.getcwd() + path
 
 bbs = []
@@ -23,7 +23,7 @@ for file_path in os.listdir(path):
 all_same = all(manager == item for item in bbs)
 print(all_same)
 
-path = '/src/behaviorfleets/results'
+path = '/behaviorfleets/results'
 path = os.getcwd() + path
 
 wts = []
@@ -49,7 +49,7 @@ print(max(wts))
 print('min', end=" = ")
 print(min(wts))
 
-path = '/src/behaviorfleets/results/waiting_times.txt'
+path = '/behaviorfleets/results/waiting_times.txt'
 path = os.getcwd() + path
 
 wts = []
