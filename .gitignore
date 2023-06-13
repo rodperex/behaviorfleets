@@ -2,5 +2,4 @@
 build/
 install/
 log/
-results/
-src/thirdparty/
+thirdparty/
