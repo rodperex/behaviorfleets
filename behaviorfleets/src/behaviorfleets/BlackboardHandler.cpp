@@ -50,7 +50,7 @@ void BlackboardHandler::control_cycle()
 
   }
 
-  std::string filename = "src/behaviorfleets/results/" + robot_id_ + ".txt";
+  std::string filename = "behaviorfleets/results/" + robot_id_ + ".txt";
   std::ofstream file(filename, std::ofstream::out);
   if (file.is_open()) {
     RCLCPP_DEBUG(get_logger(), "total waiting time = %f ms", (waiting_time_.nanoseconds() / 1e6));
