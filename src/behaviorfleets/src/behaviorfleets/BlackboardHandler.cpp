@@ -56,7 +56,8 @@ void BlackboardHandler::control_cycle()
     RCLCPP_DEBUG(get_logger(), "total waiting time = %f ms", (waiting_time_.nanoseconds() / 1e6));
     RCLCPP_DEBUG(get_logger(), "number of successful requests =  %d", n_success_);
     RCLCPP_DEBUG(get_logger(), "avg. waiting time =  %f ms", (waiting_time_.nanoseconds() / 1e6));
-    file <<  "avg. waiting time = " << ((waiting_time_.nanoseconds() / 1e6) / n_success_) << std::endl;
+    file << "avg. waiting time = " << ((waiting_time_.nanoseconds() / 1e6) / n_success_) <<
+      std::endl;
     file.close();
   }
 }
@@ -111,7 +112,7 @@ void BlackboardHandler::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr 
         blackboard_->set(msg->keys.at(i), std::stoi(msg->values.at(i)));
       } else if (msg->key_types[i] == "float") {
         blackboard_->set(msg->keys.at(i), std::stof(msg->values.at(i)));
-      } else if (msg ->key_types[i] == "double") {
+      } else if (msg->key_types[i] == "double") {
         blackboard_->set(msg->keys.at(i), std::stod(msg->values.at(i)));
       } else if (msg->key_types[i] == "bool") {
         blackboard_->set(msg->keys.at(i), (bool)std::stoi(msg->values.at(i)));
@@ -141,7 +142,7 @@ void BlackboardHandler::cache_blackboard()
 
       // CHANGES TO CONSIDER TYPES
       std::string type = get_type(string_view.data());
-      
+
       if (type == "string" || type == "unknown") {
         bb_cache_->set(string_view.data(), blackboard_->get<std::string>(string_view.data()));
       } else if (type == "int") {
@@ -153,7 +154,7 @@ void BlackboardHandler::cache_blackboard()
       } else if (type == "bool") {
         bb_cache_->set(string_view.data(), blackboard_->get<bool>(string_view.data()));
       } else {
-         RCLCPP_ERROR(get_logger(), "unknown type [%s]", type.c_str());
+        RCLCPP_ERROR(get_logger(), "unknown type [%s]", type.c_str());
       }
 
       // END CHANGES
@@ -174,7 +175,9 @@ void BlackboardHandler::update_blackboard()
     waiting_time_ = (rclcpp::Clock().now() - t_last_request_) + waiting_time_;
     n_success_++;
     avg_waiting_time_ = (waiting_time_.nanoseconds() / n_success_) / 1e6; // millis
-    RCLCPP_INFO(get_logger(), "SUCCESS %d: updating shared blackboard (%f ms)", n_success_, avg_waiting_time_);
+    RCLCPP_INFO(
+      get_logger(), "SUCCESS %d: updating shared blackboard (%f ms)", n_success_,
+      avg_waiting_time_);
     std::vector<BT::StringView> string_views = blackboard_->getKeys();
     msg.robot_id = robot_id_;
     msg.type = bf_msgs::msg::Blackboard::UPDATE;

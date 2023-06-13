@@ -29,6 +29,7 @@ BlackboardManager::BlackboardManager(
 {
   using ::std::chrono_literals::operator""ms;
   init();
+  RCLCPP_INFO(get_logger(), "control cycle: 50 ms");
   timer_cycle_ = create_wall_timer(50ms, std::bind(&BlackboardManager::control_cycle, this));
   copy_blackboard(blackboard);
 }
@@ -41,18 +42,21 @@ BlackboardManager::BlackboardManager(
   init();
   copy_blackboard(blackboard);
 
+  RCLCPP_INFO(get_logger(), "control cycle: %ld ms", milis.count());
   timer_cycle_ = create_wall_timer(milis, std::bind(&BlackboardManager::control_cycle, this));
 }
 
-BlackboardManager::BlackboardManager(BT::Blackboard::Ptr blackboard, std::chrono::milliseconds milis,
-                      std::chrono::milliseconds bb_refresh_rate)
-  : Node("blackboard_manager")
+BlackboardManager::BlackboardManager(
+  BT::Blackboard::Ptr blackboard, std::chrono::milliseconds milis,
+  std::chrono::milliseconds bb_refresh_rate)
+: Node("blackboard_manager")
 {
   init();
   copy_blackboard(blackboard);
 
+  RCLCPP_INFO(get_logger(), "control cycle: %ld ms", milis.count());
   timer_cycle_ = create_wall_timer(milis, std::bind(&BlackboardManager::control_cycle, this));
-
+  RCLCPP_INFO(get_logger(), "blackboard refresh rate: %ld ms", bb_refresh_rate.count());
   timer_publish_ =
     create_wall_timer(bb_refresh_rate, std::bind(&BlackboardManager::publish_blackboard, this));
 }
@@ -77,12 +81,12 @@ void BlackboardManager::control_cycle()
 {
   if (!lock_ && !q_.empty()) {
     robot_id_ = q_.front();
-    waiting_times_.push_back (rclcpp::Clock().now() - q_start_wait_.front());
+    waiting_times_.push_back(rclcpp::Clock().now() - q_start_wait_.front());
     RCLCPP_INFO(
       get_logger(), "dequeuing robot %s (%zu pending). Waiting for %fs", q_.front().c_str(),
       q_.size() - 1,
       (rclcpp::Clock().now() - q_start_wait_.front()).nanoseconds() / 1e9);
-    q_.pop();   
+    q_.pop();
     q_start_wait_.pop();
     grant_blackboard();
   } else if ((rclcpp::Clock().now() - t_last_grant_).seconds() > 5.0) {
@@ -158,7 +162,7 @@ void BlackboardManager::update_blackboard()
 
 void BlackboardManager::publish_blackboard()
 {
-   if (!lock_) {
+  if (!lock_) {
     lock_ = true;
     bf_msgs::msg::Blackboard msg;
     std::vector<BT::StringView> string_views = blackboard_->getKeys();
@@ -239,7 +243,7 @@ void BlackboardManager::dump_blackboard()
     RCLCPP_INFO(get_logger(), "blackboard could NOT be dumped to file: %s", filename.c_str());
   }
 
-  dump_waiting_times(); 
+  dump_waiting_times();
 }
 
 void BlackboardManager::dump_waiting_times()
@@ -260,8 +264,6 @@ void BlackboardManager::dump_waiting_times()
   }
 
 }
-
-
 
 
 std::string BlackboardManager::get_type(const char * port_name)

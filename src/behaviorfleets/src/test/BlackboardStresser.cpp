@@ -61,7 +61,7 @@ void BlackboardStresser::control_cycle()
     if (random_int(0, 100) < 50) {
       update_blackboard();
     }
-    
+
   } else {
     dump_blackboard();
     // bb_handler_->get_node_base_interface()->get_context()->shutdown("stress test finished");
