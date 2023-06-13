@@ -212,7 +212,7 @@ void BlackboardManager::copy_blackboard(BT::Blackboard::Ptr source_bb)
 void BlackboardManager::dump_blackboard()
 {
   RCLCPP_INFO(get_logger(), "dumping blackboard");
-  std::string filename = "behaviorfleets/results/manager.txt";
+  std::string filename = "results/manager.txt";
   std::ofstream file(filename, std::ofstream::out);
 
   std::vector<std::pair<std::string, std::string>> kv_pairs;
@@ -249,7 +249,7 @@ void BlackboardManager::dump_blackboard()
 void BlackboardManager::dump_waiting_times()
 {
   RCLCPP_INFO(get_logger(), "dumping waiting times");
-  std::string filename = "behaviorfleets/results/waiting_times.txt";
+  std::string filename = "results/waiting_times.txt";
   std::ofstream file(filename, std::ofstream::out);
 
   if (file.is_open()) {

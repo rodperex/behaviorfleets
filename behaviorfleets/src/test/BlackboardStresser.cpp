@@ -72,7 +72,7 @@ void BlackboardStresser::control_cycle()
 
 void BlackboardStresser::dump_blackboard()
 {
-  std::string filename = "src/behaviorfleets/results/" + robot_id_ + ".txt";
+  std::string filename = "results/" + robot_id_ + ".txt";
   std::ofstream file(filename, std::ofstream::out);
   if (file.is_open()) {
     for (const std::string & str : keys_) {
