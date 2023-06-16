@@ -1,11 +1,12 @@
 import os
 import math
+import numpy as np
 
 path = '/results'
 path = os.getcwd() + path
 
 bbs = []
-n_changes = []
+n_updates = []
 
 for file_path in os.listdir(path): 
   with open(path + '/' + file_path) as f:
@@ -17,7 +18,7 @@ for file_path in os.listdir(path):
       for line in lines:
         pairs = (line.rstrip('\n')).split(':')
         if pairs[0] == "n_changes":
-          n_changes.append(int(pairs[1]))
+          n_updates.append(int(pairs[1]))
         else:
           d[pairs[0]] = pairs[1]
       if file_path == 'manager.txt':
@@ -45,33 +46,43 @@ for file_path in os.listdir(path):
         else:
           succ.append(pairs[1])
           i = 0
-
+  
 
 succ = [int(x) for x in succ]
 wts = [float(x) for x in wts]
 wts = [x for x in wts if not math.isnan(x)]
 wts = [x / 1e3 for x in wts]  
 
+print('-' * 10)
+print('-' * 10)
 print('CLIENT SIDE')
+print('-' * 10)
 print('avg wt', end=" = ")
-print(sum(wts)/len(wts))
+print(np.mean(wts))
+print('std wt', end=" = ")
+print(np.std(wts))
 print('max wt', end=" = ")
 print(max(wts))
 print('min wt', end=" = ")
 print(min(wts))
+print('-' * 10)
 print('avg succ', end=" = ")
-print(sum(succ)/len(succ))
+print(np.mean(succ))
+print('std succ', end=" = ")
+print(np.std(succ))
 print('max succ', end=" = ")
 print(max(succ))
 print('min succ', end=" = ")
 print(min(succ))
-print('avg changes', end=" = ")
-print(sum(n_changes)/len(n_changes))  
-print('max changes', end=" = ")
-print(max(n_changes))
-print('min changes', end=" = ")
-print(min(n_changes))
-
+print('-' * 10)
+print('avg updates', end=" = ")
+print(np.mean(n_updates))
+print('std updates', end=" = ")
+print(np.std(n_updates))
+print('max updates', end=" = ")
+print(max(n_updates))
+print('min updates', end=" = ")
+print(min(n_updates))
 
 
 path = path + '/waiting_times.txt'
@@ -89,9 +100,14 @@ wts = [float(x) for x in wts]
 wts = [x for x in wts if not math.isnan(x)]
 wts = [x / 1e3 for x in wts] 
 
+print('-' * 10)
+print('-' * 10)
 print('SERVER SIDE')
+print('-' * 10)
 print('avg wt', end=" = ")
-print(sum(wts)/len(wts))
+print(np.mean(wts))
+print('std wt', end=" = ")
+print(np.std(wts))
 print('max wt', end=" = ")
 print(max(wts))
 print('min wt', end=" = ")
@@ -104,13 +120,17 @@ print(max_q)
 print("\n\n------------------")
 print('TO EXCEL', end="\n------------------\n")
 print(all_same)
-print(sum(wts)/len(wts))
+print(np.mean(wts))
+print(np.std(wts))
 print(max(wts))
 print(min(wts))
-print(max_q)
-print(sum(succ)/len(succ))
+print(np.mean(succ))
+print(np.std(succ))
 print(max(succ))
 print(min(succ))
-print(sum(n_changes)/len(n_changes))  
-print(max(n_changes))
-print(min(n_changes))
+print(np.mean(succ) / np.mean(n_updates))
+print(np.mean(n_updates))
+print(np.std(n_updates)) 
+print(max(n_updates))
+print(min(n_updates))
+print(max_q)
