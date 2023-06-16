@@ -68,6 +68,7 @@ namespace BF
 
     std::queue<rclcpp::Time> q_start_wait_;
     std::vector<rclcpp::Duration> waiting_times_;
+    int tam_q_;
   };
 
 } // namespace BF

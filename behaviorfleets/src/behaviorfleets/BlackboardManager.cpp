@@ -64,6 +64,7 @@ void BlackboardManager::init()
 {
   lock_ = false;
   robot_id_ = "";
+  tam_q_ = 0;
 
   blackboard_ = BT::Blackboard::create();
 
@@ -80,6 +81,11 @@ void BlackboardManager::init()
 void BlackboardManager::control_cycle()
 {
   if (!lock_ && !q_.empty()) {
+    if (q_.size() > tam_q_) {
+      tam_q_ = q_.size();
+      RCLCPP_INFO(get_logger(), "max.queue size: %zu", q_.size());
+    }
+
     robot_id_ = q_.front();
     waiting_times_.push_back(rclcpp::Clock().now() - q_start_wait_.front());
     RCLCPP_INFO(
@@ -256,6 +262,9 @@ void BlackboardManager::dump_waiting_times()
     for (const auto & wt : waiting_times_) {
       file << (wt.nanoseconds() / 1e6) << std::endl;
     }
+    
+    // last line of the file is the maximum size of the queue
+    file << tam_q_ << std::endl;
 
     file.close();
     RCLCPP_INFO(get_logger(), "waiting times dumped to file: %s", filename.c_str());

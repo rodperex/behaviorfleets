@@ -57,6 +57,8 @@ with open(path) as f:
     line = line.rstrip('\n')
     wts.append(float(line))
 
+max_q = int(wts[-1])
+wts.pop()
 wts = [float(x) for x in wts]
 wts = [x for x in wts if not math.isnan(x)]
 wts = [x / 1e3 for x in wts] 
@@ -68,6 +70,8 @@ print('max', end=" = ")
 print(max(wts))
 print('min', end=" = ")
 print(min(wts))
+print('max_q', end=" = ")
+print(max_q)
 
 
 # to paste it in excel
@@ -75,3 +79,4 @@ print(all_same)
 print(sum(wts)/len(wts))
 print(max(wts))
 print(min(wts))
+print(max_q)
