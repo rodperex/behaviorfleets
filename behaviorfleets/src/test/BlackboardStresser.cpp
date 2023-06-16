@@ -27,7 +27,8 @@ BlackboardStresser::BlackboardStresser(
 : Node(robot_id + "_blackboard_stresser"),
   robot_id_(robot_id),
   op_time_(op_time + delay),
-  delay_(delay)
+  delay_(delay),
+  n_changes_(0)
 {
   blackboard_ = BT::Blackboard::create();
   bb_handler_ = std::make_shared<BlackboardHandler>(robot_id_ + "_handler", blackboard_);
@@ -59,6 +60,7 @@ void BlackboardStresser::control_cycle()
   {
     int prob = random_int(0, 100);
     if (random_int(0, 100) < 50) {
+      n_changes_++;
       update_blackboard();
     }
 
@@ -78,6 +80,7 @@ void BlackboardStresser::dump_blackboard()
     for (const std::string & str : keys_) {
       file << str + ":" << blackboard_->get<std::string>(str) << std::endl;
     }
+    file << "n_changes:" << n_changes_ << std::endl;
     file.close();
     // RCLCPP_INFO(get_logger(), "blackboard dumped to file: %s", filename.c_str());
   } else {

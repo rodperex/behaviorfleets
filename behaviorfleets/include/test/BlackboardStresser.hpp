@@ -57,6 +57,8 @@ private:
   rclcpp::Time t_start_;
 
   std::chrono::seconds op_time_, delay_;
+
+  int n_changes_;
 };
 
 }   // namespace BF

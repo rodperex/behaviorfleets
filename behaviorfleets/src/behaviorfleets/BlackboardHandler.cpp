@@ -56,8 +56,9 @@ void BlackboardHandler::control_cycle()
     RCLCPP_DEBUG(get_logger(), "total waiting time = %f ms", (waiting_time_.nanoseconds() / 1e6));
     RCLCPP_DEBUG(get_logger(), "number of successful requests =  %d", n_success_);
     RCLCPP_DEBUG(get_logger(), "avg. waiting time =  %f ms", (waiting_time_.nanoseconds() / 1e6));
-    file << "avg. waiting time = " << ((waiting_time_.nanoseconds() / 1e6) / n_success_) <<
+    file << "avg_wt:" << ((waiting_time_.nanoseconds() / 1e6) / n_success_) <<
       std::endl;
+    file << "success:" << n_success_ << std::endl;
     file.close();
   }
 }
