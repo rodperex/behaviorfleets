@@ -35,11 +35,11 @@ def generate_launch_description():
         name='remote',
         output='screen',
         # parameters=[params],
-        arguments=['test1.yaml']
+        arguments=['test_1.yaml']
     )
 
     # Create the launch description and populate
-    ld = LaunchDescription()
+    ld = LaunchDescriptbion()
 
     ld.add_action(remote_cmd)
 

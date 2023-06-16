@@ -8,6 +8,8 @@ bbs = []
 
 for file_path in os.listdir(path): 
   with open(path + '/' + file_path) as f:
+    if ('~' in f.name or 'xlsx' in f.name):
+        continue
     if (not('_handler' in file_path) and not('waiting_times' in file_path)):
       lines = f.readlines()
       d = {}
@@ -67,3 +69,9 @@ print(max(wts))
 print('min', end=" = ")
 print(min(wts))
 
+
+# to paste it in excel
+print(all_same)
+print(sum(wts)/len(wts))
+print(max(wts))
+print(min(wts))

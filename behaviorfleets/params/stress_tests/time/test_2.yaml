@@ -1,6 +1,6 @@
-nodes: 25
+nodes: 10
 n_keys: 10
-op_time: 60
+op_time: 120
 max_delay: 0
 stresser_hz: 10
 dev_hz: 0

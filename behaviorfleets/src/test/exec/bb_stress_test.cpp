@@ -46,7 +46,7 @@ int main(int argc, char * argv[])
   std::list<std::shared_ptr<BF::BlackboardStresser>> nodes;
 
   try {
-    std::cout << "Configuration file: " << params_file << std::endl;
+    std::cout << "Configuration file: " << pkgpath + "/params/" + params_file << std::endl;
     std::ifstream fin(pkgpath + "/params/" + params_file);
     YAML::Node params = YAML::Load(fin);
 

@@ -1,6 +1,7 @@
 # behaviorfleets
 
 TO DO:
+    - Test the number of success updates per node to demonstrate that inanition does not happen
     - Each handler dumps the number of successfuk updates
     - Make the stressers work until all requests have been attended?
         - When there are many nodes working, only a couple of requests are attended during the operation time
