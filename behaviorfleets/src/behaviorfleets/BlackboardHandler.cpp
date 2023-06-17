@@ -106,7 +106,6 @@ void BlackboardHandler::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr 
     RCLCPP_INFO(get_logger(), "updating local blackboard from the shared one");
     // blackboard_->clear();
     for (int i = 0; i < msg->keys.size(); i++) {
-      // blackboard_->set(msg->keys.at(i), msg->values.at(i));
       if (msg->key_types[i] == "string") {
         blackboard_->set(msg->keys.at(i), msg->values.at(i));
       } else if (msg->key_types[i] == "int") {
@@ -138,10 +137,6 @@ void BlackboardHandler::cache_blackboard()
   std::vector<BT::StringView> string_views = blackboard_->getKeys();
   for (const auto & string_view : string_views) {
     try {
-      // ORIGINAL CODE
-      // bb_cache_->set(string_view.data(), blackboard_->get<std::string>(string_view.data()));
-
-      // CHANGES TO CONSIDER TYPES
       std::string type = get_type(string_view.data());
 
       if (type == "string" || type == "unknown") {
