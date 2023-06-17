@@ -8,9 +8,14 @@ import matplotlib.pyplot as plt
 def func(x, a, b):
   return a / np.sqrt(x) + b
 
+def logarithmic(x, a, b):
+    return (a * np.log(x*x*x*x)) + b
+
 
 def plot_results_nodes(x, avg_wt, max_wt, avg_succ, max_succ, min_succ, tam_q):
   fig, axes = plt.subplots(nrows=2, ncols=2)
+  fig.suptitle('NUMBER OF NODES')
+  
 
   [a, b] = np.polyfit(x, avg_wt, 1)
   y1 = a * x + b
@@ -86,6 +91,7 @@ def plot_results_time(x, avg_wt, max_wt, avg_succ, max_succ, min_succ, tam_q):
   x = x[~nan_indices]
 
   fig, axes = plt.subplots(nrows=2, ncols=2)
+  fig.suptitle('OPERATION TIME')
 
   [a, b] = np.polyfit(x, avg_wt, 1)
   y1 = a * x + b
@@ -98,8 +104,9 @@ def plot_results_time(x, avg_wt, max_wt, avg_succ, max_succ, min_succ, tam_q):
   axes[0, 0].legend(['Average', 'Maximum', 'Linear fit'])
 
 
-  [a, b] = np.polyfit(x, avg_wt, 1)
-  y1 = a * x + b
+  params, _ = curve_fit(logarithmic, x, avg_succ)
+  a, b = params
+  y1 =  logarithmic(x, a, b)
   axes[0, 1].plot(x, avg_succ, 'b')
   axes[0, 1].plot(x, y1, 'r')
   axes[0, 1].plot(x, max_succ, 'g')
@@ -107,9 +114,11 @@ def plot_results_time(x, avg_wt, max_wt, avg_succ, max_succ, min_succ, tam_q):
   axes[0, 1].grid(True)
   axes[0, 1].set_xlabel('Operation time')
   axes[0, 1].set_ylabel('Success rate')
-  axes[0, 1].legend(['Average', 'Linear fit', 'Maximum', 'Minimum'])
+  axes[0, 1].legend(['Average', 'Curve fit', 'Maximum', 'Minimum'])
   
-  [a, b]= np.polyfit(x, tam_q, 1)
+  params, _ = curve_fit(logarithmic, x, tam_q)
+  a, b = params
+  y1 =  logarithmic(x, a, b)
   axes[1, 0].plot(x, tam_q, 'b')
   axes[1, 0].plot(x, y1, 'r')
   axes[1, 0].grid(True)
@@ -124,37 +133,41 @@ def plot_results_time(x, avg_wt, max_wt, avg_succ, max_succ, min_succ, tam_q):
 
 def plot_results_freq(x, avg_wt, max_wt, avg_succ, max_succ, min_succ, tam_q):
   fig, axes = plt.subplots(nrows=2, ncols=2)
+  fig.suptitle('STRESSER FREQUENCY')
 
-  [a, b] = np.polyfit(x, avg_wt, 1)
-  y1 = a * x + b
+  # [a, b] = np.polyfit(x, avg_wt, 1)
+  # y1 = a * x + b
   axes[0, 0].plot(x, avg_wt, 'b')
   axes[0, 0].plot(x, max_wt, 'g')
-  axes[0, 0].plot(x, y1, 'r')
+  # axes[0, 0].plot(x, y1, 'r')
   axes[0, 0].grid(True)
   axes[0, 0].set_xlabel('Stresser Hz')
   axes[0, 0].set_ylabel('Waiting time')
-  axes[0, 0].legend(['Average', 'Maximum', 'Linear fit'])
+  # axes[0, 0].legend(['Average', 'Maximum', 'Linear fit'])
+  axes[0, 0].legend(['Average', 'Maximum'])
   
 
-  [a, b] = np.polyfit(x, avg_wt, 1)
-  y1 = a * x + b
+  # [a, b] = np.polyfit(x, avg_wt, 1)
+  # y1 = a * x + b
   axes[0, 1].plot(x, avg_succ, 'b')
-  axes[0, 1].plot(x, y1, 'r')
+  # axes[0, 1].plot(x, y1, 'r')
   axes[0, 1].plot(x, max_succ, 'g')
   axes[0, 1].plot(x, min_succ, 'y')
   axes[0, 1].grid(True)
   axes[0, 1].set_xlabel('Stresser Hz')
   axes[0, 1].set_ylabel('Success rate')
-  axes[0, 1].legend(['Average', 'Linear fit', 'Maximum', 'Minimum'])
+  # axes[0, 1].legend(['Average', 'Linear fit', 'Maximum', 'Minimum'])
+  axes[0, 1].legend(['Average', 'Maximum', 'Minimum'])
   
-  [a, b]= np.polyfit(x, tam_q, 1)
-  y1 = a * x + b
+  # [a, b]= np.polyfit(x, tam_q, 1)
+  # y1 = a * x + b
   axes[1, 0].plot(x, tam_q, 'b')
-  axes[1, 0].plot(x, y1, 'r')
+  # axes[1, 0].plot(x, y1, 'r')
   axes[1, 0].grid(True)
   axes[1, 0].set_xlabel('Stresser Hz')
   axes[1, 0].set_ylabel('Queue size')
-  axes[1, 0].legend(['Maximum queue size', 'Linear fit'])
+  # axes[1, 0].legend(['Maximum queue size', 'Linear fit'])
+  axes[1, 0].legend(['Maximum queue size'])
 
   fig.delaxes(axes[1, 1])
   plt.tight_layout()
