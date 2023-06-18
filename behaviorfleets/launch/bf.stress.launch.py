@@ -34,7 +34,7 @@ def generate_launch_description():
         executable='bb_stress_test',
         name='bb_stress_test',
         output='screen',
-        arguments=['stress_tests/time/test_7.yaml']
+        arguments=['stress_tests/freq/test_1.yaml']
     )
 
     # Create the launch description and populate

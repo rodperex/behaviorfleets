@@ -12,7 +12,7 @@ for file_path in os.listdir(path):
   with open(path + '/' + file_path) as f:
     if ('~' in f.name or 'xlsx' in f.name):
         continue
-    if (not('_handler' in file_path) and not('waiting_times' in file_path)):
+    if (not('_handler' in file_path) and not('waiting_times' in file_path) and not('experiments' in file_path)):
       lines = f.readlines()
       d = {}
       for line in lines:

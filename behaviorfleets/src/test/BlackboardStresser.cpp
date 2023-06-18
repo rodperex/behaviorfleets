@@ -14,7 +14,6 @@
 
 #include "test/BlackboardStresser.hpp"
 
-
 namespace BF
 {
 
@@ -33,6 +32,17 @@ BlackboardStresser::BlackboardStresser(
   blackboard_ = BT::Blackboard::create();
   bb_handler_ = std::make_shared<BlackboardHandler>(robot_id_ + "_handler", blackboard_);
 
+  // auto f = [&] {
+  //   while (rclcpp::ok()) {
+  //     rclcpp::spin_some(bb_handler_);
+  //   }
+  // };
+  // std::thread handler_thread(f);
+  // spin the handler in a separate thread
+  // std::thread spin_thread([&]() {
+  //   rclcpp::spin(bb_handler_);
+  // });
+
   for (int i = 0; i < n_keys; i++) {
     keys_.push_back("key_" + std::to_string(i));
     blackboard_->set(keys_[i], i);
@@ -43,10 +53,18 @@ BlackboardStresser::BlackboardStresser(
     robot_id_.c_str(), milis.count(), delay_.count());
 
   timer_ = create_wall_timer(milis, std::bind(&BlackboardStresser::control_cycle, this));
+  bb_handler_timer_ = create_wall_timer(
+    std::chrono::milliseconds(10),
+    std::bind(&BlackboardStresser::bb_handler_spinner, this));
 
   t_start_ = rclcpp::Clock().now();
 
   // rclcpp::on_shutdown([this]() {dump_blackboard();});
+}
+
+void BlackboardStresser::bb_handler_spinner()
+{
+  rclcpp::spin_some(bb_handler_);
 }
 
 void BlackboardStresser::control_cycle()
@@ -69,7 +87,7 @@ void BlackboardStresser::control_cycle()
     // bb_handler_->get_node_base_interface()->get_context()->shutdown("stress test finished");
   }
 
-  rclcpp::spin_some(bb_handler_);
+  // rclcpp::spin_some(bb_handler_);
 }
 
 void BlackboardStresser::dump_blackboard()

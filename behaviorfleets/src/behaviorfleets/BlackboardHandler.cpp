@@ -47,7 +47,6 @@ void BlackboardHandler::control_cycle()
   if (has_bb_changed()) {
     update_blackboard();
     cache_blackboard();
-
   }
 
   std::string filename = "results/" + robot_id_ + ".txt";

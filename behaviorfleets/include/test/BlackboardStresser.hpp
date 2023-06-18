@@ -40,6 +40,7 @@ public:
 
 private:
   void control_cycle();
+  void bb_handler_spinner();
   void update_blackboard();
   void dump_blackboard();
   int random_int(int min, int max);
@@ -52,7 +53,7 @@ private:
 
   BF::BlackboardHandler::SharedPtr bb_handler_;
 
-  rclcpp::TimerBase::SharedPtr timer_;
+  rclcpp::TimerBase::SharedPtr timer_, bb_handler_timer_;
 
   rclcpp::Time t_start_;
 
