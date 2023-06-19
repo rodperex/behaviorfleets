@@ -25,7 +25,8 @@ BlackboardHandler::BlackboardHandler(
   blackboard_(blackboard),
   access_granted_(false),
   request_sent_(false),
-  n_success_(0)
+  n_success_(0),
+  n_requests_(0)
 {
   using namespace std::chrono_literals;
 
@@ -57,6 +58,7 @@ void BlackboardHandler::control_cycle()
     RCLCPP_DEBUG(get_logger(), "avg. waiting time =  %f ms", (waiting_time_.nanoseconds() / 1e6));
     file << "avg_wt:" << ((waiting_time_.nanoseconds() / 1e6) / n_success_) <<
       std::endl;
+    file << "requests:" << n_requests_ << std::endl;
     file << "success:" << n_success_ << std::endl;
     file.close();
   }
@@ -203,6 +205,7 @@ void BlackboardHandler::update_blackboard()
     if (!request_sent_) {
       bb_pub_->publish(msg);
       request_sent_ = true;
+      n_requests_++;
       t_last_request_ = rclcpp::Clock().now();
     } else {
       RCLCPP_INFO(get_logger(), "waiting for access to blackboard");

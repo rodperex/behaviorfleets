@@ -48,7 +48,7 @@ private:
   std::string robot_id_;
   std::vector<std::string> excluded_keys_;
   bool access_granted_, request_sent_;
-  int n_success_;
+  int n_success_, n_requests_;
   rclcpp::Time t_last_request_;
 
   rclcpp::Publisher<bf_msgs::msg::Blackboard>::SharedPtr bb_pub_;

@@ -31,6 +31,7 @@ print(all_same)
 
 wts = []
 succ = []
+reqs = []
 
 for file_path in os.listdir(path):
   with open(path + '/' + file_path) as f:
@@ -43,12 +44,16 @@ for file_path in os.listdir(path):
         if i == 0:
           wts.append(pairs[1])
           i += 1
+        elif i == 1:
+          reqs.append(pairs[1])
+          i += 1
         else:
           succ.append(pairs[1])
           i = 0
   
 
 succ = [int(x) for x in succ]
+reqs = [int(x) for x in reqs]
 wts = [float(x) for x in wts]
 wts = [x for x in wts if not math.isnan(x)]
 wts = [x / 1e3 for x in wts]  
@@ -65,6 +70,15 @@ print('max wt', end=" = ")
 print(max(wts))
 print('min wt', end=" = ")
 print(min(wts))
+print('-' * 10)
+print('avg reqs', end=" = ")
+print(np.mean(reqs))
+print('std reqs', end=" = ")
+print(np.std(reqs))
+print('max reqs', end=" = ")
+print(max(reqs))
+print('min reqs', end=" = ")
+print(min(reqs))
 print('-' * 10)
 print('avg succ', end=" = ")
 print(np.mean(succ))
@@ -127,7 +141,10 @@ print(np.mean(succ))
 print(np.std(succ))
 print(max(succ))
 print(min(succ))
-print(np.mean(succ) / np.mean(n_updates))
+# print(np.mean(succ) / np.mean(reqs))
+psucc_req = [i / j for i, j in zip(succ, reqs)]
+print(np.mean(psucc_req))
+# print(np.mean(succ) / np.mean(n_updates))
 print(np.mean(n_updates))
 print(np.std(n_updates)) 
 print(max(n_updates))
