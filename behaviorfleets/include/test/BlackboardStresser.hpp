@@ -40,10 +40,12 @@ public:
 
 private:
   void control_cycle();
-  void bb_handler_spinner();
+  // void bb_handler_spinner();
   void update_blackboard();
   void dump_blackboard();
   int random_int(int min, int max);
+
+  std::thread spin_thread_;
 
   std::string robot_id_;
 
@@ -60,6 +62,8 @@ private:
   std::chrono::seconds op_time_, delay_;
 
   int n_changes_;
+
+  bool bb_handler_spinning_;
 };
 
 }   // namespace BF

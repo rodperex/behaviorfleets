@@ -39,7 +39,7 @@ BlackboardHandler::BlackboardHandler(
     "/blackboard", rclcpp::SensorDataQoS(),
     std::bind(&BlackboardHandler::blackboard_callback, this, std::placeholders::_1));
 
-  timer_ = create_wall_timer(50ms, std::bind(&BlackboardHandler::control_cycle, this));
+  timer_ = create_wall_timer(10ms, std::bind(&BlackboardHandler::control_cycle, this));
 }
 
 void BlackboardHandler::control_cycle()

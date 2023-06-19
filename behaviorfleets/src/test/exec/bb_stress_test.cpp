@@ -58,8 +58,12 @@ int main(int argc, char * argv[])
     double max_dev = params["dev_hz"].as<double>();
 
     for (int i = 0; i < num_nodes; ++i) {
+      double dev = random_double(0.0, max_dev);
+      if (random_int(0, 1) == 1){
+        dev = -dev;
+      }
+      freq = freq + dev;
 
-      freq = freq + random_double(0.0, max_dev);
       int half = random_int(1, 2);
       auto delay = std::chrono::seconds(random_int(0, max_delay / half));
 

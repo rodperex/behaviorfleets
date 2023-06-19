@@ -115,7 +115,6 @@ print(min(wts))
 print('max_q', end=" = ")
 print(max_q)
 
-
 # to paste it in excel
 print("\n\n------------------")
 print('TO EXCEL', end="\n------------------\n")
