@@ -262,7 +262,7 @@ void BlackboardManager::dump_waiting_times()
     for (const auto & wt : waiting_times_) {
       file << (wt.nanoseconds() / 1e6) << std::endl;
     }
-    
+
     // last line of the file is the maximum size of the queue
     file << tam_q_ << std::endl;
 

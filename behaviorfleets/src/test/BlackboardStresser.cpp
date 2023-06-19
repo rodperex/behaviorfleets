@@ -23,7 +23,7 @@ BlackboardStresser::BlackboardStresser(
   std::chrono::milliseconds milis,
   std::chrono::seconds op_time,
   std::chrono::seconds delay
-  )
+)
 : Node(robot_id + "_blackboard_stresser"),
   robot_id_(robot_id),
   op_time_(op_time + delay),
@@ -34,13 +34,14 @@ BlackboardStresser::BlackboardStresser(
   blackboard_ = BT::Blackboard::create();
   bb_handler_ = std::make_shared<BlackboardHandler>(robot_id_ + "_handler", blackboard_);
 
-  // spin the handler in a separate thread  
-   spin_thread_ = std::thread([this]() {
-    while (bb_handler_spinning_) {
-      rclcpp::spin_some(bb_handler_);
-    }
-    bb_handler_->get_node_base_interface()->get_context()->shutdown("stress test finished");
-  });
+  // spin the handler in a separate thread
+  spin_thread_ = std::thread(
+    [this]() {
+      while (bb_handler_spinning_) {
+        rclcpp::spin_some(bb_handler_);
+      }
+      bb_handler_->get_node_base_interface()->get_context()->shutdown("stress test finished");
+    });
 
   for (int i = 0; i < n_keys; i++) {
     keys_.push_back("key_" + std::to_string(i));
@@ -59,12 +60,13 @@ BlackboardStresser::BlackboardStresser(
   t_start_ = rclcpp::Clock().now();
 
   // rclcpp::on_shutdown([this]() {dump_blackboard();});
-  
-  rclcpp::on_shutdown([this]() {
-    bb_handler_spinning_ = false;
-    spin_thread_.join();
-    RCLCPP_INFO(get_logger(), "bb_handler thread finished");
-  });
+
+  rclcpp::on_shutdown(
+    [this]() {
+      bb_handler_spinning_ = false;
+      spin_thread_.join();
+      RCLCPP_INFO(get_logger(), "bb_handler thread finished");
+    });
 }
 
 // void BlackboardStresser::bb_handler_spinner()
