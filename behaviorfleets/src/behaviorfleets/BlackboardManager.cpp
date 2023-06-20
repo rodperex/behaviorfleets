@@ -65,6 +65,7 @@ void BlackboardManager::init()
   lock_ = false;
   robot_id_ = "";
   tam_q_ = 0;
+  n_pub_ = 0;
 
   blackboard_ = BT::Blackboard::create();
 
@@ -193,10 +194,11 @@ void BlackboardManager::publish_blackboard()
     msg.values = values;
     msg.key_types = types;
     bb_pub_->publish(msg);
+    n_pub_++;
     lock_ = false;
     robot_id_ = "";
 
-    RCLCPP_INFO(get_logger(), "blackboard published");
+    RCLCPP_INFO(get_logger(), "blackboard published (%d)", n_pub_);
   }
 }
 
@@ -263,8 +265,9 @@ void BlackboardManager::dump_waiting_times()
       file << (wt.nanoseconds() / 1e6) << std::endl;
     }
 
-    // last line of the file is the maximum size of the queue
+    // last lines of the file is the maximum size of the queue and the number of bb pubs
     file << tam_q_ << std::endl;
+    file << n_pub_ << std::endl;
 
     file.close();
     RCLCPP_INFO(get_logger(), "waiting times dumped to file: %s", filename.c_str());

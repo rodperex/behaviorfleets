@@ -35,6 +35,7 @@ class BlackboardHandler : public rclcpp::Node
 {
 public:
   BlackboardHandler(const std::string robot_id, BT::Blackboard::Ptr blackboard);
+  virtual ~BlackboardHandler();
 
 private:
   void blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr msg);
@@ -43,12 +44,13 @@ private:
   void update_blackboard();
   void cache_blackboard();
   bool has_bb_changed();
+  void dump_data();
+  
 
   BT::Blackboard::Ptr blackboard_, bb_cache_;
   std::string robot_id_;
   std::vector<std::string> excluded_keys_;
   bool access_granted_, request_sent_;
-  int n_success_, n_requests_;
   rclcpp::Time t_last_request_;
 
   rclcpp::Publisher<bf_msgs::msg::Blackboard>::SharedPtr bb_pub_;
@@ -59,6 +61,7 @@ private:
   // test stuff
   rclcpp::Time waiting_time_;
   double avg_waiting_time_;
+  int n_success_, n_requests_, n_updates_;
 };
 
 }   // namespace BF

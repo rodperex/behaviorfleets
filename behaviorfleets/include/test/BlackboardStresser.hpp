@@ -37,10 +37,10 @@ public:
     std::chrono::milliseconds milis,
     std::chrono::seconds op_time,
     std::chrono::seconds delay);
+  ~BlackboardStresser();
 
 private:
   void control_cycle();
-  // void bb_handler_spinner();
   void update_blackboard();
   void dump_blackboard();
   int random_int(int min, int max);

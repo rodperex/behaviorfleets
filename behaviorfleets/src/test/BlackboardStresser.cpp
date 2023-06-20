@@ -41,7 +41,9 @@ BlackboardStresser::BlackboardStresser(
         rclcpp::spin_some(bb_handler_);
       }
       bb_handler_->get_node_base_interface()->get_context()->shutdown("stress test finished");
+      RCLCPP_INFO(get_logger(), "blackboard handler %s finished", robot_id_.c_str());
     });
+  spin_thread_.detach();
 
   for (int i = 0; i < n_keys; i++) {
     keys_.push_back("key_" + std::to_string(i));
@@ -53,26 +55,26 @@ BlackboardStresser::BlackboardStresser(
     robot_id_.c_str(), milis.count(), delay_.count());
 
   timer_ = create_wall_timer(milis, std::bind(&BlackboardStresser::control_cycle, this));
-  // bb_handler_timer_ = create_wall_timer(
-  //   std::chrono::milliseconds(10),
-  //   std::bind(&BlackboardStresser::bb_handler_spinner, this));
-
+ 
   t_start_ = rclcpp::Clock().now();
 
   // rclcpp::on_shutdown([this]() {dump_blackboard();});
 
   rclcpp::on_shutdown(
     [this]() {
+      std::cout << "on_shutdown" << std::endl;
       bb_handler_spinning_ = false;
-      spin_thread_.join();
-      RCLCPP_INFO(get_logger(), "bb_handler thread finished");
+      if (spin_thread_.joinable()) {
+        spin_thread_.join();
+      }
     });
 }
 
-// void BlackboardStresser::bb_handler_spinner()
-// {
-//   rclcpp::spin_some(bb_handler_);
-// }
+BlackboardStresser::~BlackboardStresser()
+{
+  std::cout << "BlackboardStresser destructor" << std::endl;
+  dump_blackboard();
+}
 
 void BlackboardStresser::control_cycle()
 {
@@ -83,13 +85,14 @@ void BlackboardStresser::control_cycle()
   if (op_time_ == std::chrono::seconds(0) ||
     rclcpp::Clock().now() - t_start_ < op_time_)
   {
-    int prob = random_int(0, 100);
-    if (random_int(0, 100) < 50) {
-      n_changes_++;
-      update_blackboard();
-    }
+    // if (random_int(0, 100) < 50) {
+    //   n_changes_++;
+    //   update_blackboard();
+    // }
+    n_changes_++;
+    update_blackboard();
   } else {
-    dump_blackboard();
+    // dump_blackboard();
     // bb_handler_->get_node_base_interface()->get_context()->shutdown("stress test finished");
   }
 

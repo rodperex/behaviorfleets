@@ -26,7 +26,8 @@ BlackboardHandler::BlackboardHandler(
   access_granted_(false),
   request_sent_(false),
   n_success_(0),
-  n_requests_(0)
+  n_requests_(0),
+  n_updates_(0)
 {
   using namespace std::chrono_literals;
 
@@ -37,19 +38,21 @@ BlackboardHandler::BlackboardHandler(
     "/blackboard", 100);
 
   bb_sub_ = create_subscription<bf_msgs::msg::Blackboard>(
-    "/blackboard", rclcpp::SensorDataQoS(),
+    "/blackboard", rclcpp::SensorDataQoS().keep_last(1000),
     std::bind(&BlackboardHandler::blackboard_callback, this, std::placeholders::_1));
 
   timer_ = create_wall_timer(10ms, std::bind(&BlackboardHandler::control_cycle, this));
+
+  // rclcpp::on_shutdown([this]() {dump_data();});
 }
 
-void BlackboardHandler::control_cycle()
+BlackboardHandler::~BlackboardHandler()
 {
-  if (has_bb_changed()) {
-    update_blackboard();
-    cache_blackboard();
-  }
+  dump_data();
+}
 
+void BlackboardHandler::dump_data()
+{
   std::string filename = "results/" + robot_id_ + ".txt";
   std::ofstream file(filename, std::ofstream::out);
   if (file.is_open()) {
@@ -60,8 +63,18 @@ void BlackboardHandler::control_cycle()
       std::endl;
     file << "requests:" << n_requests_ << std::endl;
     file << "success:" << n_success_ << std::endl;
+    file << "updates:" << n_updates_ << std::endl;
     file.close();
   }
+}
+
+void BlackboardHandler::control_cycle()
+{
+  if (has_bb_changed()) {
+    update_blackboard();
+    cache_blackboard();
+  }
+  // dump_data();
 }
 
 bool BlackboardHandler::has_bb_changed()
@@ -102,9 +115,11 @@ void BlackboardHandler::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr 
   }
   if ((msg->type == bf_msgs::msg::Blackboard::PUBLISH) && (msg->robot_id == robot_id_)) {
     RCLCPP_INFO(get_logger(), "published global blackboard is mine");
+    n_updates_++;
   }
   if ((msg->type == bf_msgs::msg::Blackboard::PUBLISH) && (msg->robot_id != robot_id_)) {
     RCLCPP_INFO(get_logger(), "updating local blackboard from the shared one");
+    n_updates_++;
     // blackboard_->clear();
     for (int i = 0; i < msg->keys.size(); i++) {
       if (msg->key_types[i] == "string") {

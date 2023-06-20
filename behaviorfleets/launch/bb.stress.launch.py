@@ -32,9 +32,9 @@ def generate_launch_description():
     remote_cmd = Node(
         package='behaviorfleets',
         executable='bb_stress_test',
-        name='bb_stress_test',
+        # name='bb_stress_test',
         output='screen',
-        arguments=['stress_tests/nodes/test_1.yaml']
+        arguments=['stress_tests/nodes/test_11.yaml']
     )
 
     # Create the launch description and populate

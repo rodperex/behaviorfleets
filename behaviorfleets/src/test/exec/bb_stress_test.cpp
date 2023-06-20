@@ -16,6 +16,7 @@
 #include <memory>
 #include <fstream>
 #include <chrono>
+#include <csignal>
 
 #include "rclcpp/rclcpp.hpp"
 
@@ -27,6 +28,18 @@
 
 double random_double(double min, double max);
 int random_int(int min, int max);
+
+volatile std::sig_atomic_t g_signal_received = false;
+
+// Signal handler function
+void signal_handler(int signal)
+{
+  if (signal == SIGINT)
+  {
+    std::cout << "SIGINT" << std::endl;
+    g_signal_received = true;
+  }
+}
 
 int main(int argc, char * argv[])
 {
@@ -63,6 +76,8 @@ int main(int argc, char * argv[])
         dev = -dev;
       }
       freq = freq + dev;
+      
+      std::cout << "Node " << i + 1 << " freq: " << freq << std::endl;
 
       int half = random_int(1, 2);
       auto delay = std::chrono::seconds(random_int(0, max_delay / half));
@@ -82,9 +97,19 @@ int main(int argc, char * argv[])
     return 1;
   }
 
-  exec.spin();
 
-  rclcpp::shutdown();
+  std::signal(SIGINT, signal_handler);
+  while (!g_signal_received) {
+    exec.spin_some(); // Process pending work in the executor
+  }
+
+  for (auto node : nodes) {
+    std::cout << "Shutting down node " << node->get_name() << std::endl;
+    node->get_node_base_interface()->get_context()->shutdown("Test finished");
+  }
+  
+  // exec.spin();
+  // rclcpp::shutdown();
   return 0;
 }
 
