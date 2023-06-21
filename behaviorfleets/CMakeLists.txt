@@ -32,6 +32,10 @@ add_library(delegate_action_node SHARED src/behaviorfleets/DelegateActionNode.cp
 add_library(remote_delegate_action_node SHARED src/behaviorfleets/RemoteDelegateActionNode.cpp)
 target_link_libraries(remote_delegate_action_node blackboard_handler)
 
+# Test libraries
+add_library(blackboard_stresser SHARED src/test/BlackboardStresser.cpp)
+target_link_libraries(blackboard_stresser blackboard_handler)
+
 
 list(APPEND plugin_libs
   delegate_action_node
@@ -65,6 +69,16 @@ add_executable(bb_remoteconfig src/exec/remoteconf_main.cpp)
 ament_target_dependencies(bb_remoteconfig ${dependencies})
 target_link_libraries(bb_remoteconfig remote_delegate_action_node yaml-cpp blackboard_handler)
 
+# test executables
+add_executable(bb_stress_test src/test/exec/bb_stress_test.cpp)
+ament_target_dependencies(bb_stress_test ${dependencies})
+target_link_libraries(bb_stress_test yaml-cpp blackboard_stresser)
+
+add_executable(bb_manager src/test/exec/bb_manager_main.cpp)
+ament_target_dependencies(bb_manager ${dependencies})
+target_link_libraries(bb_manager yaml-cpp blackboard_manager)
+
+
 
 install(TARGETS
   ${plugin_libs}
@@ -73,7 +87,10 @@ install(TARGETS
   remoteconfig
   bb_source
   bb_remoteconfig
-   
+  
+  bb_stress_test
+  bb_manager
+  
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}

@@ -25,7 +25,9 @@ BlackboardHandler::BlackboardHandler(
   blackboard_(blackboard),
   access_granted_(false),
   request_sent_(false),
-  n_success_(0)
+  n_success_(0),
+  n_requests_(0),
+  n_updates_(0)
 {
   using namespace std::chrono_literals;
 
@@ -36,10 +38,34 @@ BlackboardHandler::BlackboardHandler(
     "/blackboard", 100);
 
   bb_sub_ = create_subscription<bf_msgs::msg::Blackboard>(
-    "/blackboard", rclcpp::SensorDataQoS(),
+    "/blackboard", rclcpp::SensorDataQoS().keep_last(1000),
     std::bind(&BlackboardHandler::blackboard_callback, this, std::placeholders::_1));
 
-  timer_ = create_wall_timer(50ms, std::bind(&BlackboardHandler::control_cycle, this));
+  timer_ = create_wall_timer(10ms, std::bind(&BlackboardHandler::control_cycle, this));
+
+  // rclcpp::on_shutdown([this]() {dump_data();});
+}
+
+BlackboardHandler::~BlackboardHandler()
+{
+  dump_data();
+}
+
+void BlackboardHandler::dump_data()
+{
+  std::string filename = "results/" + robot_id_ + ".txt";
+  std::ofstream file(filename, std::ofstream::out);
+  if (file.is_open()) {
+    RCLCPP_DEBUG(get_logger(), "total waiting time = %f ms", (waiting_time_.nanoseconds() / 1e6));
+    RCLCPP_DEBUG(get_logger(), "number of successful requests =  %d", n_success_);
+    RCLCPP_DEBUG(get_logger(), "avg. waiting time =  %f ms", (waiting_time_.nanoseconds() / 1e6));
+    file << "avg_wt:" << ((waiting_time_.nanoseconds() / 1e6) / n_success_) <<
+      std::endl;
+    file << "requests:" << n_requests_ << std::endl;
+    file << "success:" << n_success_ << std::endl;
+    file << "updates:" << n_updates_ << std::endl;
+    file.close();
+  }
 }
 
 void BlackboardHandler::control_cycle()
@@ -48,9 +74,7 @@ void BlackboardHandler::control_cycle()
     update_blackboard();
     cache_blackboard();
   }
-
-  // POSSIBLE ENHANCEMENT: although a request has been sent, if the blackboard has not changed,
-  // cancel the request
+  // dump_data();
 }
 
 bool BlackboardHandler::has_bb_changed()
@@ -82,6 +106,7 @@ bool BlackboardHandler::has_bb_changed()
 
 void BlackboardHandler::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr msg)
 {
+  RCLCPP_DEBUG(get_logger(), "blackboard_callback");
   if ((msg->type == bf_msgs::msg::Blackboard::GRANT) && (msg->robot_id == robot_id_)) {
     RCLCPP_INFO(get_logger(), "access to blackboard granted");
     access_granted_ = true;
@@ -90,19 +115,20 @@ void BlackboardHandler::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr 
   }
   if ((msg->type == bf_msgs::msg::Blackboard::PUBLISH) && (msg->robot_id == robot_id_)) {
     RCLCPP_INFO(get_logger(), "published global blackboard is mine");
+    n_updates_++;
   }
   if ((msg->type == bf_msgs::msg::Blackboard::PUBLISH) && (msg->robot_id != robot_id_)) {
     RCLCPP_INFO(get_logger(), "updating local blackboard from the shared one");
+    n_updates_++;
     // blackboard_->clear();
     for (int i = 0; i < msg->keys.size(); i++) {
-      // blackboard_->set(msg->keys.at(i), msg->values.at(i));
       if (msg->key_types[i] == "string") {
         blackboard_->set(msg->keys.at(i), msg->values.at(i));
       } else if (msg->key_types[i] == "int") {
         blackboard_->set(msg->keys.at(i), std::stoi(msg->values.at(i)));
       } else if (msg->key_types[i] == "float") {
         blackboard_->set(msg->keys.at(i), std::stof(msg->values.at(i)));
-      } else if (msg ->key_types[i] == "double") {
+      } else if (msg->key_types[i] == "double") {
         blackboard_->set(msg->keys.at(i), std::stod(msg->values.at(i)));
       } else if (msg->key_types[i] == "bool") {
         blackboard_->set(msg->keys.at(i), (bool)std::stoi(msg->values.at(i)));
@@ -127,12 +153,8 @@ void BlackboardHandler::cache_blackboard()
   std::vector<BT::StringView> string_views = blackboard_->getKeys();
   for (const auto & string_view : string_views) {
     try {
-      // ORIGINAL CODE
-      // bb_cache_->set(string_view.data(), blackboard_->get<std::string>(string_view.data()));
-
-      // CHANGES TO CONSIDER TYPES
       std::string type = get_type(string_view.data());
-      
+
       if (type == "string" || type == "unknown") {
         bb_cache_->set(string_view.data(), blackboard_->get<std::string>(string_view.data()));
       } else if (type == "int") {
@@ -144,7 +166,7 @@ void BlackboardHandler::cache_blackboard()
       } else if (type == "bool") {
         bb_cache_->set(string_view.data(), blackboard_->get<bool>(string_view.data()));
       } else {
-         RCLCPP_ERROR(get_logger(), "unknown type [%s]", type.c_str());
+        RCLCPP_ERROR(get_logger(), "unknown type [%s]", type.c_str());
       }
 
       // END CHANGES
@@ -162,8 +184,12 @@ void BlackboardHandler::update_blackboard()
   bf_msgs::msg::Blackboard msg;
 
   if (access_granted_) {
+    waiting_time_ = (rclcpp::Clock().now() - t_last_request_) + waiting_time_;
     n_success_++;
-    RCLCPP_INFO(get_logger(), "SUCCESS %d: updating shared blackboard", n_success_);
+    avg_waiting_time_ = (waiting_time_.nanoseconds() / n_success_) / 1e6; // millis
+    RCLCPP_INFO(
+      get_logger(), "SUCCESS %d: updating shared blackboard (%f ms)", n_success_,
+      avg_waiting_time_);
     std::vector<BT::StringView> string_views = blackboard_->getKeys();
     msg.robot_id = robot_id_;
     msg.type = bf_msgs::msg::Blackboard::UPDATE;
@@ -194,6 +220,7 @@ void BlackboardHandler::update_blackboard()
     if (!request_sent_) {
       bb_pub_->publish(msg);
       request_sent_ = true;
+      n_requests_++;
       t_last_request_ = rclcpp::Clock().now();
     } else {
       RCLCPP_INFO(get_logger(), "waiting for access to blackboard");

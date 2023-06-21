@@ -38,8 +38,14 @@ public:
   BlackboardManager();
   BlackboardManager(BT::Blackboard::Ptr blackboard);
   BlackboardManager(BT::Blackboard::Ptr blackboard, std::chrono::milliseconds milis);
-  BlackboardManager(BT::Blackboard::Ptr blackboard, std::chrono::milliseconds milis,
-                      std::chrono::milliseconds bb_refresh_rate);
+  BlackboardManager(
+    BT::Blackboard::Ptr blackboard,
+    std::chrono::milliseconds milis,
+    int msq_size);
+  BlackboardManager(
+    BT::Blackboard::Ptr blackboard, std::chrono::milliseconds milis,
+    std::chrono::milliseconds bb_refresh_rate,
+    int msq_size);
 
 private:
   void blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr msg);
@@ -51,12 +57,14 @@ private:
   void update_blackboard();
   void publish_blackboard();
   void dump_blackboard();
+  void dump_waiting_times();
 
   bf_msgs::msg::Blackboard::UniquePtr update_bb_msg_;
   BT::Blackboard::Ptr blackboard_;
   bool lock_;
   std::string robot_id_;
   std::queue<std::string> q_;
+  int msq_size_;
 
   rclcpp::Time t_last_grant_;
 
@@ -65,8 +73,11 @@ private:
 
   rclcpp::TimerBase::SharedPtr timer_publish_, timer_cycle_;
 
+  std::queue<rclcpp::Time> q_start_wait_;
+  std::vector<rclcpp::Duration> waiting_times_;
+  int tam_q_, n_pub_;
 };
 
-}   // namespace BF
+} // namespace BF
 
-#endif  // BEHAVIORFLEETS__BLACKBOARDMANAGER_HPP_
+#endif // BEHAVIORFLEETS__BLACKBOARDMANAGER_HPP_

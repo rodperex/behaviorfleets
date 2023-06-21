@@ -1,6 +1,0 @@
-source_tree: /bt_xml/wait.xml
-nodes: 1
-missions:
-  - generic
-  - non-generic
-  - non-generic

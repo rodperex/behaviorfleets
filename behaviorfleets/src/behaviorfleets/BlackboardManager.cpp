@@ -20,9 +20,7 @@ namespace BF
 BlackboardManager::BlackboardManager()
 : Node("blackboard_manager")
 {
-  using ::std::chrono_literals::operator""ms;
   init();
-  timer_cycle_ = create_wall_timer(50ms, std::bind(&BlackboardManager::control_cycle, this));
 }
 
 BlackboardManager::BlackboardManager(
@@ -30,39 +28,49 @@ BlackboardManager::BlackboardManager(
 : Node("blackboard_manager")
 {
   using ::std::chrono_literals::operator""ms;
+  msq_size_ = 10;
   init();
+  RCLCPP_INFO(get_logger(), "control cycle: 50 ms");
   timer_cycle_ = create_wall_timer(50ms, std::bind(&BlackboardManager::control_cycle, this));
   copy_blackboard(blackboard);
 }
 
 BlackboardManager::BlackboardManager(
   BT::Blackboard::Ptr blackboard,
-  std::chrono::milliseconds milis)
-: Node("blackboard_manager")
+  std::chrono::milliseconds milis,
+  int msq_size)
+: Node("blackboard_manager"),
+  msq_size_(msq_size)
 {
   init();
   copy_blackboard(blackboard);
 
+  RCLCPP_INFO(get_logger(), "control cycle: %ld ms", milis.count());
   timer_cycle_ = create_wall_timer(milis, std::bind(&BlackboardManager::control_cycle, this));
 }
 
-BlackboardManager::BlackboardManager(BT::Blackboard::Ptr blackboard, std::chrono::milliseconds milis,
-                      std::chrono::milliseconds bb_refresh_rate)
-  : Node("blackboard_manager")
+BlackboardManager::BlackboardManager(
+  BT::Blackboard::Ptr blackboard, std::chrono::milliseconds milis,
+  std::chrono::milliseconds bb_refresh_rate,
+  int msq_size)
+: Node("blackboard_manager"),
+  msq_size_(msq_size)
 {
   init();
   copy_blackboard(blackboard);
 
+  RCLCPP_INFO(get_logger(), "control cycle: %ld ms", milis.count());
   timer_cycle_ = create_wall_timer(milis, std::bind(&BlackboardManager::control_cycle, this));
-
+  RCLCPP_INFO(get_logger(), "blackboard refresh rate: %ld ms", bb_refresh_rate.count());
   timer_publish_ =
     create_wall_timer(bb_refresh_rate, std::bind(&BlackboardManager::publish_blackboard, this));
 }
-
 void BlackboardManager::init()
 {
   lock_ = false;
   robot_id_ = "";
+  tam_q_ = 0;
+  n_pub_ = 0;
 
   blackboard_ = BT::Blackboard::create();
 
@@ -70,7 +78,7 @@ void BlackboardManager::init()
     "/blackboard", 100);
 
   bb_sub_ = create_subscription<bf_msgs::msg::Blackboard>(
-    "/blackboard", rclcpp::SensorDataQoS(),
+    "/blackboard", rclcpp::SensorDataQoS().keep_last(msq_size_),
     std::bind(&BlackboardManager::blackboard_callback, this, std::placeholders::_1));
 
   rclcpp::on_shutdown([this]() {dump_blackboard();});
@@ -79,11 +87,19 @@ void BlackboardManager::init()
 void BlackboardManager::control_cycle()
 {
   if (!lock_ && !q_.empty()) {
-    RCLCPP_INFO(
-      get_logger(), "dequeuing robot %s (%zu pending)", q_.front().c_str(),
-      q_.size() - 1);
+    if (q_.size() > tam_q_) {
+      tam_q_ = q_.size();
+      RCLCPP_INFO(get_logger(), "max.queue size: %zu", q_.size());
+    }
+
     robot_id_ = q_.front();
+    waiting_times_.push_back(rclcpp::Clock().now() - q_start_wait_.front());
+    RCLCPP_INFO(
+      get_logger(), "dequeuing robot %s (%zu pending). Waiting for %fs", q_.front().c_str(),
+      q_.size() - 1,
+      (rclcpp::Clock().now() - q_start_wait_.front()).nanoseconds() / 1e9);
     q_.pop();
+    q_start_wait_.pop();
     grant_blackboard();
   } else if ((rclcpp::Clock().now() - t_last_grant_).seconds() > 5.0) {
     // RCLCPP_INFO(get_logger(), "blackboard free");
@@ -111,6 +127,7 @@ void BlackboardManager::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr 
   if (update_bb_msg_->type == bf_msgs::msg::Blackboard::REQUEST) {
     // enqueue all requests
     q_.push(update_bb_msg_->robot_id);
+    q_start_wait_.push(rclcpp::Clock().now());
     RCLCPP_INFO(get_logger(), "request from robot %s enqueued", update_bb_msg_->robot_id.c_str());
   } else if ((update_bb_msg_->type == bf_msgs::msg::Blackboard::UPDATE) &&
     (update_bb_msg_->robot_id == robot_id_))
@@ -157,12 +174,6 @@ void BlackboardManager::update_blackboard()
 
 void BlackboardManager::publish_blackboard()
 {
-  // RCLCPP_INFO(get_logger(), "publishing blackboard");
-
-  // while (lock_) {
-  //   std::this_thread::sleep_for(std::chrono::milliseconds(100));
-  // }
-
   if (!lock_) {
     lock_ = true;
     bf_msgs::msg::Blackboard msg;
@@ -188,10 +199,11 @@ void BlackboardManager::publish_blackboard()
     msg.values = values;
     msg.key_types = types;
     bb_pub_->publish(msg);
+    n_pub_++;
     lock_ = false;
     robot_id_ = "";
 
-    RCLCPP_INFO(get_logger(), "blackboard published");
+    RCLCPP_INFO(get_logger(), "blackboard published (%d)", n_pub_);
   }
 }
 
@@ -213,7 +225,7 @@ void BlackboardManager::copy_blackboard(BT::Blackboard::Ptr source_bb)
 void BlackboardManager::dump_blackboard()
 {
   RCLCPP_INFO(get_logger(), "dumping blackboard");
-  std::string filename = "src/behaviorfleets/results/manager.txt";
+  std::string filename = "results/manager.txt";
   std::ofstream file(filename, std::ofstream::out);
 
   std::vector<std::pair<std::string, std::string>> kv_pairs;
@@ -243,7 +255,33 @@ void BlackboardManager::dump_blackboard()
   } else {
     RCLCPP_INFO(get_logger(), "blackboard could NOT be dumped to file: %s", filename.c_str());
   }
+
+  dump_waiting_times();
 }
+
+void BlackboardManager::dump_waiting_times()
+{
+  RCLCPP_INFO(get_logger(), "dumping waiting times");
+  std::string filename = "results/waiting_times.txt";
+  std::ofstream file(filename, std::ofstream::out);
+
+  if (file.is_open()) {
+    for (const auto & wt : waiting_times_) {
+      file << (wt.nanoseconds() / 1e6) << std::endl;
+    }
+
+    // last lines of the file is the maximum size of the queue and the number of bb pubs
+    file << tam_q_ << std::endl;
+    file << n_pub_ << std::endl;
+
+    file.close();
+    RCLCPP_INFO(get_logger(), "waiting times dumped to file: %s", filename.c_str());
+  } else {
+    RCLCPP_INFO(get_logger(), "waiting times could NOT be dumped to file: %s", filename.c_str());
+  }
+
+}
+
 
 std::string BlackboardManager::get_type(const char * port_name)
 {
