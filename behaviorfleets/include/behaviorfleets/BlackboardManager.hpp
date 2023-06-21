@@ -39,8 +39,13 @@ public:
   BlackboardManager(BT::Blackboard::Ptr blackboard);
   BlackboardManager(BT::Blackboard::Ptr blackboard, std::chrono::milliseconds milis);
   BlackboardManager(
+    BT::Blackboard::Ptr blackboard,
+    std::chrono::milliseconds milis,
+    int msq_size);
+  BlackboardManager(
     BT::Blackboard::Ptr blackboard, std::chrono::milliseconds milis,
-    std::chrono::milliseconds bb_refresh_rate);
+    std::chrono::milliseconds bb_refresh_rate,
+    int msq_size);
 
 private:
   void blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr msg);
@@ -59,6 +64,7 @@ private:
   bool lock_;
   std::string robot_id_;
   std::queue<std::string> q_;
+  int msq_size_;
 
   rclcpp::Time t_last_grant_;
 

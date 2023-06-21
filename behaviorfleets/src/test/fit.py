@@ -4,9 +4,13 @@ import pandas as pd
 import numpy as np
 from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 def func(x, a, b):
   return a / np.sqrt(x) + b
+
+def parabola(x, a, b, c):
+  return a*x*x/b + c
 
 def logarithmic(x, a, b):
     return (a * np.log(x*x*x*x)) + b
@@ -16,39 +20,19 @@ def plot_results_nodes(x, avg_wt, max_wt, avg_succ, max_succ, min_succ, tam_q):
   fig, axes = plt.subplots(nrows=2, ncols=2)
   fig.suptitle('NUMBER OF NODES')
   
-
-  [a, b] = np.polyfit(x, avg_wt, 1)
-  y1 = a * x + b
-  # plt.figure()
-  # plt.plot(x, avg_wt, 'b')
-  # plt.plot(x, max_wt, 'g')
-  # plt.plot(x, y1, 'r')
-  # plt.grid(True)
-  # plt.xlabel('Number of nodes')
-  # plt.ylabel('Waiting time')
-  # plt.legend(['Average', 'Maximum', 'Linear fit'])
-  # plt.show(block=False)
+  params, _ = curve_fit(parabola, x, avg_wt)
+  a, b, c = params
+  y1 =  parabola(x, a, b, c)
   axes[0, 0].plot(x, avg_wt, 'b')
   axes[0, 0].plot(x, max_wt, 'g')
   axes[0, 0].plot(x, y1, 'r')
   axes[0, 0].grid(True)
   axes[0, 0].set_xlabel('Number of nodes')
   axes[0, 0].set_ylabel('Waiting time')
-  axes[0, 0].legend(['Average', 'Maximum', 'Linear fit'])
+  axes[0, 0].legend(['Average', 'Maximum', 'Curve fit'])
 
-
-  [a, b], pcov = curve_fit(func, x, avg_succ)
-  y1 =  a / np.sqrt(x) + b
-  # plt.figure()
-  # plt.plot(x, avg_succ, 'b')
-  # plt.plot(x, y1, 'r') 
-  # plt.plot(x, max_succ, 'g')
-  # plt.plot(x, min_succ, 'y')
-  # plt.grid(True)
-  # plt.xlabel('Number of nodes')
-  # plt.ylabel('Success rate')
-  # plt.legend(['Average', 'Curve fit', 'Maximum', 'Minimum'])
-  # plt.show(block=False)
+  [a, b] = np.polyfit(x, avg_succ, 1)
+  y1 = a * x + b
   axes[0, 1].plot(x, avg_succ, 'b')
   axes[0, 1].plot(x, y1, 'r')
   axes[0, 1].plot(x, max_succ, 'g')
@@ -56,19 +40,11 @@ def plot_results_nodes(x, avg_wt, max_wt, avg_succ, max_succ, min_succ, tam_q):
   axes[0, 1].grid(True)
   axes[0, 1].set_xlabel('Number of nodes')
   axes[0, 1].set_ylabel('Success rate')
-  axes[0, 1].legend(['Average', 'Curve fit', 'Maximum', 'Minimum'])
+  axes[0, 1].legend(['Average', 'Linear fit', 'Maximum', 'Minimum'])
 
 
   [a, b]= np.polyfit(x, tam_q, 1)
   y1 = a * x + b
-  # plt.figure()
-  # plt.plot(x, tam_q, 'b')
-  # plt.plot(x, y1, 'r')
-  # plt.grid(True)
-  # plt.xlabel('Number of nodes')
-  # plt.ylabel('Queue size')
-  # plt.legend(['Maximum queue size', 'Linear fit'])
-  # plt.show(block=False)
   axes[1, 0].plot(x, tam_q, 'b')
   axes[1, 0].plot(x, y1, 'r')
   axes[1, 0].grid(True)
@@ -80,7 +56,64 @@ def plot_results_nodes(x, avg_wt, max_wt, avg_succ, max_succ, min_succ, tam_q):
   plt.tight_layout()
   plt.show(block=False)
 
+
 def plot_results_time(x, avg_wt, max_wt, avg_succ, max_succ, min_succ, tam_q):
+
+  sns.set(style="darkgrid")  # Set the style of the plots to darkgrid
+
+  # Create the figure and subplots using Seaborn's subplots function
+  fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(10, 8))
+
+  # Plot the waiting time
+  sns.lineplot(x=x, y=avg_wt, ax=axes[0, 0], color='b')
+  # sns.lineplot(x=x, y=max_wt, ax=axes[0, 0], color='g')
+  # axes[0, 0].legend(['Average', 'Maximum'])
+  
+  # Fit and plot the linear regression line for waiting time
+  sns.regplot(x=x, y=avg_wt, ax=axes[0, 0], color='r', scatter=False)
+
+  # Set the labels and legends for waiting time subplot
+  axes[0, 0].set_xlabel('Operation time')
+  axes[0, 0].set_ylabel('Waiting time')
+  
+
+  # Plot the success rate
+  sns.lineplot(x=x, y=avg_succ, ax=axes[0, 1], color='b')
+  
+  # Fit and plot the linear regression line for success rate
+  sns.regplot(x=x, y=avg_succ, ax=axes[0, 1], color='r', scatter=False)
+
+  # Plot the maximum and minimum success rate
+  # sns.lineplot(x=x, y=max_succ, ax=axes[0, 1], color='g')
+  # sns.lineplot(x=x, y=min_succ, ax=axes[0, 1], color='y')
+  
+  # Set the labels and legends for success rate subplot
+  axes[0, 1].set_xlabel('Operation time')
+  axes[0, 1].set_ylabel('Success rate')
+  axes[0, 1].legend(['Average', 'Linear fit', 'Maximum', 'Minimum'])
+
+  # Plot the queue size
+  sns.lineplot(x=x, y=tam_q, ax=axes[1, 0], color='b')
+  
+  # Fit and plot the linear regression line for queue size
+  sns.regplot(x=x, y=tam_q, ax=axes[1, 0], color='r', scatter=False)
+
+  # Set the labels and legends for queue size subplot
+  axes[1, 0].set_xlabel('Operation time')
+  axes[1, 0].set_ylabel('Queue size')
+  axes[1, 0].legend(['Maximum queue size', 'Linear fit'])
+
+  # Remove the empty subplot
+  fig.delaxes(axes[1, 1])
+
+  # Adjust the spacing between subplots
+  plt.tight_layout()
+  
+  # Show the plot
+  plt.show()
+
+
+def plot_results_time2(x, avg_wt, max_wt, avg_succ, max_succ, min_succ, tam_q):
   nan_indices = np.isnan(avg_wt)
   avg_wt = avg_wt[~nan_indices]
   max_wt = max_wt[~nan_indices]
@@ -88,7 +121,7 @@ def plot_results_time(x, avg_wt, max_wt, avg_succ, max_succ, min_succ, tam_q):
   max_succ = max_succ[~nan_indices]
   min_succ = min_succ[~nan_indices]
   tam_q = tam_q[~nan_indices]
-  x = x[~nan_indices]
+  # x = x[~nan_indices]
 
   fig, axes = plt.subplots(nrows=2, ncols=2)
   fig.suptitle('OPERATION TIME')
@@ -104,9 +137,11 @@ def plot_results_time(x, avg_wt, max_wt, avg_succ, max_succ, min_succ, tam_q):
   axes[0, 0].legend(['Average', 'Maximum', 'Linear fit'])
 
 
-  params, _ = curve_fit(logarithmic, x, avg_succ)
-  a, b = params
-  y1 =  logarithmic(x, a, b)
+  [a, b] = np.polyfit(x, avg_succ, 1)
+  y1 = a * x + b
+  # params, _ = curve_fit(logarithmic, x, avg_succ)
+  # a, b = params
+  # y1 =  logarithmic(x, a, b)
   axes[0, 1].plot(x, avg_succ, 'b')
   axes[0, 1].plot(x, y1, 'r')
   axes[0, 1].plot(x, max_succ, 'g')
@@ -114,11 +149,10 @@ def plot_results_time(x, avg_wt, max_wt, avg_succ, max_succ, min_succ, tam_q):
   axes[0, 1].grid(True)
   axes[0, 1].set_xlabel('Operation time')
   axes[0, 1].set_ylabel('Success rate')
-  axes[0, 1].legend(['Average', 'Curve fit', 'Maximum', 'Minimum'])
+  axes[0, 1].legend(['Average', 'Linear fit', 'Maximum', 'Minimum'])
   
-  params, _ = curve_fit(logarithmic, x, tam_q)
-  a, b = params
-  y1 =  logarithmic(x, a, b)
+  [a, b] = np.polyfit(x, tam_q, 1)
+  y1 = a * x + b
   axes[1, 0].plot(x, tam_q, 'b')
   axes[1, 0].plot(x, y1, 'r')
   axes[1, 0].grid(True)
@@ -135,39 +169,39 @@ def plot_results_freq(x, avg_wt, max_wt, avg_succ, max_succ, min_succ, tam_q):
   fig, axes = plt.subplots(nrows=2, ncols=2)
   fig.suptitle('STRESSER FREQUENCY')
 
-  # [a, b] = np.polyfit(x, avg_wt, 1)
-  # y1 = a * x + b
+  [a, b] = np.polyfit(x, avg_wt, 1)
+  y1 = a * x + b
   axes[0, 0].plot(x, avg_wt, 'b')
   axes[0, 0].plot(x, max_wt, 'g')
-  # axes[0, 0].plot(x, y1, 'r')
+  axes[0, 0].plot(x, y1, 'r')
   axes[0, 0].grid(True)
   axes[0, 0].set_xlabel('Stresser Hz')
   axes[0, 0].set_ylabel('Waiting time')
-  # axes[0, 0].legend(['Average', 'Maximum', 'Linear fit'])
-  axes[0, 0].legend(['Average', 'Maximum'])
+  axes[0, 0].legend(['Average', 'Maximum', 'Linear fit'])
+  # axes[0, 0].legend(['Average', 'Maximum'])
   
 
-  # [a, b] = np.polyfit(x, avg_wt, 1)
-  # y1 = a * x + b
+  [a, b] = np.polyfit(x, avg_succ, 1)
+  y1 = a * x + b
   axes[0, 1].plot(x, avg_succ, 'b')
-  # axes[0, 1].plot(x, y1, 'r')
+  axes[0, 1].plot(x, y1, 'r')
   axes[0, 1].plot(x, max_succ, 'g')
   axes[0, 1].plot(x, min_succ, 'y')
   axes[0, 1].grid(True)
   axes[0, 1].set_xlabel('Stresser Hz')
   axes[0, 1].set_ylabel('Success rate')
-  # axes[0, 1].legend(['Average', 'Linear fit', 'Maximum', 'Minimum'])
-  axes[0, 1].legend(['Average', 'Maximum', 'Minimum'])
+  axes[0, 1].legend(['Average', 'Linear fit', 'Maximum', 'Minimum'])
+  # axes[0, 1].legend(['Average', 'Maximum', 'Minimum'])
   
-  # [a, b]= np.polyfit(x, tam_q, 1)
-  # y1 = a * x + b
+  [a, b]= np.polyfit(x, tam_q, 1)
+  y1 = a * x + b
   axes[1, 0].plot(x, tam_q, 'b')
-  # axes[1, 0].plot(x, y1, 'r')
+  axes[1, 0].plot(x, y1, 'r')
   axes[1, 0].grid(True)
   axes[1, 0].set_xlabel('Stresser Hz')
   axes[1, 0].set_ylabel('Queue size')
-  # axes[1, 0].legend(['Maximum queue size', 'Linear fit'])
-  axes[1, 0].legend(['Maximum queue size'])
+  axes[1, 0].legend(['Maximum queue size', 'Linear fit'])
+  # axes[1, 0].legend(['Maximum queue size'])
 
   fig.delaxes(axes[1, 1])
   plt.tight_layout()
@@ -181,44 +215,41 @@ data = pd.read_csv(path +'/bf_experiments.csv')
 shape = data.shape
 
 # nodes
-index = 8
-x = data.iloc[0].astype(int).to_numpy()
+index = 0
+x = data.iloc[index].astype(int).to_numpy()
+index = index + 8;
 avg_wt = data.iloc[index].astype(float).to_numpy()
 max_wt = data.iloc[index + 2].astype(float).to_numpy()
 avg_succ = data.iloc[index + 4].astype(float).to_numpy()
 max_succ = data.iloc[index + 6].astype(float).to_numpy()
 min_succ = data.iloc[index + 7].astype(float).to_numpy()
-tam_q = data.iloc[index + 13].astype(float).to_numpy()
+tam_q = data.iloc[index + 18].astype(float).to_numpy()
 plot_results_nodes(x, avg_wt, max_wt, avg_succ, max_succ, min_succ, tam_q)
 
 # time
-index = 30
-x = data.iloc[24].astype(int).to_numpy()
-avg_wt = data.iloc[index].astype(float).to_numpy()
-max_wt = data.iloc[index + 2].astype(float).to_numpy()
-avg_succ = data.iloc[index + 4].astype(float).to_numpy()
-max_succ = data.iloc[index + 6].astype(float).to_numpy()
-min_succ = data.iloc[index + 7].astype(float).to_numpy()
-tam_q = data.iloc[index + 13].astype(float).to_numpy()
-plot_results_time(x, avg_wt, max_wt, avg_succ, max_succ, min_succ, tam_q)
+index = 58
+x = data.iloc[index].dropna().astype(int).to_numpy()
+index = index + 4;
+avg_wt = data.iloc[index].dropna().astype(float).to_numpy()
+max_wt = data.iloc[index + 2].dropna().astype(float).to_numpy()
+avg_succ = data.iloc[index + 4].dropna().astype(float).to_numpy()
+max_succ = data.iloc[index + 6].dropna().astype(float).to_numpy()
+min_succ = data.iloc[index + 7].dropna().astype(float).to_numpy()
+tam_q = data.iloc[index + 18].dropna().astype(float).to_numpy()
+plot_results_time2(x, avg_wt, max_wt, avg_succ, max_succ, min_succ, tam_q)
 
 
 # frequency
-index = 52
-x = data.iloc[48].astype(int).to_numpy()
-avg_wt = data.iloc[index].astype(float).to_numpy()
-max_wt = data.iloc[index + 2].astype(float).to_numpy()
-avg_succ = data.iloc[index + 4].astype(float).to_numpy()
-max_succ = data.iloc[index + 6].astype(float).to_numpy()
-min_succ = data.iloc[index + 7].astype(float).to_numpy()
-tam_q = data.iloc[index + 13].astype(float).to_numpy()
+index = 58
+x = data.iloc[58].dropna().astype(int).to_numpy()
+index = index + 4;
+avg_wt = data.iloc[index].dropna().astype(float).to_numpy()
+max_wt = data.iloc[index + 2].dropna().astype(float).to_numpy()
+avg_succ = data.iloc[index + 4].dropna().astype(float).to_numpy()
+max_succ = data.iloc[index + 6].dropna().astype(float).to_numpy()
+min_succ = data.iloc[index + 7].dropna().astype(float).to_numpy()
+tam_q = data.iloc[index + 18].dropna().astype(float).to_numpy()
 plot_results_freq(x, avg_wt, max_wt, avg_succ, max_succ, min_succ, tam_q)
 
 
 input()
-
-
-
-
-
-
