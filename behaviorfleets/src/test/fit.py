@@ -5,6 +5,8 @@ import numpy as np
 from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.linear_model import LinearRegression
+
 
 def func(x, a, b):
   return a / np.sqrt(x) + b
@@ -20,9 +22,12 @@ def plot_results_nodes(x, avg_wt, max_wt, avg_succ, max_succ, min_succ, tam_q):
   fig, axes = plt.subplots(nrows=2, ncols=2)
   fig.suptitle('NUMBER OF NODES')
   
-  params, _ = curve_fit(parabola, x, avg_wt)
-  a, b, c = params
-  y1 =  parabola(x, a, b, c)
+  # params, _ = curve_fit(parabola, x, avg_wt)
+  # a, b, c = params
+  # y1 =  parabola(x, a, b, c)
+  coefficients = np.polyfit(x, avg_wt, 2)
+  p = np.poly1d(coefficients)
+  y1 = p(x)
   axes[0, 0].plot(x, avg_wt, 'b')
   axes[0, 0].plot(x, max_wt, 'g')
   axes[0, 0].plot(x, y1, 'r')
@@ -31,8 +36,9 @@ def plot_results_nodes(x, avg_wt, max_wt, avg_succ, max_succ, min_succ, tam_q):
   axes[0, 0].set_ylabel('Waiting time')
   axes[0, 0].legend(['Average', 'Maximum', 'Curve fit'])
 
-  [a, b] = np.polyfit(x, avg_succ, 1)
-  y1 = a * x + b
+
+  model = LinearRegression().fit(x.reshape(-1, 1), avg_succ)
+  y1 = model.predict(x.reshape(-1, 1))
   axes[0, 1].plot(x, avg_succ, 'b')
   axes[0, 1].plot(x, y1, 'r')
   axes[0, 1].plot(x, max_succ, 'g')
@@ -40,7 +46,7 @@ def plot_results_nodes(x, avg_wt, max_wt, avg_succ, max_succ, min_succ, tam_q):
   axes[0, 1].grid(True)
   axes[0, 1].set_xlabel('Number of nodes')
   axes[0, 1].set_ylabel('Success rate')
-  axes[0, 1].legend(['Average', 'Linear fit', 'Maximum', 'Minimum'])
+  axes[0, 1].legend(['Average', 'Linear fitd', 'Maximum', 'Minimum'])
 
 
   [a, b]= np.polyfit(x, tam_q, 1)
