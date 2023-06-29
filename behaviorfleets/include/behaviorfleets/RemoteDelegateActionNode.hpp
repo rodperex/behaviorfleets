@@ -66,6 +66,8 @@ private:
   BT::Tree tree_;
   rclcpp::TimerBase::SharedPtr timer_;
 
+  rclcpp::Node::SharedPtr node_; // new
+
 };
 
 }  // namespace BF

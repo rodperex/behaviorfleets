@@ -63,6 +63,9 @@ RemoteDelegateActionNode::init()
 
   // plugins can be read from a topic as well
   this->declare_parameter("plugins", std::vector<std::string>());
+
+  // new
+  node_ = rclcpp::Node::make_shared("bt_node");
 }
 
 
@@ -140,7 +143,8 @@ RemoteDelegateActionNode::create_tree()
     }
 
     auto blackboard = BT::Blackboard::create();
-    blackboard->set("node", shared_from_this());
+    // blackboard->set("node", shared_from_this());
+    blackboard->set("node", node_);
     tree_ = factory.createTreeFromText(mission_->mission_tree, blackboard);
 
     RCLCPP_INFO(get_logger(), "tree created");
