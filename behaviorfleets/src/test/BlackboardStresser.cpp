@@ -55,7 +55,7 @@ BlackboardStresser::BlackboardStresser(
     robot_id_.c_str(), milis.count(), delay_.count());
 
   timer_ = create_wall_timer(milis, std::bind(&BlackboardStresser::control_cycle, this));
- 
+
   t_start_ = rclcpp::Clock().now();
 
   // rclcpp::on_shutdown([this]() {dump_blackboard();});

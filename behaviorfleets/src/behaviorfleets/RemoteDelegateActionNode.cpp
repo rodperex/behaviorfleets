@@ -144,7 +144,7 @@ RemoteDelegateActionNode::create_tree()
 
     auto blackboard = BT::Blackboard::create();
     // blackboard->set("node", shared_from_this());
-    blackboard->set("node", node_); 
+    blackboard->set("node", node_);
     tree_ = factory.createTreeFromText(mission_->mission_tree, blackboard);
 
     RCLCPP_INFO(get_logger(), "tree created");
