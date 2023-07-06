@@ -45,6 +45,7 @@ private:
   void cache_blackboard();
   bool has_bb_changed();
   void dump_data();
+  void sync_bb();
   
 
   BT::Blackboard::Ptr blackboard_, bb_cache_;
@@ -57,6 +58,8 @@ private:
   rclcpp::Subscription<bf_msgs::msg::Blackboard>::SharedPtr bb_sub_;
 
   rclcpp::TimerBase::SharedPtr timer_;
+
+  bool sync_rcvd_;
 
   // test stuff
   rclcpp::Time waiting_time_;

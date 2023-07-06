@@ -68,6 +68,7 @@ BlackboardManager::BlackboardManager(
 void BlackboardManager::init()
 {
   lock_ = false;
+  sync_ = false;
   robot_id_ = "";
   tam_q_ = 0;
   n_pub_ = 0;
@@ -132,8 +133,11 @@ void BlackboardManager::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr 
   } else if ((update_bb_msg_->type == bf_msgs::msg::Blackboard::UPDATE) &&
     (update_bb_msg_->robot_id == robot_id_))
   {
-    // attend update request coming from the robot that has the blackboard
-    update_blackboard();
+    update_blackboard(); // attend request coming from the robot that has the blackboard
+  } else if (update_bb_msg_->type == bf_msgs::msg::Blackboard::SYNC) {
+    RCLCPP_INFO(get_logger(), "sychronization request received from %s", update_bb_msg_->robot_id.c_str());
+    sync_ = true;
+    publish_blackboard();
   }
 }
 
@@ -145,13 +149,7 @@ void BlackboardManager::update_blackboard()
   std::vector<std::string> values = update_bb_msg_->values;
   std::vector<std::string> types = update_bb_msg_->key_types;
 
-  // blackboard_->clear();
-  // manager cannot clear the blackboard, only update it
   for (int i = 0; i < keys.size(); i++) {
-    // ORIGINAL CODE
-    // blackboard_->set(keys[i], values[i]);
-
-    // NEW CODE
     if (types[i] == "string" || types[i] == "unknown") {
       blackboard_->set(keys[i], values[i]);
     } else if (types[i] == "int") {
@@ -181,7 +179,15 @@ void BlackboardManager::publish_blackboard()
 
     msg.type = bf_msgs::msg::Blackboard::PUBLISH;
     // msg.robot_id = "all";
-    msg.robot_id = robot_id_;
+    if (sync_) {
+      RCLCPP_INFO(get_logger(), "responding to a synchronization request");
+      msg.robot_id = "all";
+      sync_ = false;
+    }
+    else {
+      msg.robot_id = robot_id_;
+    }
+
     std::vector<std::string> keys;
     std::vector<std::string> values;
     std::vector<std::string> types;
@@ -191,7 +197,8 @@ void BlackboardManager::publish_blackboard()
         keys.push_back(string_view.data());
         values.push_back(blackboard_->get<std::string>(string_view.data()));
         types.push_back(get_type(string_view.data()));
-      } catch (const std::exception & e) {
+        RCLCPP_INFO(get_logger(), "publishing key %s (%s)", string_view.data(), types.back().c_str());  
+      } catch (const std::exception &e) {
         RCLCPP_INFO(get_logger(), "key %s skipped", string_view.data());
       }
     }
@@ -214,10 +221,22 @@ void BlackboardManager::copy_blackboard(BT::Blackboard::Ptr source_bb)
   std::vector<BT::StringView> string_views = source_bb->getKeys();
   for (const auto & string_view : string_views) {
     try {
-      blackboard_->set(string_view.data(), blackboard_->get<std::string>(string_view.data()));
+      RCLCPP_INFO(get_logger(), "copying key %s", string_view.data());
+
+      // check if the entry should be skipped
+      // if (string_view.find("efbb_") == std::string::npos) {
+      //   RCLCPP_INFO(get_logger(), "key %s copy skipped", string_view.data());
+      //   continue;
+      // }
+
+      std::string value = source_bb->get<std::string>(string_view.data());
+      blackboard_->set(string_view.data(), value);
+      // blackboard_->set(string_view.data(), blackboard_->get<std::string>(string_view.data(), s));
       RCLCPP_INFO(get_logger(), "key %s copied", string_view.data());
+      RCLCPP_INFO(get_logger(), "key %s value is: %s", string_view.data(), value.c_str());
+      RCLCPP_INFO(get_logger(), "key %s type is: %s", string_view.data(), get_type(string_view.data()).c_str());
     } catch (const std::exception & e) {
-      RCLCPP_INFO(get_logger(), "key %s skipped", string_view.data());
+      RCLCPP_INFO(get_logger(), "key %s copy skipped", string_view.data());
     }
   }
 }

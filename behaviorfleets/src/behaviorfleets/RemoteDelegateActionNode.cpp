@@ -92,21 +92,21 @@ RemoteDelegateActionNode::control_cycle()
 
     // spin bb_handler_ activate the callbacks to keep the shared blackboard updated
     rclcpp::spin_some(bb_handler_);
-    RCLCPP_INFO(get_logger(), "blackboard handler spinned");
+    // RCLCPP_INFO(get_logger(), "blackboard handler spinned");
 
     switch (status) {
       case BT::NodeStatus::RUNNING:
         status_msg.status = bf_msgs::msg::Mission::RUNNING;
-        RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "RUNNING").c_str());
+        RCLCPP_DEBUG(get_logger(), ("[ " + id_ + " ] " + "RUNNING").c_str());
         break;
       case BT::NodeStatus::SUCCESS:
         status_msg.status = bf_msgs::msg::Mission::SUCCESS;
-        RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "SUCCESS").c_str());
+        RCLCPP_DEBUG(get_logger(), ("[ " + id_ + " ] " + "SUCCESS").c_str());
         working_ = false;
         break;
       case BT::NodeStatus::FAILURE:
         status_msg.status = bf_msgs::msg::Mission::FAILURE;
-        RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "FAILURE").c_str());
+        RCLCPP_DEBUG(get_logger(), ("[ " + id_ + " ] " + "FAILURE").c_str());
         working_ = false;
         break;
     }
@@ -138,20 +138,28 @@ RemoteDelegateActionNode::create_tree()
     if (load_plugins) {
       for (auto plugin : plugins) {
         factory.registerFromPlugin(loader.getOSName(plugin));
-        RCLCPP_INFO(get_logger(), "plugin %s loaded", plugin.c_str());
+        RCLCPP_INFO(get_logger(), "plugin %s  ", plugin.c_str());
       }
     }
 
     auto blackboard = BT::Blackboard::create();
     // blackboard->set("node", shared_from_this());
     blackboard->set("node", node_);
-    tree_ = factory.createTreeFromText(mission_->mission_tree, blackboard);
 
-    RCLCPP_INFO(get_logger(), "tree created");
-
+    
     // create a blackboard handler to work with a shared blackboard
     bb_handler_ = std::make_shared<BlackboardHandler>(id_, blackboard);
     RCLCPP_INFO(get_logger(), "blackboard handler created");
+
+    // execution CANNOT continue till the handler is synchronized with the global bb
+    auto start_time = std::chrono::steady_clock::now();
+    while (std::chrono::steady_clock::now() - start_time < std::chrono::seconds(3)) {
+      rclcpp::spin_some(bb_handler_);
+      std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+
+    tree_ = factory.createTreeFromText(mission_->mission_tree, blackboard);
+    RCLCPP_INFO(get_logger(), "tree created");
 
     return true;
   } catch (std::exception & e) {

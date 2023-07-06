@@ -104,7 +104,7 @@ DelegateActionNode::decode(std::string str, std::vector<std::string> * vector)
 void
 DelegateActionNode::remote_status_callback(bf_msgs::msg::Mission::UniquePtr msg)
 {
-  RCLCPP_INFO(
+  RCLCPP_DEBUG(
     node_->get_logger(), (std::string("remote status received: ") +
     "[ " + msg->robot_id + " : " + msg->mission_id + " ]").c_str());
   remote_status_ = std::move(msg);
@@ -183,7 +183,7 @@ DelegateActionNode::tick()
     msg.mission_id = mission_id_;
     msg.robot_id = remote_id_;
     mission_pub_->publish(msg);
-    RCLCPP_INFO(node_->get_logger(), "mission %s publised", mission_id_.c_str());
+    // RCLCPP_INFO(node_->get_logger(), "mission %s publised", mission_id_.c_str());
   } else {
     if (remote_status_ != nullptr) {
       auto elapsed = node_->now() - t_last_status_;
@@ -208,27 +208,27 @@ DelegateActionNode::tick()
         int status = remote_status_->status;
         switch (status) {
           case bf_msgs::msg::Mission::RUNNING:
-            RCLCPP_INFO(
+            RCLCPP_DEBUG(
               node_->get_logger(), (std::string("remote status ") +
               "[ " + remote_id_ + " ]: " + "RUNNING").c_str());
             return BT::NodeStatus::RUNNING;
             break;
           case bf_msgs::msg::Mission::SUCCESS:
-            RCLCPP_INFO(
+            RCLCPP_DEBUG(
               node_->get_logger(), (std::string("remote status ") +
               "[ " + remote_id_ + " ]: " + "SUCCESS").c_str());
             reset();
             return BT::NodeStatus::SUCCESS;
             break;
           case bf_msgs::msg::Mission::FAILURE:
-            RCLCPP_INFO(
+            RCLCPP_DEBUG(
               node_->get_logger(), (std::string("remote status ") +
               "[ " + remote_id_ + " ]: " + "FAILURE").c_str());
             reset();
             return BT::NodeStatus::FAILURE;
             break;
           case bf_msgs::msg::Mission::IDLE:
-            RCLCPP_INFO(
+            RCLCPP_DEBUG(
               node_->get_logger(), (std::string("remote status ") +
               "[ " + remote_id_ + " ]: " + "IDLE").c_str());
             reset();

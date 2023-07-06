@@ -5,6 +5,7 @@ uint8 ACK = 3
 uint8 DENY = 4
 uint8 UPDATE = 5
 uint8 PUBLISH = 6
+uint8 SYNC = 7
 
 # std_msgs/Header header
 # float64 double_content
