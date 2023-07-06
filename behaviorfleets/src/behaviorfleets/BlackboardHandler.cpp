@@ -52,7 +52,8 @@ BlackboardHandler::BlackboardHandler(
 
 BlackboardHandler::~BlackboardHandler()
 {
-  dump_data();
+  // uncomment for testing
+  // dump_data();
 }
 
 void BlackboardHandler::dump_data()
@@ -112,13 +113,13 @@ void BlackboardHandler::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr 
 {
   RCLCPP_DEBUG(get_logger(), "blackboard_callback");
   if ((msg->type == bf_msgs::msg::Blackboard::GRANT) && (msg->robot_id == robot_id_)) {
-    // RCLCPP_INFO(get_logger(), "access to blackboard granted");
+    RCLCPP_DEBUG(get_logger(), "access to blackboard granted");
     access_granted_ = true;
     update_blackboard();
     return;
   }
   if ((msg->type == bf_msgs::msg::Blackboard::PUBLISH) && (msg->robot_id == robot_id_)) {
-    RCLCPP_INFO(get_logger(), "published global blackboard is mine");
+    RCLCPP_DEBUG(get_logger(), "published global blackboard is mine");
     n_updates_++;
   }
   if ((msg->type == bf_msgs::msg::Blackboard::PUBLISH) && (msg->robot_id != robot_id_)) {
@@ -161,7 +162,7 @@ void BlackboardHandler::cache_blackboard()
       //check if the entry should be skipped
       if (string_view.find("efbb_") != std::string::npos) {
         excluded_keys_.push_back(string_view.data());
-        RCLCPP_INFO(get_logger(), "key %s excluded", string_view.data());
+        RCLCPP_DEBUG(get_logger(), "key %s excluded", string_view.data());
         continue;
       }
       std::string type = get_type(string_view.data());
@@ -180,10 +181,10 @@ void BlackboardHandler::cache_blackboard()
         RCLCPP_ERROR(get_logger(), "unknown type [%s]", type.c_str());
       }
 
-      // RCLCPP_INFO(get_logger(), "key %s cached", string_view.data());
+      RCLCPP_DEBUG(get_logger(), "key %s cached", string_view.data());
     } catch (const std::exception & e) {
       excluded_keys_.push_back(string_view.data());
-      // RCLCPP_INFO(get_logger(), "key %s skipped", string_view.data());
+      RCLCPP_DEBUG(get_logger(), "key %s skipped", string_view.data());
     }
   }
 }
@@ -223,7 +224,7 @@ void BlackboardHandler::update_blackboard()
     request_sent_ = false;
     access_granted_ = false;
   } else {
-    // RCLCPP_INFO(get_logger(), "requesting access to blackboard");
+    RCLCPP_DEBUG(get_logger(), "requesting access to blackboard");
     msg.type = bf_msgs::msg::Blackboard::REQUEST;
     msg.robot_id = robot_id_;
     if (!request_sent_) {
@@ -232,9 +233,9 @@ void BlackboardHandler::update_blackboard()
       n_requests_++;
       t_last_request_ = rclcpp::Clock().now();
     } else {
-      // RCLCPP_INFO(get_logger(), "waiting for access to blackboard");
+      RCLCPP_DEBUG(get_logger(), "waiting for access to blackboard");
       if ((rclcpp::Clock().now() - t_last_request_).seconds() > 5.0) {
-        RCLCPP_INFO(get_logger(), "request timed out");
+        RCLCPP_DEBUG(get_logger(), "request timed out");
         request_sent_ = false;
       }
     }

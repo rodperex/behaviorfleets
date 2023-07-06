@@ -82,7 +82,8 @@ void BlackboardManager::init()
     "/blackboard", rclcpp::SensorDataQoS().keep_last(msq_size_),
     std::bind(&BlackboardManager::blackboard_callback, this, std::placeholders::_1));
 
-  rclcpp::on_shutdown([this]() {dump_blackboard();});
+  // uncomment for testing
+  // rclcpp::on_shutdown([this]() {dump_blackboard();});
 }
 
 void BlackboardManager::control_cycle()
@@ -224,10 +225,10 @@ void BlackboardManager::copy_blackboard(BT::Blackboard::Ptr source_bb)
       RCLCPP_INFO(get_logger(), "copying key %s", string_view.data());
 
       // check if the entry should be skipped
-      // if (string_view.find("efbb_") == std::string::npos) {
-      //   RCLCPP_INFO(get_logger(), "key %s copy skipped", string_view.data());
-      //   continue;
-      // }
+      if (string_view.find("efbb_") != std::string::npos) {
+        RCLCPP_INFO(get_logger(), "key %s copy skipped", string_view.data());
+        continue;
+      } 
 
       std::string value = source_bb->get<std::string>(string_view.data());
       blackboard_->set(string_view.data(), value);
