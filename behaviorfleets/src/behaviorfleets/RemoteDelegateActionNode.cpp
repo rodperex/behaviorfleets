@@ -146,7 +146,7 @@ RemoteDelegateActionNode::create_tree()
     // blackboard->set("node", shared_from_this());
     blackboard->set("node", node_);
 
-    
+
     // create a blackboard handler to work with a shared blackboard
     bb_handler_ = std::make_shared<BlackboardHandler>(id_, blackboard);
     RCLCPP_INFO(get_logger(), "blackboard handler created");

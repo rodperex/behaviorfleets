@@ -34,8 +34,7 @@ volatile std::sig_atomic_t g_signal_received = false;
 // Signal handler function
 void signal_handler(int signal)
 {
-  if (signal == SIGINT)
-  {
+  if (signal == SIGINT) {
     std::cout << "SIGINT" << std::endl;
     g_signal_received = true;
   }
@@ -72,11 +71,11 @@ int main(int argc, char * argv[])
 
     for (int i = 0; i < num_nodes; ++i) {
       double dev = random_double(0.0, max_dev);
-      if (random_int(0, 1) == 1){
+      if (random_int(0, 1) == 1) {
         dev = -dev;
       }
       freq = freq + dev;
-      
+
       std::cout << "Node " << i + 1 << " freq: " << freq << std::endl;
 
       int half = random_int(1, 2);
@@ -107,7 +106,7 @@ int main(int argc, char * argv[])
     std::cout << "Shutting down node " << node->get_name() << std::endl;
     node->get_node_base_interface()->get_context()->shutdown("Test finished");
   }
-  
+
   // exec.spin();
   // rclcpp::shutdown();
   return 0;

@@ -46,7 +46,7 @@ private:
   bool has_bb_changed();
   void dump_data();
   void sync_bb();
-  
+
 
   BT::Blackboard::Ptr blackboard_, bb_cache_;
   std::string robot_id_;

@@ -242,12 +242,13 @@ void BlackboardHandler::update_blackboard()
   }
 }
 
-void BlackboardHandler::sync_bb() {
+void BlackboardHandler::sync_bb()
+{
   RCLCPP_INFO(get_logger(), "Synchronizing with global blackboard");
 
   bf_msgs::msg::Blackboard msg;
   msg.type = bf_msgs::msg::Blackboard::SYNC;
-  msg.robot_id = robot_id_; 
+  msg.robot_id = robot_id_;
   bb_pub_->publish(msg);
 }
 
