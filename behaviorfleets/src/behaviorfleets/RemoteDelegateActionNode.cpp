@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include "behaviorfleets/RemoteDelegateActionNode.hpp"
-
+#include <algorithm>
 namespace BF
 {
 
@@ -46,18 +46,33 @@ RemoteDelegateActionNode::init()
 
   RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "subscribed to /mission_poll").c_str());
 
-  mission_sub_ = create_subscription<bf_msgs::msg::Mission>(
+
+  std::string ns = get_namespace();
+  if (ns == "/") {
+    mission_sub_ = create_subscription<bf_msgs::msg::Mission>(
     "/" + id_ + "/mission_command", rclcpp::SensorDataQoS(),
     std::bind(&RemoteDelegateActionNode::mission_callback, this, std::placeholders::_1));
 
+    status_pub_ = create_publisher<bf_msgs::msg::Mission>(
+    "/" + id_ + "/mission_status", 100);
+
+  } else {
+    ns.erase(std::remove(ns.begin(), ns.end(), '/'), ns.end());
+    id_ = ns;
+    mission_sub_ = create_subscription<bf_msgs::msg::Mission>(
+    "mission_command", rclcpp::SensorDataQoS(),
+    std::bind(&RemoteDelegateActionNode::mission_callback, this, std::placeholders::_1));
+
+    status_pub_ = create_publisher<bf_msgs::msg::Mission>(
+    "mission_status", 100);
+  }
+
+
   RCLCPP_INFO(
     get_logger(), ("[ " + id_ + " ] " + "subscribed to /" + id_ + "/mission_command").c_str());
-
+  
   poll_pub_ = create_publisher<bf_msgs::msg::Mission>(
-    "/mission_poll", 100);
-
-  status_pub_ = create_publisher<bf_msgs::msg::Mission>(
-    "/" + id_ + "/mission_status", 100);
+    "/mission_poll", 100);  
 
   timer_ = create_wall_timer(50ms, std::bind(&RemoteDelegateActionNode::control_cycle, this));
 
