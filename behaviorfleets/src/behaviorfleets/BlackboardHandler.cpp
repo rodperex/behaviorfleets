@@ -79,6 +79,7 @@ void BlackboardHandler::control_cycle()
     update_blackboard();
     cache_blackboard();
   }
+  // old
   // dump_data();
 }
 
@@ -96,13 +97,12 @@ bool BlackboardHandler::has_bb_changed()
       continue;
     }
     if (std::find(sv_cache_bb.begin(), sv_cache_bb.end(), entry_bb) == sv_cache_bb.end()) {
-      // the key is not in the cache
-      // RCLCPP_INFO(get_logger(), "key %s not in cache", entry_bb.data());
+      RCLCPP_DEBUG(get_logger(), "key %s not in cache", entry_bb.data());
       return true;
     } else if (blackboard_->get<std::string>(entry_bb.data()) !=
       bb_cache_->get<std::string>(entry_bb.data()))
     {
-      // RCLCPP_INFO(get_logger(), "key %s has changed", entry_bb.data());
+      RCLCPP_DEBUG(get_logger(), "key %s has changed", entry_bb.data());
       return true;
     }
   }
