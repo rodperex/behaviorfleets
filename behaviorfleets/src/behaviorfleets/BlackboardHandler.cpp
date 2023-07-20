@@ -53,7 +53,7 @@ BlackboardHandler::BlackboardHandler(
 BlackboardHandler::~BlackboardHandler()
 {
   // uncomment for testing
-  // dump_data();
+  dump_data();
 }
 
 void BlackboardHandler::dump_data()
