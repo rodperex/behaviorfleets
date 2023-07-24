@@ -1,0 +1,36 @@
+name: main
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+          
+jobs:
+  humble-devel-ci:
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        ros_distribution:
+          - humble
+        include:
+          - docker_image: ubuntu:jammy
+            ros_distribution: humble
+            ros_version: 2
+    container:
+      image: ${{ matrix.docker_image }}
+    steps:
+      - name: Setup ROS 2
+        uses: ros-tooling/setup-ros@0.7.0
+        with:
+          required-ros-distributions: humble
+      - name: build and test
+        uses: ros-tooling/action-ros-ci@0.2.5
+        with:
+          package-name: behaviorfleets bf_msgs
+          target-ros2-distro: humble
+          colcon-mixin-name: coverage-gcc
+          colcon-mixin-repository: https://raw.githubusercontent.com/colcon/colcon-mixin-repository/master/index.yaml
