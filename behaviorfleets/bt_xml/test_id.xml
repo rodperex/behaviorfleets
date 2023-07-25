@@ -2,7 +2,7 @@
 <root main_tree_to_execute="BehaviorTree" BTCPP_format="4">
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
-        <Action ID="DelegateActionNode" remote_id="dummy" mission_id="generic" remote_tree="remote_dummy.xml"/>
+        <Action ID="DelegateActionNode" remote_id="dummy" mission_id="generic" remote_tree="{behavior_tree_xml}"/>
     </BehaviorTree>
     <!-- ////////// -->
     <TreeNodesModel>

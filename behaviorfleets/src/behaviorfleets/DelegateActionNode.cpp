@@ -53,13 +53,6 @@ DelegateActionNode::DelegateActionNode(
   RCLCPP_INFO(node_->get_logger(), "remote tree: %s", remote_tree_.c_str());
   RCLCPP_INFO(node_->get_logger(), "mission id: %s", mission_id_.c_str());
 
-  xml_path = pkgpath + remote_tree_;
-  RCLCPP_INFO(node_->get_logger(), "xml_path: %s", xml_path.c_str());
-  std::ifstream file(xml_path);
-  std::ostringstream contents_stream;
-  contents_stream << file.rdbuf();
-  remote_tree_ = contents_stream.str();
-
   mission_pub_ = node_->create_publisher<bf_msgs::msg::Mission>(
     "/mission_poll", 100);
 

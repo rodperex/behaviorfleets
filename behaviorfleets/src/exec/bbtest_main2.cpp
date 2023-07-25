@@ -15,7 +15,7 @@
 #include <string>
 #include <memory>
 #include <fstream>
-#include <boost/any.hpp>
+#include <streambuf>
 
 #include "behaviortree_cpp/behavior_tree.h"
 #include "behaviortree_cpp/bt_factory.h"
@@ -26,50 +26,52 @@
 
 #include "rclcpp/rclcpp.hpp"
 
-#include "yaml-cpp/yaml.h"
-
 bool is_pointer(const std::string & type_name);
 std::vector<std::string> check_blackboard(BT::Blackboard::Ptr bb, BT::Blackboard::Ptr bb_cache);
 
 int main(int argc, char * argv[])
 {
-  std::string params_file = "config.yaml";
-
-  if (argc > 1) {
-    params_file = std::string(argv[1]);
-  }
-
   rclcpp::init(argc, argv);
 
+  // Read node parameters
   auto node = rclcpp::Node::make_shared("source_tree");
+  node->declare_parameter("plugins", std::vector<std::string>({}));
+  node->declare_parameter("behavior_tree_xml", "");
 
+  std::vector<std::string> plugins;
+  std::string bt_xml_filename;
+  node->get_parameter("plugins", plugins);
+  node->get_parameter("behavior_tree_xml", bt_xml_filename);
+
+  if (bt_xml_filename == "") {
+    RCLCPP_ERROR(node->get_logger(), "BT XML Filename void");
+    return -1;
+  }
+
+  // Loading plugins from parameters
   BT::SharedLibrary loader;
   BT::BehaviorTreeFactory factory;
 
-  factory.registerFromPlugin(loader.getOSName("delegate_action_node"));
-
-  std::string pkgpath = ament_index_cpp::get_package_share_directory("behaviorfleets");
-
-  std::string xml_file;
-
-  try {
-    // Load the XML path from the YAML file
-    std::cout << "Configuration file: " << params_file << std::endl;
-    std::ifstream fin(pkgpath + "/params/" + params_file);
-    YAML::Node params = YAML::Load(fin);
-
-    xml_file = pkgpath + params["source_tree"].as<std::string>();
-
-  } catch (YAML::Exception & e) {
-    std::cerr << "Error loading YAML file: " << e.what() << std::endl;
-    return 1;
-  } catch (std::exception & e) {
-    std::cerr << "Error: " << e.what() << std::endl;
-    return 1;
+  RCLCPP_INFO_STREAM(node->get_logger(), "Loading " << plugins.size() << " plugins" << ":");
+  for (const auto & plugin : plugins) {
+    RCLCPP_INFO_STREAM(node->get_logger(), "\t" << plugin);
+    factory.registerFromPlugin(loader.getOSName(plugin));
   }
 
+  // Read Behavior Tree XML file into an string
+  std::string pkgpath = ament_index_cpp::get_package_share_directory("behaviorfleets");
+  std::string xml_file = pkgpath + "/bt_xml/" + bt_xml_filename;
+  RCLCPP_INFO_STREAM(node->get_logger(), "Loading " << xml_file);
+  std::ifstream ifs_xml(xml_file);
+  std::string str_xml(
+    (std::istreambuf_iterator<char>(ifs_xml)),
+    std::istreambuf_iterator<char>());
+
+  // Create Tree from XML readed and init blackboard, inserting XML on it to be used from BT nodes
   auto blackboard = BT::Blackboard::create();
   blackboard->set("node", node);
+  blackboard->set("bt_xml", str_xml);
+
   blackboard->set("pkgpath", pkgpath + "/bt_xml/");
 
   blackboard->set("double", 33.22);
@@ -86,9 +88,9 @@ int main(int argc, char * argv[])
   bb_cache->set("c", c);
   bb_cache->set("entero", 3);
 
-  BT::Tree tree = factory.createTreeFromFile(xml_file, blackboard);
+  BT::Tree tree = factory.createTreeFromText(str_xml, blackboard);
 
-  std::cout << "\t- Tree created from file" << std::endl;
+  RCLCPP_INFO_STREAM(logger, "\t- Tree created from file");
 
   rclcpp::Rate rate(10);
 
@@ -98,7 +100,8 @@ int main(int argc, char * argv[])
     rclcpp::spin_some(node);
     rate.sleep();
 
-    std::vector<std::string> entries_to_propagate = check_blackboard(blackboard, bb_cache);
+    std::vector<std::string> entries_to_propagate = check_blackboard(
+      blackboard, bb_cache, node->get_logger());
 
     // analyze the blackboard to propagate
     //   std::vector<BT::StringView> string_views = blackboard->getKeys();
@@ -113,7 +116,7 @@ int main(int argc, char * argv[])
     //   for (const std::string & key : keys) {
     //     const auto & value = blackboard->getAny(key);
 
-    //     std::cout << "Key: " << key << "; type: " << value->type().name() << std::endl;
+    //     RCLCPP_INFO_STREAM(logger, "Key: " << key << "; type: " << value->type().name());
     //     if (is_pointer(value->type().name())) {
     //       continue;
     //     }
@@ -122,41 +125,41 @@ int main(int argc, char * argv[])
     //         (value->type() == typeid(uint64_t)))
     //       {
     //         int64_t val = value->cast<int64_t>();
-    //         std::cout << "\t" << val << std::endl;
+    //         RCLCPP_INFO_STREAM(logger, "\t" << val);
     //         int aux;
     //         bb_cache->get(key, aux);
     //         if (aux != val) {
-    //           std::cout << "cache = " << aux << "actual = " << val << std::endl;
+    //           RCLCPP_INFO_STREAM(logger, "cache = " << aux << "actual = " << val);
     //           entries_to_propagate.push_back(key);
     //         }
     //       }
     //       if (value->type() == typeid(double)) {
     //         double val = value->cast<double>();
-    //         std::cout << "\t" << val << std::endl;
+    //         RCLCPP_INFO_STREAM(logger, "\t" << val);
     //         double aux;
     //         bb_cache->get(key, aux);
     //         if (aux != val) {
-    //           std::cout << "cache = " << aux << "actual = " << val << std::endl;
+    //           RCLCPP_INFO_STREAM(logger, "cache = " << aux << "actual = " << val);
     //           entries_to_propagate.push_back(key);
     //         }
     //       }
     //       if (value->type() == typeid(std::string)) {
     //         std::string val = value->cast<std::string>();
-    //         std::cout << "\t" << val << std::endl;
+    //         RCLCPP_INFO_STREAM(logger, "\t" << val);
     //         std::string aux;
     //         bb_cache->get(key, aux);
     //         if (aux != val) {
-    //           std::cout << "propagate" << std::endl;
+    //           RCLCPP_INFO_STREAM(logger, "propagate");
     //           entries_to_propagate.push_back(key);
     //         }
     //       }
     //     } catch (const boost::bad_any_cast & e) {
     //       std::cerr << "\t- ERROR - Failed to cast " << key << " to its original type: " <<
-    //         e.what() << std::endl;
+    //         e.what());
     //     }
     //   }
     //   if (entries_to_propagate.size() > 0) {
-    //     std::cout << "Propagating updated entries" << std::endl;
+    //     RCLCPP_INFO_STREAM(logger, "Propagating updated entries");
     //     for (const std::string & key : entries_to_propagate) {
     //       const auto & value = blackboard->getAny(key);
     //       // TODO: publish entry
@@ -165,19 +168,21 @@ int main(int argc, char * argv[])
 
   }
 
-  std::cout << "Finished" << std::endl;
+  RCLCPP_INFO_STREAM(node->get_logger(), "Finished ");
   rclcpp::shutdown();
   return 0;
 }
 
-bool is_pointer(const std::string & type_name)
+bool
+is_pointer(const std::string & type_name)
 {
   return (type_name.find('*') != std::string::npos) ||
          (type_name.find("ptr") != std::string::npos) ||
          ((type_name.find("P") != std::string::npos) && type_name.size() == 2);
 }
 
-std::vector<std::string> check_blackboard(BT::Blackboard::Ptr bb, BT::Blackboard::Ptr bb_cache)
+std::vector<std::string>
+check_blackboard(BT::Blackboard::Ptr bb, BT::Blackboard::Ptr bb_cache, rclcpp::Logger & logger)
 {
   std::vector<BT::StringView> string_views = bb->getKeys();
   std::vector<std::string> keys;
@@ -189,13 +194,13 @@ std::vector<std::string> check_blackboard(BT::Blackboard::Ptr bb, BT::Blackboard
     keys.push_back(string_view.data());
   }
 
-  std::cout << keys.size() << std::endl;
+  RCLCPP_INFO_STREAM(logger, keys.size());
 
   for (const std::string & key : keys) {
-    std::cout << key << std::endl;
+    RCLCPP_INFO_STREAM(logger, key);
     const auto & value = bb->getAny(key);
-    std::cout << "------------------------" << std::endl;
-    std::cout << "Key: " << key << "; type: " << value->type().name() << std::endl;
+    RCLCPP_INFO_STREAM(logger, "------------------------");
+    RCLCPP_INFO_STREAM(logger, "Key: " << key << "; type: " << value->type().name());
     if (is_pointer(value->type().name())) {
       continue;
     }
@@ -204,39 +209,41 @@ std::vector<std::string> check_blackboard(BT::Blackboard::Ptr bb, BT::Blackboard
         (value->type() == typeid(uint64_t)))
       {
         int64_t val = value->cast<int64_t>();
-        std::cout << "\t" << val << std::endl;
+        RCLCPP_INFO_STREAM(logger, "\t" << val);
         int aux;
         bb_cache->get(key, aux);
         if (aux != val) {
-          std::cout << "cache = " << aux << "actual = " << val << std::endl;
+          RCLCPP_INFO_STREAM(logger, "cache = " << aux << "actual = " << val);
           entries_to_propagate.push_back(key);
         }
       }
       if (value->type() == typeid(double)) {
         double val = value->cast<double>();
-        std::cout << "\t" << val << std::endl;
+        RCLCPP_INFO_STREAM(logger, "\t" << val);
         double aux;
         aux = 22;
         bb_cache->get(key, aux);
         if (aux != val) {
-          std::cout << "cache = " << aux << "actual = " << val << std::endl;
+          RCLCPP_INFO_STREAM(logger, "cache = " << aux << "actual = " << val);
           entries_to_propagate.push_back(key);
         }
       }
       if (value->type() == typeid(std::string)) {
         std::string val = value->cast<std::string>();
-        std::cout << "\t" << val << std::endl;
+        RCLCPP_INFO_STREAM(logger, "\t" << val);
         std::string aux;
         bb_cache->get(key, aux);
         if (aux != val) {
-          std::cout << "propagate" << std::endl;
+          RCLCPP_INFO_STREAM(logger, "propagate");
           entries_to_propagate.push_back(key);
         }
       }
     } catch (const boost::bad_any_cast & e) {
-      std::cerr << "\t- ERROR - Failed to cast " << key << " to its original type: " << e.what() <<
-        std::endl;
+      RCLCPP_ERROR_STREAM(
+        logger,
+        "\t- ERROR - Failed to cast " << key << " to its original type: " << e.what());
     }
   }
+
   return entries_to_propagate;
 }

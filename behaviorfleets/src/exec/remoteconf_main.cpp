@@ -15,56 +15,48 @@
 #include <string>
 #include <memory>
 #include <fstream>
+#include <streambuf>
 
 #include "rclcpp/rclcpp.hpp"
 
 #include "ament_index_cpp/get_package_share_directory.hpp"
-
-#include "yaml-cpp/yaml.h"
-
 #include "behaviorfleets/RemoteDelegateActionNode.hpp"
 
 
 int main(int argc, char * argv[])
 {
-  std::string params_file = "config.yaml";
-
-  if (argc > 1) {
-    params_file = std::string(argv[1]);
-  }
-
   rclcpp::init(argc, argv);
   rclcpp::executors::SingleThreadedExecutor exec;
 
   std::string pkgpath = ament_index_cpp::get_package_share_directory("behaviorfleets");
-
   std::list<std::shared_ptr<BF::RemoteDelegateActionNode>> nodes;
 
-  try {
-    std::cout << "Configuration file: " << params_file << std::endl;
-    std::ifstream fin(pkgpath + "/params/" + params_file);
-    YAML::Node params = YAML::Load(fin);
-    int num_nodes = params["nodes"].as<int>();
-    std::vector<std::string> missions = params["missions"].as<std::vector<std::string>>();
+  auto node_aux = rclcpp::Node::make_shared("remote_tree");
+  node_aux->declare_parameter("behavior_tree_xml", "");
+  node_aux->declare_parameter("nodes", 0);
+  node_aux->declare_parameter("missions", std::vector<std::string>({}));
 
-    int mission_index = 0;
-    for (int i = 0; i < num_nodes; ++i) {
-      std::string name = "dummy" + std::to_string(i + 1);
-      std::string type = missions[mission_index];
+  std::string source_tree;
+  int num_nodes;
+  std::vector<std::string> missions;
+  node_aux->get_parameter("source_tree", source_tree);
+  node_aux->get_parameter("nodes", num_nodes);
+  node_aux->get_parameter("missions", missions);
 
-      auto node = std::make_shared<BF::RemoteDelegateActionNode>(name, type);
-      nodes.push_back(node);
-      exec.add_node(node);
+  int mission_index = 0;
+  for (int i = 0; i < num_nodes; ++i) {
+    std::string name = "dummy" + std::to_string(i + 1);
+    std::string type = missions[mission_index];
 
-      std::cout << "\n\n******** Created node " << name << " with mission " << type << "\n\n" <<
-        std::endl;
+    auto node = std::make_shared<BF::RemoteDelegateActionNode>(name, type);
+    nodes.push_back(node);
+    exec.add_node(node);
 
-      mission_index = (mission_index + 1) % missions.size();
-    }
+    RCLCPP_INFO_STREAM(
+      node_aux->get_logger(), 
+      "\n\n******** Created node " << name << " with mission " << type << "\n\n");
 
-  } catch (YAML::Exception & e) {
-    std::cerr << "Error loading YAML file: " << e.what() << std::endl;
-    return 1;
+    mission_index = (mission_index + 1) % missions.size();
   }
 
   exec.spin();
