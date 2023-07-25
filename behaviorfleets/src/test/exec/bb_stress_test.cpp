@@ -42,7 +42,6 @@ void signal_handler(int signal)
 
 int main(int argc, char * argv[])
 {
-
   using namespace std::chrono_literals;
   std::string params_file = "stress_test_config.yaml";
 
@@ -90,7 +89,6 @@ int main(int argc, char * argv[])
       nodes.push_back(node);
       exec.add_node(node);
     }
-
   } catch (YAML::Exception & e) {
     std::cerr << "Error loading YAML file: " << e.what() << std::endl;
     return 1;
@@ -99,7 +97,7 @@ int main(int argc, char * argv[])
 
   std::signal(SIGINT, signal_handler);
   while (!g_signal_received) {
-    exec.spin_some(); // Process pending work in the executor
+    exec.spin_some();  // Process pending work in the executor
   }
 
   for (auto node : nodes) {

@@ -136,7 +136,7 @@ void BlackboardHandler::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr 
       } else if (msg->key_types[i] == "double") {
         blackboard_->set(msg->keys.at(i), std::stod(msg->values.at(i)));
       } else if (msg->key_types[i] == "bool") {
-        blackboard_->set(msg->keys.at(i), (bool)std::stoi(msg->values.at(i)));
+        blackboard_->set(msg->keys.at(i), static_cast<bool>(std::stoi(msg->values.at(i))));
       } else {
         RCLCPP_ERROR(get_logger(), "Unknown type [%s]", msg->key_types[i].c_str());
       }
@@ -158,8 +158,7 @@ void BlackboardHandler::cache_blackboard()
   std::vector<BT::StringView> string_views = blackboard_->getKeys();
   for (const auto & string_view : string_views) {
     try {
-
-      //check if the entry should be skipped
+      // check if the entry should be skipped
       if (string_view.find("efbb_") != std::string::npos) {
         excluded_keys_.push_back(string_view.data());
         RCLCPP_DEBUG(get_logger(), "key %s excluded", string_view.data());
@@ -196,7 +195,7 @@ void BlackboardHandler::update_blackboard()
   if (access_granted_) {
     waiting_time_ = (rclcpp::Clock().now() - t_last_request_) + waiting_time_;
     n_success_++;
-    avg_waiting_time_ = (waiting_time_.nanoseconds() / n_success_) / 1e6; // millis
+    avg_waiting_time_ = (waiting_time_.nanoseconds() / n_success_) / 1e6;  // millis
     RCLCPP_INFO(
       get_logger(), "SUCCESS %d: updating shared blackboard (%f ms)", n_success_,
       avg_waiting_time_);
@@ -279,4 +278,4 @@ std::string BlackboardHandler::get_type(const char * port_name)
   return "unknown";
 }
 
-} // namespace BF
+}  // namespace BF

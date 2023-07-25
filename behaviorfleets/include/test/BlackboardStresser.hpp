@@ -12,13 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef BEHAVIORFLEETS__BLACKBOARDSTRESSER_HPP_
-#define BEHAVIORFLEETS__BLACKBOARDSTRESSER_HPP_
+#ifndef BLACKBOARDSTRESSER_HPP_
+#define BLACKBOARDSTRESSER_HPP_
 
 #include <random>
 #include <chrono>
 #include <fstream>
 #include <iostream>
+#include <string>
+#include <vector>
 
 #include "rclcpp/rclcpp.hpp"
 
@@ -68,4 +70,4 @@ private:
 
 }   // namespace BF
 
-#endif  // BEHAVIORFLEETS__BLACKBOARDSTRESSER_HPP_
+#endif  // BLACKBOARDSTRESSER_HPP_

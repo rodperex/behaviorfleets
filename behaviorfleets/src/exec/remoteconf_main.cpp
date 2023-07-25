@@ -61,7 +61,6 @@ int main(int argc, char * argv[])
 
       mission_index = (mission_index + 1) % missions.size();
     }
-
   } catch (YAML::Exception & e) {
     std::cerr << "Error loading YAML file: " << e.what() << std::endl;
     return 1;

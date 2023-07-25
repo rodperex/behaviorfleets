@@ -20,8 +20,8 @@
 #include <chrono>
 #include <fstream>
 #include <iostream>
-#include <cxxabi.h>
 #include <cstdlib>
+#include <vector>
 
 #include "behaviortree_cpp/blackboard.h"
 
@@ -36,7 +36,7 @@ class BlackboardManager : public rclcpp::Node
 {
 public:
   BlackboardManager();
-  BlackboardManager(BT::Blackboard::Ptr blackboard);
+  explicit BlackboardManager(BT::Blackboard::Ptr blackboard);
   BlackboardManager(BT::Blackboard::Ptr blackboard, std::chrono::milliseconds milis);
   BlackboardManager(
     BT::Blackboard::Ptr blackboard,
@@ -80,6 +80,6 @@ private:
   bool sync_;
 };
 
-} // namespace BF
+}  // namespace BF
 
-#endif // BEHAVIORFLEETS__BLACKBOARDMANAGER_HPP_
+#endif  // BEHAVIORFLEETS__BLACKBOARDMANAGER_HPP_

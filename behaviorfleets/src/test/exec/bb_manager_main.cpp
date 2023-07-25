@@ -1,4 +1,3 @@
-
 // Copyright 2023 Intelligent Robotics Lab
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -61,7 +60,6 @@ int main(int argc, char * argv[])
     std::cout << "Finished" << std::endl;
     rclcpp::shutdown();
     return 0;
-
   } catch (YAML::Exception & e) {
     std::cerr << "Error loading YAML file: " << e.what() << std::endl;
     return 1;

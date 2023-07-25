@@ -58,7 +58,6 @@ int main(int argc, char * argv[])
     YAML::Node params = YAML::Load(fin);
 
     xml_file = pkgpath + params["source_tree"].as<std::string>();
-
   } catch (YAML::Exception & e) {
     std::cerr << "Error loading YAML file: " << e.what() << std::endl;
     return 1;

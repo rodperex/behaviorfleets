@@ -1,6 +1,8 @@
 # behaviorfleets
 This repo proposes a way of distributing some parts of [behavior trees (BTs)](https://arxiv.org/pdf/1709.00084v6.pdf) among a fleet of (potentially) heterogeneous robots. This without having to redo BT action nodes that were already functional. It makes use of the [BehaviorTree.CPP](https://github.com/BehaviorTree/BehaviorTree.CPP) package.
 
+It can be of special interest to be used *underneath* higher level strategies to assing tasks among a team of robots minimizing the cost of executing an overall plan. 
+
 The main idea behind this package is having a single *source BT where part of it wants to be delegated to another robot. This *source BT* can be either run by a coordinator robot or by an independent process. In this version, those parts of the tree to be delegated must be defined in an independent *.xml* file, that will be referenced from the *source .xml*.
 
 To achive this, 2 ROS 2 nodes are proposed:

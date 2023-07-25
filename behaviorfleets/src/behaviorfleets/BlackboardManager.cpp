@@ -134,7 +134,7 @@ void BlackboardManager::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr 
   } else if ((update_bb_msg_->type == bf_msgs::msg::Blackboard::UPDATE) &&
     (update_bb_msg_->robot_id == robot_id_))
   {
-    update_blackboard(); // attend request coming from the robot that has the blackboard
+    update_blackboard();  // attend request coming from the robot that has the blackboard
   } else if (update_bb_msg_->type == bf_msgs::msg::Blackboard::SYNC) {
     RCLCPP_INFO(
       get_logger(), "sychronization request received from %s", update_bb_msg_->robot_id.c_str());
@@ -161,7 +161,7 @@ void BlackboardManager::update_blackboard()
     } else if (types[i] == "double") {
       blackboard_->set(keys[i], std::stod(values[i]));
     } else if (types[i] == "bool") {
-      blackboard_->set(keys[i], (bool)std::stoi(values[i]));
+      blackboard_->set(keys[i], static_cast<bool>(std::stoi(values[i])));
     } else {
       RCLCPP_ERROR(get_logger(), "unknown type in the blackboard [%s]", types[i].c_str());
     }
@@ -303,7 +303,6 @@ void BlackboardManager::dump_waiting_times()
   } else {
     RCLCPP_INFO(get_logger(), "waiting times could NOT be dumped to file: %s", filename.c_str());
   }
-
 }
 
 

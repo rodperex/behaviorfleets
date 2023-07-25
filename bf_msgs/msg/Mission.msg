@@ -19,6 +19,10 @@ string robot_id
 # command
 string mission_tree
 string[] plugins
+string cost_f # identifier of the function cost for the agents to apply
+
+# request
+float64 cost
 
 # status
 uint8 status

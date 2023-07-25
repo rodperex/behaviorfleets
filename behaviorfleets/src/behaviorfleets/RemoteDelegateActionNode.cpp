@@ -50,29 +50,29 @@ RemoteDelegateActionNode::init()
   std::string ns = get_namespace();
   if (ns == "/") {
     mission_sub_ = create_subscription<bf_msgs::msg::Mission>(
-    "/" + id_ + "/mission_command", rclcpp::SensorDataQoS(),
-    std::bind(&RemoteDelegateActionNode::mission_callback, this, std::placeholders::_1));
+      "/" + id_ + "/mission_command", rclcpp::SensorDataQoS(),
+      std::bind(&RemoteDelegateActionNode::mission_callback, this, std::placeholders::_1));
 
     status_pub_ = create_publisher<bf_msgs::msg::Mission>(
-    "/" + id_ + "/mission_status", 100);
+      "/" + id_ + "/mission_status", 100);
 
   } else {
     ns.erase(std::remove(ns.begin(), ns.end(), '/'), ns.end());
     id_ = ns;
     mission_sub_ = create_subscription<bf_msgs::msg::Mission>(
-    "mission_command", rclcpp::SensorDataQoS(),
-    std::bind(&RemoteDelegateActionNode::mission_callback, this, std::placeholders::_1));
+      "mission_command", rclcpp::SensorDataQoS(),
+      std::bind(&RemoteDelegateActionNode::mission_callback, this, std::placeholders::_1));
 
     status_pub_ = create_publisher<bf_msgs::msg::Mission>(
-    "mission_status", 100);
+      "mission_status", 100);
   }
 
 
   RCLCPP_INFO(
     get_logger(), ("[ " + id_ + " ] " + "subscribed to /" + id_ + "/mission_command").c_str());
-  
+
   poll_pub_ = create_publisher<bf_msgs::msg::Mission>(
-    "/mission_poll", 100);  
+    "/mission_poll", 100);
 
   timer_ = create_wall_timer(50ms, std::bind(&RemoteDelegateActionNode::control_cycle, this));
 
@@ -228,7 +228,7 @@ RemoteDelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr
         get_logger(),
         ("[ " + id_ + " ] " + "action request " + std::to_string(n_tries_ + 1) +
         " published: " + mission_id_).c_str());
-    } else { // either the mission is not for the node or the node is silent for a while
+    } else {  // either the mission is not for the node or the node is silent for a while
       if ((n_tries_ >= (MAX_REQUEST_TRIES_ - 1)) && (waiting_time_ == 0)) {
         // wait a random time (maximum MAX_WAITING_TIME_) before trying again
         std::random_device rd;
