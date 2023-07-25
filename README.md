@@ -1,3 +1,10 @@
+# Development notes
+
+
+
+
+
+
 # behaviorfleets
 This repo proposes a way of distributing some parts of [behavior trees (BTs)](https://arxiv.org/pdf/1709.00084v6.pdf) among a fleet of (potentially) heterogeneous robots. This without having to redo BT action nodes that were already functional. It makes use of the [BehaviorTree.CPP](https://github.com/BehaviorTree/BehaviorTree.CPP) package.
 

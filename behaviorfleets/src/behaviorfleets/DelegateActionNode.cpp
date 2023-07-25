@@ -31,6 +31,8 @@ DelegateActionNode::DelegateActionNode(
   config().blackboard->get("node", node_);
   config().blackboard->get("pkgpath", pkgpath);
 
+  RCLCPP_INFO(node_->get_logger(), "DelegateActionNode: %s", node_->get_name());
+
   getInput("remote_tree", remote_tree_);
   getInput("mission_id", mission_id_);
   getInput("remote_id", remote_id_);
@@ -122,6 +124,8 @@ DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
     "[ " + msg->robot_id + " : " + msg->mission_id + " ]").c_str());
   // ignore answers from other robots
   if (!remote_identified_) {
+    RCLCPP_INFO(
+      node_->get_logger(), ("remote not yet identified"));
     // check if the remote should be excluded
     if (is_remote_excluded(msg->robot_id)) {
       RCLCPP_INFO(
@@ -136,26 +140,34 @@ DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
       mission_pub_->publish(reject_msg);
       return;
     }
+    
     poll_answ_ = std::move(msg);
     remote_id_ = poll_answ_->robot_id;
     RCLCPP_INFO(
       node_->get_logger(), (std::string("remote identified: ") +
       "[ " + remote_id_ + " : " + poll_answ_->mission_id + " ]").c_str());
 
+    // '/' removed from topics to make it work with namespaces
+    
     remote_sub_ = node_->create_subscription<bf_msgs::msg::Mission>(
-      "/" + remote_id_ + "/mission_status", rclcpp::SensorDataQoS(),
+      "" + remote_id_ + "/mission_status", rclcpp::SensorDataQoS(),
       std::bind(&DelegateActionNode::remote_status_callback, this, std::placeholders::_1));
 
     mission_pub_ = node_->create_publisher<bf_msgs::msg::Mission>(
-      "/" + remote_id_ + "/mission_command", 100);
+      "" + remote_id_ + "/mission_command", 100);
 
+    
+
+    
+    RCLCPP_INFO(
+      node_->get_logger(), "subscriptors created");
     bf_msgs::msg::Mission mission_msg;
     mission_msg.msg_type = bf_msgs::msg::Mission::COMMAND;
     mission_msg.robot_id = remote_id_;
     mission_msg.mission_tree = remote_tree_;
     mission_msg.plugins = plugins_;
     mission_pub_->publish(mission_msg);
-    RCLCPP_INFO(node_->get_logger(), "tree publised");
+    RCLCPP_INFO(node_->get_logger(), "tree publised in /%s/mission_command", remote_id_.c_str());
     RCLCPP_INFO(node_->get_logger(), "status in /%s/mission_status", remote_id_.c_str());
 
     remote_identified_ = true;

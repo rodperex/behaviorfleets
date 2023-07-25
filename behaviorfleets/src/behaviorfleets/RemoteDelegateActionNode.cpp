@@ -56,7 +56,7 @@ RemoteDelegateActionNode::init()
     status_pub_ = create_publisher<bf_msgs::msg::Mission>(
       "/" + id_ + "/mission_status", 100);
 
-  } else {
+  } else {  // a namespace has been set
     ns.erase(std::remove(ns.begin(), ns.end(), '/'), ns.end());
     id_ = ns;
     mission_sub_ = create_subscription<bf_msgs::msg::Mission>(
@@ -249,6 +249,7 @@ RemoteDelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr
 void
 RemoteDelegateActionNode::mission_callback(bf_msgs::msg::Mission::UniquePtr msg)
 {
+  RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "mission callback").c_str());
   if (msg->msg_type != bf_msgs::msg::Mission::COMMAND) {
     return;
   }
