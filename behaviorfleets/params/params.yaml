@@ -1,0 +1,14 @@
+source_tree:
+  ros__parameters:
+    plugins:
+      - delegate_action_node
+    behavior_tree_xml: test.xml
+
+remote_tree:
+  ros__parameters:
+    source_tree: /bt_xml/test.xml
+    nodes: 5
+    missions:
+      - generic
+      - generic
+      - non-generic

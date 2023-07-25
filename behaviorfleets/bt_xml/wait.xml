@@ -7,7 +7,7 @@
         exclude ="dummy1"   
         mission_id="generic"
         plugins=""
-        remote_tree="remote_dummy.xml"
+        remote_tree="{behavior_tree_xml}"
         timeout="1"
         max_tries=""/>
     </BehaviorTree>
