@@ -99,7 +99,7 @@ RemoteDelegateActionNode::control_cycle()
   if ((elapsed.seconds() > waiting_time_) && (waiting_time_ > 0.0)) {
     n_tries_ = 0;
     waiting_time_ = 0.0;
-    std::cout << "waiting time elapsed" << std::endl;
+    RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "waiting time elapsed").c_str());
   }
 
   if (working_) {
@@ -116,7 +116,7 @@ RemoteDelegateActionNode::control_cycle()
         break;
       case BT::NodeStatus::SUCCESS:
         status_msg.status = bf_msgs::msg::Mission::SUCCESS;
-        RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "SUCCESS").c_str());
+        RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "***** SUCCESS *****").c_str());
         working_ = false;
         break;
       case BT::NodeStatus::FAILURE:
@@ -159,13 +159,13 @@ RemoteDelegateActionNode::create_tree()
     }
 
     auto blackboard = BT::Blackboard::create();
-    // blackboard->set("node", shared_from_this());
+    // blackboard->set("node", shared_from_this())
     blackboard->set("node", node_);
 
 
     // create a blackboard handler to work with a shared blackboard
-    bb_handler_ = std::make_shared<BlackboardHandler>(id_, blackboard);
-    RCLCPP_INFO(get_logger(), "blackboard handler created");
+    bb_handler_ = std::make_shared<BlackboardHandler>(id_ + "_bbh", blackboard);
+    RCLCPP_DEBUG(get_logger(), "blackboard handler created");
 
     // execution CANNOT continue till the handler is synchronized with the global bb
     auto start_time = std::chrono::steady_clock::now();
@@ -175,7 +175,7 @@ RemoteDelegateActionNode::create_tree()
     }
 
     tree_ = factory.createTreeFromText(mission_->mission_tree, blackboard);
-    RCLCPP_INFO(get_logger(), "tree created");
+    RCLCPP_INFO(get_logger(), "MISSION TREE created");
 
     return true;
   } catch (std::exception & e) {
@@ -233,20 +233,20 @@ RemoteDelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr
         std::uniform_real_distribution<> dis(0.5, MAX_WAITING_TIME_);
         waiting_time_ = dis(gen);
         RCLCPP_INFO(
-          get_logger(), ("[ " + id_ + " ] " + "waiting " + std::to_string(waiting_time_) +
+          get_logger(), ("[ " + id_ + " ] " + "WAITING " + std::to_string(waiting_time_) +
           " seconds before trying again").c_str());
       }
-      RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "unable to execute action").c_str());
+      RCLCPP_DEBUG(get_logger(), ("[ " + id_ + " ] " + "unable to execute MISSION").c_str());
     }
   } else {
-    RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "MISSION ignored: busy").c_str());
+    RCLCPP_DEBUG(get_logger(), ("[ " + id_ + " ] " + "MISSION ignored: busy").c_str());
   }
 }
 
 void
 RemoteDelegateActionNode::mission_callback(bf_msgs::msg::Mission::UniquePtr msg)
 {
-  RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "mission callback").c_str());
+  RCLCPP_DEBUG(get_logger(), ("[ " + id_ + " ] " + "mission callback").c_str());
   if (msg->msg_type != bf_msgs::msg::Mission::COMMAND) {
     return;
   }
@@ -273,7 +273,7 @@ RemoteDelegateActionNode::mission_callback(bf_msgs::msg::Mission::UniquePtr msg)
       RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "MISSION received, but not for me").c_str());
     }
   } else {
-    RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "MISSION received, but I'm busy").c_str());
+    RCLCPP_DEBUG(get_logger(), ("[ " + id_ + " ] " + "MISSION received, but I'm busy").c_str());
   }
 }
 

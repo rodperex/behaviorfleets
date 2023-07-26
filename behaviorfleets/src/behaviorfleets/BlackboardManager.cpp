@@ -182,7 +182,7 @@ void BlackboardManager::publish_blackboard()
     msg.type = bf_msgs::msg::Blackboard::PUBLISH;
     // msg.robot_id = "all";
     if (sync_) {
-      RCLCPP_INFO(get_logger(), "responding to a synchronization request");
+      RCLCPP_DEBUG(get_logger(), "responding to a synchronization request");
       msg.robot_id = "all";
       sync_ = false;
     } else {
@@ -198,11 +198,11 @@ void BlackboardManager::publish_blackboard()
         keys.push_back(string_view.data());
         values.push_back(blackboard_->get<std::string>(string_view.data()));
         types.push_back(get_type(string_view.data()));
-        RCLCPP_INFO(
+        RCLCPP_DEBUG(
           get_logger(), "publishing key %s (%s)", string_view.data(),
           types.back().c_str());
       } catch (const std::exception & e) {
-        RCLCPP_INFO(get_logger(), "key %s skipped", string_view.data());
+        RCLCPP_DEBUG(get_logger(), "key %s skipped", string_view.data());
       }
     }
     msg.keys = keys;

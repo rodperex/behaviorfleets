@@ -75,10 +75,13 @@ DelegateActionNode::DelegateActionNode(
 void
 DelegateActionNode::reset()
 {
-  RCLCPP_INFO(node_->get_logger(), "reset");
+  RCLCPP_INFO(node_->get_logger(), "reset (%s)", me_.c_str());
   remote_identified_ = false;
   getInput("remote_id", remote_id_);
-  std::cout << "remote_id_: " << remote_id_ << std::endl;
+  if (remote_id_.length() > 0) {
+    RCLCPP_INFO(node_->get_logger(), "remote_id_: %s", remote_id_.c_str());
+  }
+  
   mission_pub_ = node_->create_publisher<bf_msgs::msg::Mission>(
     "/mission_poll", 100);
   remote_sub_.reset();
@@ -168,8 +171,8 @@ DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
     mission_msg.mission_tree = remote_tree_;
     mission_msg.plugins = plugins_;
     mission_pub_->publish(mission_msg);
-    RCLCPP_INFO(node_->get_logger(), "tree publised in /%s/mission_command", remote_id_.c_str());
-    RCLCPP_INFO(node_->get_logger(), "status in /%s/mission_status", remote_id_.c_str());
+    RCLCPP_INFO(node_->get_logger(), "MISSION publised in /%s/mission_command", remote_id_.c_str());
+    RCLCPP_INFO(node_->get_logger(), "STATUS in /%s/mission_status", remote_id_.c_str());
 
     remote_identified_ = true;
     t_last_status_ = node_->now();
@@ -274,7 +277,7 @@ DelegateActionNode::set_name()
   std::uniform_int_distribution<int> distribution(1000, 9999);  // 4-digit numbers
 
   int r = distribution(gen);
-  me_ = "delegateAN" + std::to_string(r);
+  me_ = std::to_string(r) + "__DAN";
 }
 
 }  // namespace BF

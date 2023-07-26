@@ -124,7 +124,7 @@ void BlackboardHandler::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr 
   }
   if ((msg->type == bf_msgs::msg::Blackboard::PUBLISH) && (msg->robot_id != robot_id_)) {
     sync_rcvd_ = true;
-    RCLCPP_INFO(get_logger(), "updating local blackboard from the shared one");
+    RCLCPP_DEBUG(get_logger(), "updating local blackboard from the shared one");
     n_updates_++;
     for (int i = 0; i < msg->keys.size(); i++) {
       if (msg->key_types[i] == "string") {
@@ -243,7 +243,7 @@ void BlackboardHandler::update_blackboard()
 
 void BlackboardHandler::sync_bb()
 {
-  RCLCPP_INFO(get_logger(), "Synchronizing with global blackboard");
+  RCLCPP_INFO(get_logger(), "synchronizing with global blackboard");
 
   bf_msgs::msg::Blackboard msg;
   msg.type = bf_msgs::msg::Blackboard::SYNC;
