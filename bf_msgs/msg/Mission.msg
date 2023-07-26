@@ -1,9 +1,10 @@
 # message type
-uint8 COMMAND = 100
-uint8 REQUEST = 101
-uint8 STATUS = 102
-uint8 HALT = 103
-uint8 REJECT = 104
+uint8 OFFER = 100
+uint8 COMMAND = 101
+uint8 REQUEST = 102
+uint8 STATUS = 103
+uint8 HALT = 104
+uint8 REJECT = 105
 
 # status codes
 uint8 FAILURE = 0

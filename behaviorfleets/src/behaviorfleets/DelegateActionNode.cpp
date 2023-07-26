@@ -27,6 +27,7 @@ DelegateActionNode::DelegateActionNode(
   remote_id_ = "";
   remote_tree_ = "not_set";
   timeout_ = -1.0;
+  poll_timeout_ = 5.0;
   MAX_TRIES_ = -1;
   config().blackboard->get("node", node_);
   config().blackboard->get("pkgpath", pkgpath);
@@ -110,6 +111,7 @@ DelegateActionNode::remote_status_callback(bf_msgs::msg::Mission::UniquePtr msg)
   RCLCPP_DEBUG(
     node_->get_logger(), (std::string("remote status received: ") +
     "[ " + msg->robot_id + " : " + msg->mission_id + " ]").c_str());
+
   remote_status_ = std::move(msg);
   t_last_status_ = node_->now();
 }
@@ -196,13 +198,14 @@ DelegateActionNode::tick()
 
   if (!remote_identified_) {
     bf_msgs::msg::Mission msg;
-    msg.msg_type = bf_msgs::msg::Mission::COMMAND;
+    msg.msg_type = bf_msgs::msg::Mission::OFFER;
     msg.mission_id = mission_id_;
     msg.robot_id = remote_id_;
     mission_pub_->publish(msg);
-    // RCLCPP_INFO(node_->get_logger(), "mission %s publised", mission_id_.c_str());
+    t_last_poll_ = node_->now();
+    RCLCPP_DEBUG(node_->get_logger(), "OFFER sent (mission: %s)", mission_id_.c_str());
   } else {
-    if (remote_status_ != nullptr) {
+    if (remote_status_ != nullptr) {  // remote status has been receieved at some point
       auto elapsed = node_->now() - t_last_status_;
       if ((elapsed.seconds() > timeout_) && (timeout_ != -1)) {
         RCLCPP_INFO(
@@ -231,14 +234,14 @@ DelegateActionNode::tick()
             return BT::NodeStatus::RUNNING;
             break;
           case bf_msgs::msg::Mission::SUCCESS:
-            RCLCPP_DEBUG(
+            RCLCPP_INFO(
               node_->get_logger(), (std::string("remote status ") +
               "[ " + remote_id_ + " ]: " + "SUCCESS").c_str());
             reset();
             return BT::NodeStatus::SUCCESS;
             break;
           case bf_msgs::msg::Mission::FAILURE:
-            RCLCPP_DEBUG(
+            RCLCPP_INFO(
               node_->get_logger(), (std::string("remote status ") +
               "[ " + remote_id_ + " ]: " + "FAILURE").c_str());
             reset();
@@ -251,6 +254,11 @@ DelegateActionNode::tick()
             reset();
             break;
         }
+      }
+    } else {  // remote status has never been received
+      auto elapsed = node_->now() - t_last_poll_;
+      if ((elapsed.seconds() > poll_timeout_)) {
+        remote_identified_ = false;
       }
     }
   }

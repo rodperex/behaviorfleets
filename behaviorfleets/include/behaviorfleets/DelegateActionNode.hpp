@@ -20,6 +20,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <random>
 
 #include "behaviortree_cpp/behavior_tree.h"
 #include "behaviortree_cpp/bt_factory.h"
@@ -45,6 +46,7 @@ public:
 
   void remote_status_callback(bf_msgs::msg::Mission::UniquePtr msg);
   void mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg);
+  void set_name();
 
   void halt() override
   {}
@@ -72,13 +74,14 @@ private:
   void reset();
 
   bf_msgs::msg::Mission::UniquePtr remote_status_, poll_answ_;
-  std::string remote_id_, remote_tree_, mission_id_;
+  std::string remote_id_, remote_tree_, mission_id_, me_;
   std::vector<std::string> plugins_, excluded_;
   bool remote_identified_ = false;
   bool read_tree_from_port_;
-  rclcpp::Time t_last_status_;
-  double timeout_;
+  rclcpp::Time t_last_status_, t_last_poll_;
+  double timeout_, poll_timeout_;
   int MAX_TRIES_, n_tries_ = 0;
+  int tick_count_ = 0;
 
   BT::NodeStatus tick() override;
 };
