@@ -31,7 +31,8 @@ DelegateActionNode::DelegateActionNode(
   config().blackboard->get("node", node_);
   config().blackboard->get("pkgpath", pkgpath);
 
-  RCLCPP_INFO(node_->get_logger(), "DelegateActionNode: %s", node_->get_name());
+  set_name();
+  RCLCPP_INFO(node_->get_logger(), "** %s **", me_.c_str());
 
   getInput("remote_tree", remote_tree_);
   getInput("mission_id", mission_id_);
@@ -120,7 +121,7 @@ DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
     return;
   }
   RCLCPP_INFO(
-    node_->get_logger(), (std::string("poll request received: ") +
+    node_->get_logger(), (std::string("poll request received (" + me_ + "): ") +
     "[ " + msg->robot_id + " : " + msg->mission_id + " ]").c_str());
   // ignore answers from other robots
   if (!remote_identified_) {
@@ -144,7 +145,7 @@ DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
     poll_answ_ = std::move(msg);
     remote_id_ = poll_answ_->robot_id;
     RCLCPP_INFO(
-      node_->get_logger(), (std::string("remote identified: ") +
+      node_->get_logger(), (std::string("remote identified (" + me_ + "): ") +
       "[ " + remote_id_ + " : " + poll_answ_->mission_id + " ]").c_str());
 
     // '/' removed from topics to make it work with namespaces
@@ -156,11 +157,9 @@ DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
     mission_pub_ = node_->create_publisher<bf_msgs::msg::Mission>(
       "" + remote_id_ + "/mission_command", 100);
 
-    
-
-    
+        
     RCLCPP_INFO(
-      node_->get_logger(), "subscriptors created");
+      node_->get_logger(), "subscriptors created (%s)", me_.c_str());
     bf_msgs::msg::Mission mission_msg;
     mission_msg.msg_type = bf_msgs::msg::Mission::COMMAND;
     mission_msg.robot_id = remote_id_;
@@ -189,6 +188,12 @@ DelegateActionNode::is_remote_excluded(std::string remote_id)
 BT::NodeStatus
 DelegateActionNode::tick()
 {
+  tick_count_++;
+  // if (tick_count_ % 10000 == 0) {  // to limit verbosity
+  if (tick_count_ == 1) {  // to limit verbosity
+    RCLCPP_INFO(node_->get_logger(), "tick: %s", me_.c_str());
+  }
+
   if (!remote_identified_) {
     bf_msgs::msg::Mission msg;
     msg.msg_type = bf_msgs::msg::Mission::COMMAND;
@@ -251,6 +256,17 @@ DelegateActionNode::tick()
   }
 
   return BT::NodeStatus::RUNNING;
+}
+
+void
+DelegateActionNode::set_name()
+{
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::uniform_int_distribution<int> distribution(1000, 9999);  // 4-digit numbers
+
+  int r = distribution(gen);
+  me_ = "delegateAN" + std::to_string(r);
 }
 
 }  // namespace BF
