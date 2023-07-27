@@ -27,7 +27,7 @@ DelegateActionNode::DelegateActionNode(
   remote_id_ = "";
   remote_tree_ = "not_set";
   timeout_ = -1.0;
-  poll_timeout_ = 5.0;
+  poll_timeout_ = 2.0;
   MAX_TRIES_ = -1;
   config().blackboard->get("node", node_);
   config().blackboard->get("pkgpath", pkgpath);
@@ -64,8 +64,11 @@ DelegateActionNode::DelegateActionNode(
   contents_stream << file.rdbuf();
   remote_tree_ = contents_stream.str();
 
-  mission_pub_ = node_->create_publisher<bf_msgs::msg::Mission>(
-    "/mission_poll", 100);
+  // mission_pub_ = node_->create_publisher<bf_msgs::msg::Mission>(
+  //   "/mission_poll", 100);
+
+  poll_pub_ = node_->create_publisher<bf_msgs::msg::Mission>(
+  "/mission_poll", 100);
 
   poll_sub_ = node_->create_subscription<bf_msgs::msg::Mission>(
     "/mission_poll", rclcpp::SensorDataQoS(),
@@ -168,6 +171,7 @@ DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
     bf_msgs::msg::Mission mission_msg;
     mission_msg.msg_type = bf_msgs::msg::Mission::COMMAND;
     mission_msg.robot_id = remote_id_;
+    mission_msg.source_id = me_;
     mission_msg.mission_tree = remote_tree_;
     mission_msg.plugins = plugins_;
     mission_pub_->publish(mission_msg);
@@ -203,10 +207,14 @@ DelegateActionNode::tick()
     bf_msgs::msg::Mission msg;
     msg.msg_type = bf_msgs::msg::Mission::OFFER;
     msg.mission_id = mission_id_;
-    msg.robot_id = remote_id_;
-    mission_pub_->publish(msg);
+    msg.source_id = me_;
+    // msg.robot_id = remote_id_;
+    // mission_pub_->publish(msg);
+    poll_pub_->publish(msg);
+
     t_last_poll_ = node_->now();
-    RCLCPP_DEBUG(node_->get_logger(), "OFFER sent (mission: %s)", mission_id_.c_str());
+    RCLCPP_DEBUG(node_->get_logger(), "OFFER sent (me: %s - mission: %s)",
+      me_.c_str(),mission_id_.c_str());
   } else {
     if (remote_status_ != nullptr) {  // remote status has been receieved at some point
       auto elapsed = node_->now() - t_last_status_;
@@ -239,7 +247,7 @@ DelegateActionNode::tick()
           case bf_msgs::msg::Mission::SUCCESS:
             RCLCPP_INFO(
               node_->get_logger(), (std::string("remote status ") +
-              "[ " + remote_id_ + " ]: " + "SUCCESS").c_str());
+              "[ " + remote_id_ + " ]: " + "***** SUCCESS *****").c_str());
             reset();
             return BT::NodeStatus::SUCCESS;
             break;
@@ -262,6 +270,9 @@ DelegateActionNode::tick()
       auto elapsed = node_->now() - t_last_poll_;
       if ((elapsed.seconds() > poll_timeout_)) {
         remote_identified_ = false;
+        RCLCPP_INFO(
+        node_->get_logger(), (std::string("remote ") + "[ " + remote_id_ + " ] " +
+        "has NEVER been seen (" + me_ + "): looking for a new one").c_str());
       }
     }
   }

@@ -107,7 +107,7 @@ RemoteDelegateActionNode::control_cycle()
 
     // spin bb_handler_ activate the callbacks to keep the shared blackboard updated
     rclcpp::spin_some(bb_handler_);
-    // RCLCPP_INFO(get_logger(), "blackboard handler spinned");
+    RCLCPP_DEBUG(get_logger(), "blackboard handler spinned");
 
     switch (status) {
       case BT::NodeStatus::RUNNING:
@@ -175,7 +175,7 @@ RemoteDelegateActionNode::create_tree()
     }
 
     tree_ = factory.createTreeFromText(mission_->mission_tree, blackboard);
-    RCLCPP_INFO(get_logger(), "MISSION TREE created");
+    RCLCPP_INFO(get_logger(), "MISSION TREE created. Robot WORKING...");
 
     return true;
   } catch (std::exception & e) {
@@ -207,7 +207,7 @@ RemoteDelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr
     if (((mission_->robot_id).length() > 0) && ((mission_->robot_id).compare(id_) != 0)) {
       RCLCPP_INFO(
         get_logger(),
-        ("[ " + id_ + " ] " + "MISSION ignored: I am not " + mission_->robot_id).c_str());
+        ("[ " + id_ + " ] " + "MISSION ignored (code "+ std::to_string(bf_msgs::msg::Mission::OFFER) +"): I'm not " + mission_->robot_id).c_str());
       return;
     }
     if (((mission_->mission_id).compare(mission_id_) == 0) &&
@@ -239,7 +239,7 @@ RemoteDelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr
       RCLCPP_DEBUG(get_logger(), ("[ " + id_ + " ] " + "unable to execute MISSION").c_str());
     }
   } else {
-    RCLCPP_DEBUG(get_logger(), ("[ " + id_ + " ] " + "MISSION ignored: busy").c_str());
+    RCLCPP_DEBUG(get_logger(), ("[ " + id_ + " ] " + "OFFER ignored, I'm BUSY").c_str());
   }
 }
 
@@ -263,17 +263,17 @@ RemoteDelegateActionNode::mission_callback(bf_msgs::msg::Mission::UniquePtr msg)
 
   // ignore missions if already working
   if (!working_) {
-    RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "MISSION received").c_str());
+    RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "MISSION received (" + msg->source_id + ")").c_str());
     mission_ = std::move(msg);
     if (mission_->robot_id == id_) {
       RCLCPP_DEBUG(
         get_logger(), ("[ " + id_ + " ]\n" + mission_->mission_tree).c_str());
       working_ = create_tree();
     } else {
-      RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "MISSION received, but not for me").c_str());
+      RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "MISSION ignored (" + msg->source_id + "), not for me").c_str());
     }
   } else {
-    RCLCPP_DEBUG(get_logger(), ("[ " + id_ + " ] " + "MISSION received, but I'm busy").c_str());
+    RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "MISSION ignored (" + msg->source_id + "), I'm BUSY").c_str());
   }
 }
 

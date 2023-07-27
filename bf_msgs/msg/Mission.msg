@@ -16,6 +16,7 @@ uint8 IDLE = 3
 uint8 msg_type
 string mission_id
 string robot_id
+string source_id # mainly for debugging
 
 # command
 string mission_tree

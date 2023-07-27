@@ -67,6 +67,7 @@ public:
 private:
   rclcpp::Node::SharedPtr node_;
   rclcpp::Publisher<bf_msgs::msg::Mission>::SharedPtr mission_pub_;
+  rclcpp::Publisher<bf_msgs::msg::Mission>::SharedPtr poll_pub_;
   rclcpp::Subscription<bf_msgs::msg::Mission>::SharedPtr remote_sub_;
   rclcpp::Subscription<bf_msgs::msg::Mission>::SharedPtr poll_sub_;
   void decode(std::string str, std::vector<std::string> * vector);
