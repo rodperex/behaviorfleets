@@ -102,7 +102,7 @@ bool BlackboardHandler::has_bb_changed()
     } else if (blackboard_->get<std::string>(entry_bb.data()) !=
       bb_cache_->get<std::string>(entry_bb.data()))
     {
-      RCLCPP_DEBUG(get_logger(), "key %s has changed", entry_bb.data());
+      RCLCPP_INFO(get_logger(), "key %s has changed", entry_bb.data());
       return true;
     }
   }
@@ -124,7 +124,7 @@ void BlackboardHandler::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr 
   }
   if ((msg->type == bf_msgs::msg::Blackboard::PUBLISH) && (msg->robot_id != robot_id_)) {
     sync_rcvd_ = true;
-    RCLCPP_DEBUG(get_logger(), "updating local blackboard from the shared one");
+    RCLCPP_INFO(get_logger(), "updating local blackboard from the shared one");
     n_updates_++;
     for (int i = 0; i < msg->keys.size(); i++) {
       if (msg->key_types[i] == "string") {
@@ -197,7 +197,7 @@ void BlackboardHandler::update_blackboard()
     n_success_++;
     avg_waiting_time_ = (waiting_time_.nanoseconds() / n_success_) / 1e6;  // millis
     RCLCPP_INFO(
-      get_logger(), "SUCCESS %d: updating shared blackboard (%f ms)", n_success_,
+      get_logger(), "BB update SUCCESS %d: updating shared blackboard (%f ms)", n_success_,
       avg_waiting_time_);
     std::vector<BT::StringView> string_views = blackboard_->getKeys();
     msg.robot_id = robot_id_;
