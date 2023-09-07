@@ -72,7 +72,7 @@ int main(int argc, char * argv[])
 
   BT::Tree tree = factory.createTreeFromFile(xml_file, blackboard);
 
-  std::cout << "\t- Tree created from file" << std::endl;
+  // std::cout << "\t- Tree created from file" << std::endl;
 
   rclcpp::Rate rate(0.2);
 

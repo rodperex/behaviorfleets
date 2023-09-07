@@ -224,24 +224,24 @@ void BlackboardManager::copy_blackboard(BT::Blackboard::Ptr source_bb)
   std::vector<BT::StringView> string_views = source_bb->getKeys();
   for (const auto & string_view : string_views) {
     try {
-      RCLCPP_INFO(get_logger(), "copying key %s", string_view.data());
+      RCLCPP_DEBUG(get_logger(), "copying key %s", string_view.data());
 
       // check if the entry should be skipped
       if (string_view.find("efbb_") != std::string::npos) {
-        RCLCPP_INFO(get_logger(), "key %s copy skipped", string_view.data());
+        RCLCPP_DEBUG(get_logger(), "key %s copy skipped", string_view.data());
         continue;
       }
 
       std::string value = source_bb->get<std::string>(string_view.data());
       blackboard_->set(string_view.data(), value);
       // blackboard_->set(string_view.data(), blackboard_->get<std::string>(string_view.data(), s));
-      RCLCPP_INFO(get_logger(), "key %s copied", string_view.data());
-      RCLCPP_INFO(get_logger(), "key %s value is: %s", string_view.data(), value.c_str());
-      RCLCPP_INFO(
+      RCLCPP_DEBUG(get_logger(), "key %s copied", string_view.data());
+      RCLCPP_DEBUG(get_logger(), "key %s value is: %s", string_view.data(), value.c_str());
+      RCLCPP_DEBUG(
         get_logger(), "key %s type is: %s", string_view.data(),
         get_type(string_view.data()).c_str());
     } catch (const std::exception & e) {
-      RCLCPP_INFO(get_logger(), "key %s copy skipped", string_view.data());
+      RCLCPP_DEBUG(get_logger(), "key %s copy skipped", string_view.data());
     }
   }
 }

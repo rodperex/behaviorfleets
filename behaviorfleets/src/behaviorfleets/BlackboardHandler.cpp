@@ -41,7 +41,7 @@ BlackboardHandler::BlackboardHandler(
     "/blackboard", rclcpp::SensorDataQoS().keep_last(1000),
     std::bind(&BlackboardHandler::blackboard_callback, this, std::placeholders::_1));
 
-  timer_ = create_wall_timer(10ms, std::bind(&BlackboardHandler::control_cycle, this));
+  timer_ = create_wall_timer(1ms, std::bind(&BlackboardHandler::control_cycle, this));
 
   sync_rcvd_ = false;
 
@@ -113,7 +113,7 @@ void BlackboardHandler::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr 
 {
   RCLCPP_DEBUG(get_logger(), "blackboard_callback");
   if ((msg->type == bf_msgs::msg::Blackboard::GRANT) && (msg->robot_id == robot_id_)) {
-    RCLCPP_DEBUG(get_logger(), "access to blackboard granted");
+    RCLCPP_DEBUG(get_logger(), "access to blackboard GRANTED");
     access_granted_ = true;
     update_blackboard();
     return;
@@ -124,9 +124,10 @@ void BlackboardHandler::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr 
   }
   if ((msg->type == bf_msgs::msg::Blackboard::PUBLISH) && (msg->robot_id != robot_id_)) {
     sync_rcvd_ = true;
-    RCLCPP_INFO(get_logger(), "updating local blackboard from the shared one");
+    RCLCPP_INFO(get_logger(), "UPDATING local blackboard");
     n_updates_++;
     for (int i = 0; i < msg->keys.size(); i++) {
+      // std::cout << "key: " << msg->keys.at(i) << " value: " << msg->values.at(i) << std::endl;
       if (msg->key_types[i] == "string") {
         blackboard_->set(msg->keys.at(i), msg->values.at(i));
       } else if (msg->key_types[i] == "int") {
@@ -138,14 +139,14 @@ void BlackboardHandler::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr 
       } else if (msg->key_types[i] == "bool") {
         blackboard_->set(msg->keys.at(i), static_cast<bool>(std::stoi(msg->values.at(i))));
       } else {
-        RCLCPP_ERROR(get_logger(), "Unknown type [%s]", msg->key_types[i].c_str());
+        RCLCPP_ERROR(get_logger(), "unknown type [%s]", msg->key_types[i].c_str());
       }
     }
     cache_blackboard();
     return;
   }
   if ((msg->type == bf_msgs::msg::Blackboard::DENY) && (msg->robot_id != robot_id_)) {
-    RCLCPP_INFO(get_logger(), "access to blackboard denied");
+    RCLCPP_INFO(get_logger(), "access to blackboard DENIED");
     request_sent_ = false;
     return;
   }

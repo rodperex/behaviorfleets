@@ -129,11 +129,12 @@ ros2 launch behaviorfleets bb.stress.launch.py
 Once the execution is over (**ctrl+c**), all performance parameters are dumped in several *.txt* files which will be located in a folder called *results* in the root of the workspace. To analyze them, the script *check_results.py* can be used.
 
 
-TO DO:
-    - Number of updates from the global bb correspond to the summatory of all successful updates from other nodes
-    - Make the stressers work until all requests have been attended?
-    - When there are many nodes working, only a couple of requests are attended during the operation time
-    - Instead of providing operation time, we can provide number os successful updates as a condition to stop
+## work in process
+* Incorporate the refresh frequency to one constructor of the bb handler and the remote delegate action node so ot can be fine tuned depending on the application
+* Number of updates from the global bb correspond to the summatory of all successful updates from other nodes
+* Make the stressers work until all requests have been attended?
+* When there are many nodes working, only a couple of requests are attended during the operation time
+* Instead of providing operation time, we can provide number os successful updates as a condition to stop
 
 
 Measuring waiting time in the server does not isolate the measurement from the client Hz since the bb is locked till the client releases it.

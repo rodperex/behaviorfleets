@@ -27,7 +27,7 @@ DelegateActionNode::DelegateActionNode(
   remote_id_ = "";
   remote_tree_ = "not_set";
   timeout_ = -1.0;
-  poll_timeout_ = 2.0;
+  poll_timeout_ = 10.0;
   MAX_TRIES_ = -1;
   config().blackboard->get("node", node_);
   config().blackboard->get("pkgpath", pkgpath);
@@ -51,14 +51,14 @@ DelegateActionNode::DelegateActionNode(
 
   RCLCPP_INFO(node_->get_logger(), "plugins to propagate: %ld", plugins_.size());
   for (const auto & str : plugins_) {
-    RCLCPP_INFO(node_->get_logger(), str.c_str());
+    RCLCPP_DEBUG(node_->get_logger(), str.c_str());
   }
 
-  RCLCPP_INFO(node_->get_logger(), "remote tree: %s", remote_tree_.c_str());
-  RCLCPP_INFO(node_->get_logger(), "mission id: %s", mission_id_.c_str());
+  RCLCPP_DEBUG(node_->get_logger(), "remote tree: %s", remote_tree_.c_str());
+  RCLCPP_DEBUG(node_->get_logger(), "mission id: %s", mission_id_.c_str());
 
   xml_path = pkgpath + remote_tree_;
-  RCLCPP_INFO(node_->get_logger(), "xml_path: %s", xml_path.c_str());
+  RCLCPP_DEBUG(node_->get_logger(), "xml_path: %s", xml_path.c_str());
   std::ifstream file(xml_path);
   std::ostringstream contents_stream;
   contents_stream << file.rdbuf();
@@ -78,11 +78,13 @@ DelegateActionNode::DelegateActionNode(
 void
 DelegateActionNode::reset()
 {
-  RCLCPP_INFO(node_->get_logger(), "reset (%s)", me_.c_str());
+  RCLCPP_INFO(node_->get_logger(), "(%s) reset", me_.c_str());
   remote_identified_ = false;
   getInput("remote_id", remote_id_);
   if (remote_id_.length() > 0) {
     RCLCPP_INFO(node_->get_logger(), "remote_id_: %s", remote_id_.c_str());
+  } else {
+    RCLCPP_INFO(node_->get_logger(), "remote_id_ not set");
   }
   
   mission_pub_ = node_->create_publisher<bf_msgs::msg::Mission>(
@@ -129,16 +131,16 @@ DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
     return;
   }
   RCLCPP_INFO(
-    node_->get_logger(), (std::string("poll request received (" + me_ + "): ") +
+    node_->get_logger(), (std::string("(" + me_ + ") poll request received: ") +
     "[ " + msg->robot_id + " : " + msg->mission_id + " ]").c_str());
   // ignore answers from other robots
   if (!remote_identified_) {
     RCLCPP_INFO(
-      node_->get_logger(), ("remote not yet identified"));
+      node_->get_logger(), ("(%s) remote not yet identified", me_.c_str()));
     // check if the remote should be excluded
     if (is_remote_excluded(msg->robot_id)) {
       RCLCPP_INFO(
-        node_->get_logger(), (std::string("remote excluded: ") +
+        node_->get_logger(), (std::string(" (" + me_ + ") remote excluded: ") +
         "[ " + msg->robot_id + " ]").c_str());
       // publish a negative answer
       bf_msgs::msg::Mission reject_msg;
@@ -153,7 +155,7 @@ DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
     poll_answ_ = std::move(msg);
     remote_id_ = poll_answ_->robot_id;
     RCLCPP_INFO(
-      node_->get_logger(), (std::string("remote identified (" + me_ + "): ") +
+      node_->get_logger(), (std::string("(" + me_ + ") remote identified: ") +
       "[ " + remote_id_ + " : " + poll_answ_->mission_id + " ]").c_str());
 
     // '/' removed from topics to make it work with namespaces
@@ -166,7 +168,7 @@ DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
       "" + remote_id_ + "/mission_command", 100);
 
         
-    RCLCPP_INFO(
+    RCLCPP_DEBUG(
       node_->get_logger(), "subscriptors created (%s)", me_.c_str());
     bf_msgs::msg::Mission mission_msg;
     mission_msg.msg_type = bf_msgs::msg::Mission::COMMAND;
@@ -175,8 +177,8 @@ DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
     mission_msg.mission_tree = remote_tree_;
     mission_msg.plugins = plugins_;
     mission_pub_->publish(mission_msg);
-    RCLCPP_INFO(node_->get_logger(), "MISSION publised in /%s/mission_command", remote_id_.c_str());
-    RCLCPP_INFO(node_->get_logger(), "STATUS in /%s/mission_status", remote_id_.c_str());
+    RCLCPP_INFO(node_->get_logger(), "(%s) MISSION publised in /%s/mission_command", me_.c_str(), remote_id_.c_str());
+    RCLCPP_INFO(node_->get_logger(), "(%s) STATUS in /%s/mission_status", me_.c_str(), remote_id_.c_str());
 
     remote_identified_ = true;
     t_last_status_ = node_->now();
@@ -269,10 +271,10 @@ DelegateActionNode::tick()
     } else {  // remote status has never been received
       auto elapsed = node_->now() - t_last_poll_;
       if ((elapsed.seconds() > poll_timeout_)) {
-        remote_identified_ = false;
         RCLCPP_INFO(
-        node_->get_logger(), (std::string("remote ") + "[ " + remote_id_ + " ] " +
-        "has NEVER been seen (" + me_ + "): looking for a new one").c_str());
+        node_->get_logger(), (std::string("(" + me_ + ") remote ") + "[ " + remote_id_ + " ] " +
+        "requested a mission, but NEVER reported status: looking for a new one").c_str());
+        remote_identified_ = false;
       }
     }
   }

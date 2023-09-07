@@ -154,7 +154,7 @@ RemoteDelegateActionNode::create_tree()
     if (load_plugins) {
       for (auto plugin : plugins) {
         factory.registerFromPlugin(loader.getOSName(plugin));
-        RCLCPP_INFO(get_logger(), "plugin %s  ", plugin.c_str());
+        RCLCPP_DEBUG(get_logger(), "plugin %s  ", plugin.c_str());
       }
     }
 
