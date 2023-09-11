@@ -27,7 +27,7 @@ DelegateActionNode::DelegateActionNode(
   remote_id_ = "";
   remote_tree_ = "not_set";
   timeout_ = -1.0;
-  poll_timeout_ = 10.0;
+  poll_timeout_ = 5.0;
   MAX_TRIES_ = -1;
   config().blackboard->get("node", node_);
   config().blackboard->get("pkgpath", pkgpath);
@@ -116,6 +116,10 @@ DelegateActionNode::decode(std::string str, std::vector<std::string> * vector)
 void
 DelegateActionNode::remote_status_callback(bf_msgs::msg::Mission::UniquePtr msg)
 {
+
+  if (msg->source_id != me_) {
+    return;
+  }
   RCLCPP_DEBUG(
     node_->get_logger(), (std::string("remote status received: ") +
     "[ " + msg->robot_id + " : " + msg->mission_id + " ]").c_str());
@@ -127,11 +131,12 @@ DelegateActionNode::remote_status_callback(bf_msgs::msg::Mission::UniquePtr msg)
 void
 DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
 {
-  if (msg->msg_type != bf_msgs::msg::Mission::REQUEST) {
+  if ((msg->msg_type != bf_msgs::msg::Mission::REQUEST) || (msg->source_id != me_)) {
     return;
   }
+
   RCLCPP_INFO(
-    node_->get_logger(), (std::string("(" + me_ + ") poll request received: ") +
+    node_->get_logger(), (std::string("(" + me_ + ") REQUEST received: ") +
     "[ " + msg->robot_id + " : " + msg->mission_id + " ]").c_str());
   // ignore answers from other robots
   if (!remote_identified_) {

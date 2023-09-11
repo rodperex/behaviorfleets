@@ -100,6 +100,7 @@ RemoteDelegateActionNode::control_cycle()
     n_tries_ = 0;
     waiting_time_ = 0.0;
     RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "waiting time elapsed").c_str());
+    working_ = false; // NEW
   }
 
   if (working_) {
@@ -125,6 +126,7 @@ RemoteDelegateActionNode::control_cycle()
         working_ = false;
         break;
     }
+    status_msg.source_id = mission_->source_id;
     status_pub_->publish(status_msg);
   } else {
     status_msg.status = bf_msgs::msg::Mission::IDLE;
@@ -183,6 +185,7 @@ RemoteDelegateActionNode::create_tree()
     status_msg.msg_type = bf_msgs::msg::Mission::STATUS;
     status_msg.robot_id = id_;
     status_msg.status = bf_msgs::msg::Mission::IDLE;
+    status_msg.source_id = mission_->source_id;
     status_pub_->publish(status_msg);
     RCLCPP_ERROR(get_logger(), ("[ " + id_ + " ] " + "ERROR creating tree: " + e.what()).c_str());
     return false;
@@ -210,6 +213,10 @@ RemoteDelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr
         ("[ " + id_ + " ] " + "MISSION ignored (code "+ std::to_string(bf_msgs::msg::Mission::OFFER) +"): I'm not " + mission_->robot_id).c_str());
       return;
     }
+    // std::string mission_id = mission_->mission_id.substr(0, mission_->mission_id.find('_'));
+
+    // if ((mission_id.compare(mission_id_) == 0) &&
+    //   (n_tries_ < (MAX_REQUEST_TRIES_ - 1)))
     if (((mission_->mission_id).compare(mission_id_) == 0) &&
       (n_tries_ < (MAX_REQUEST_TRIES_ - 1)))
     {
@@ -217,6 +224,7 @@ RemoteDelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr
       poll_msg.msg_type = bf_msgs::msg::Mission::REQUEST;
       poll_msg.robot_id = id_;
       poll_msg.mission_id = mission_id_;
+      poll_msg.source_id = mission_->source_id; // NEW
       poll_msg.status = bf_msgs::msg::Mission::IDLE;
       poll_pub_->publish(poll_msg);
       n_tries_++;
@@ -224,7 +232,7 @@ RemoteDelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr
       RCLCPP_INFO(
         get_logger(),
         ("[ " + id_ + " ] " + "REQUEST sent (" + std::to_string(n_tries_) +
-        "): " + mission_id_).c_str());
+        ") to " + mission_->source_id + ": " + mission_id_).c_str());
     } else {  // either the mission is not for the node or the node is silent for a while
       if ((n_tries_ >= (MAX_REQUEST_TRIES_ - 1)) && (waiting_time_ == 0)) {
         // wait a random time (maximum MAX_WAITING_TIME_) before trying again
@@ -257,6 +265,7 @@ RemoteDelegateActionNode::mission_callback(bf_msgs::msg::Mission::UniquePtr msg)
     status_msg.msg_type = bf_msgs::msg::Mission::STATUS;
     status_msg.robot_id = id_;
     status_msg.status = bf_msgs::msg::Mission::IDLE;
+    status_msg.source_id = mission_->source_id;
     status_pub_->publish(status_msg);
     working_ = false;
   }
