@@ -83,7 +83,7 @@ void BlackboardManager::init()
     std::bind(&BlackboardManager::blackboard_callback, this, std::placeholders::_1));
 
   // uncomment for testing
-  rclcpp::on_shutdown([this]() {dump_blackboard();});
+  // rclcpp::on_shutdown([this]() {dump_blackboard();});
 }
 
 void BlackboardManager::control_cycle()

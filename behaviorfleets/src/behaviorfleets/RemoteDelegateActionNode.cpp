@@ -96,11 +96,10 @@ RemoteDelegateActionNode::control_cycle()
 
   // in case the node has drained its requests trials, wait waiting_time_ seconds (randomized)
   auto elapsed = rclcpp::Clock().now() - t_last_request_;
-  if ((elapsed.seconds() > waiting_time_) && (waiting_time_ > 0.0)) {
+  if ((!working_) && (elapsed.seconds() > waiting_time_) && (waiting_time_ > 0.0)) {
     n_tries_ = 0;
     waiting_time_ = 0.0;
     RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "waiting time elapsed").c_str());
-    working_ = false; // NEW
   }
 
   if (working_) {
@@ -213,10 +212,7 @@ RemoteDelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr
         ("[ " + id_ + " ] " + "MISSION ignored (code "+ std::to_string(bf_msgs::msg::Mission::OFFER) +"): I'm not " + mission_->robot_id).c_str());
       return;
     }
-    // std::string mission_id = mission_->mission_id.substr(0, mission_->mission_id.find('_'));
-
-    // if ((mission_id.compare(mission_id_) == 0) &&
-    //   (n_tries_ < (MAX_REQUEST_TRIES_ - 1)))
+   
     if (((mission_->mission_id).compare(mission_id_) == 0) &&
       (n_tries_ < (MAX_REQUEST_TRIES_ - 1)))
     {
@@ -240,7 +236,7 @@ RemoteDelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr
         std::mt19937 gen(rd());
         std::uniform_real_distribution<> dis(0.5, MAX_WAITING_TIME_);
         waiting_time_ = dis(gen);
-        RCLCPP_INFO(
+        RCLCPP_DEBUG(
           get_logger(), ("[ " + id_ + " ] " + "WAITING " + std::to_string(waiting_time_) +
           " seconds before trying again").c_str());
       }
@@ -279,10 +275,10 @@ RemoteDelegateActionNode::mission_callback(bf_msgs::msg::Mission::UniquePtr msg)
         get_logger(), ("[ " + id_ + " ]\n" + mission_->mission_tree).c_str());
       working_ = create_tree();
     } else {
-      RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "MISSION ignored (" + msg->source_id + "), not for me").c_str());
+      RCLCPP_DEBUG(get_logger(), ("[ " + id_ + " ] " + "MISSION ignored (" + msg->source_id + "), not for me").c_str());
     }
   } else {
-    RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "MISSION ignored (" + msg->source_id + "), I'm BUSY").c_str());
+    RCLCPP_DEBUG(get_logger(), ("[ " + id_ + " ] " + "MISSION ignored (" + msg->source_id + "), I'm BUSY").c_str());
   }
 }
 
