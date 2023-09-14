@@ -44,12 +44,13 @@ DelegateActionNode::DelegateActionNode(
   std::string plugins_str;
   getInput("plugins", plugins_str);
   decode(plugins_str, &plugins_);
-
+  
   std::string exclude_str;
   getInput("exclude", exclude_str);
   decode(exclude_str, &excluded_);
 
   RCLCPP_INFO(node_->get_logger(), "plugins to propagate: %ld", plugins_.size());
+  
   for (const auto & str : plugins_) {
     RCLCPP_DEBUG(node_->get_logger(), str.c_str());
   }

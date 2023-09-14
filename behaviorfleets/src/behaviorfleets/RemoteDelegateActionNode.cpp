@@ -77,7 +77,7 @@ RemoteDelegateActionNode::init()
   timer_ = create_wall_timer(50ms, std::bind(&RemoteDelegateActionNode::control_cycle, this));
 
   // plugins can be read from a topic as well
-  this->declare_parameter("plugins", std::vector<std::string>());
+  // this->declare_parameter("plugins", std::vector<std::string>());
 
   // new
   node_ = rclcpp::Node::make_shared("bt_node");
@@ -139,12 +139,12 @@ RemoteDelegateActionNode::create_tree()
   BT::BehaviorTreeFactory factory;
 
   std::vector<std::string> plugins = mission_->plugins;
-
+ 
   bool load_plugins = true;
   if (plugins.size() == 0) {
     load_plugins = false;
     // plugins = this->get_parameter("plugins").as_string_array();
-    // RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "plugins not in the mission command").c_str());
+    RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "plugins not in the mission command").c_str());
     // if (plugins[0] == "none") {
     //   RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "no plugins to load").c_str());
     //   load_plugins = false;
@@ -155,7 +155,7 @@ RemoteDelegateActionNode::create_tree()
     if (load_plugins) {
       for (auto plugin : plugins) {
         factory.registerFromPlugin(loader.getOSName(plugin));
-        RCLCPP_DEBUG(get_logger(), "plugin %s  ", plugin.c_str());
+        RCLCPP_INFO(get_logger(), "plugin %s  ", plugin.c_str());
       }
     }
 

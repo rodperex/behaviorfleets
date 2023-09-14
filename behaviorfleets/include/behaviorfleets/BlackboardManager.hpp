@@ -51,6 +51,7 @@ private:
   void blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr msg);
   void copy_blackboard(BT::Blackboard::Ptr source_bb);
   std::string get_type(const char * port_name);
+  std::string get_type(BT::Blackboard::Ptr bb, const char * port_name);
   void init();
   void control_cycle();
   void grant_blackboard();

@@ -232,11 +232,35 @@ void BlackboardManager::copy_blackboard(BT::Blackboard::Ptr source_bb)
         continue;
       }
 
-      std::string value = source_bb->get<std::string>(string_view.data());
-      blackboard_->set(string_view.data(), value);
-      // blackboard_->set(string_view.data(), blackboard_->get<std::string>(string_view.data(), s));
+      std::string type = get_type(source_bb, string_view.data());
+      std::string val;
+      if (type == "int") {
+        int value = source_bb->get<int>(string_view.data());
+        blackboard_->set(string_view.data(), value);
+        val = std::to_string(value);
+      } else if (type == "float") {
+        float value = source_bb->get<float>(string_view.data());
+        blackboard_->set(string_view.data(), value);
+        val = std::to_string(value);
+      } else if (type == "double") {
+        double value = source_bb->get<double>(string_view.data());
+        blackboard_->set(string_view.data(), value);
+        val = std::to_string(value);
+      } else if (type == "string") {
+        std::string value = source_bb->get<std::string>(string_view.data());
+        blackboard_->set(string_view.data(), value);
+        val = value;
+      } else if (type == "bool") {
+        bool value = source_bb->get<bool>(string_view.data());
+        blackboard_->set(string_view.data(), value);
+        val = std::to_string(value);
+      } else {
+        throw std::runtime_error("unknown type");
+        // RCLCPP_ERROR(get_logger(), "unknown type [%s]", type.c_str());
+      }
+
       RCLCPP_DEBUG(get_logger(), "key %s copied", string_view.data());
-      RCLCPP_DEBUG(get_logger(), "key %s value is: %s", string_view.data(), value.c_str());
+      RCLCPP_DEBUG(get_logger(), "key %s value is: %s", string_view.data(), val.c_str());
       RCLCPP_DEBUG(
         get_logger(), "key %s type is: %s", string_view.data(),
         get_type(string_view.data()).c_str());
@@ -305,9 +329,36 @@ void BlackboardManager::dump_waiting_times()
   }
 }
 
+std::string BlackboardManager::get_type(BT::Blackboard::Ptr bb, const char * port_name)
+{
+
+  const BT::PortInfo * port = bb->portInfo(port_name);
+  int status;
+  char * port_type = abi::__cxa_demangle(port->type().name(), nullptr, nullptr, &status);
+  std::string type(port_type);
+  std::free(port_type);
+
+  if (type.find("string") != std::string::npos) {
+    return "string";
+  }
+  if (type.find("int") != std::string::npos) {
+    return "int";
+  }
+  if (type.find("float") != std::string::npos) {
+    return "float";
+  }
+  if (type.find("double") != std::string::npos) {
+    return "double";
+  }
+  if (type.find("bool") != std::string::npos) {
+    return "bool";
+  }
+  return "unknown";
+}
 
 std::string BlackboardManager::get_type(const char * port_name)
 {
+
   const BT::PortInfo * port = blackboard_->portInfo(port_name);
   int status;
   char * port_type = abi::__cxa_demangle(port->type().name(), nullptr, nullptr, &status);
