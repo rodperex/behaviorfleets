@@ -145,7 +145,7 @@ void BlackboardManager::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr 
 
 void BlackboardManager::update_blackboard()
 {
-  RCLCPP_INFO(get_logger(), "robot %s updating blackboard", robot_id_.c_str());
+  RCLCPP_INFO(get_logger(), "%s updating blackboard", robot_id_.c_str());
 
   std::vector<std::string> keys = update_bb_msg_->keys;
   std::vector<std::string> values = update_bb_msg_->values;

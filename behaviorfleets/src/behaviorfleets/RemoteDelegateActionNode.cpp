@@ -14,6 +14,7 @@
 
 #include "behaviorfleets/RemoteDelegateActionNode.hpp"
 #include <algorithm>
+
 namespace BF
 {
 
@@ -99,7 +100,7 @@ RemoteDelegateActionNode::control_cycle()
   if ((!working_) && (elapsed.seconds() > waiting_time_) && (waiting_time_ > 0.0)) {
     n_tries_ = 0;
     waiting_time_ = 0.0;
-    RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "waiting time elapsed").c_str());
+    RCLCPP_DEBUG(get_logger(), ("[ " + id_ + " ] " + "waiting time elapsed").c_str());
   }
 
   if (working_) {
@@ -109,6 +110,8 @@ RemoteDelegateActionNode::control_cycle()
     rclcpp::spin_some(bb_handler_);
     RCLCPP_DEBUG(get_logger(), "blackboard handler spinned");
 
+    auto start_time = std::chrono::high_resolution_clock::now();
+    auto end_time = start_time + std::chrono::seconds(5);
     switch (status) {
       case BT::NodeStatus::RUNNING:
         status_msg.status = bf_msgs::msg::Mission::RUNNING;
@@ -117,11 +120,25 @@ RemoteDelegateActionNode::control_cycle()
       case BT::NodeStatus::SUCCESS:
         status_msg.status = bf_msgs::msg::Mission::SUCCESS;
         RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "***** SUCCESS *****").c_str());
+
+        // IMPROVE THIS
+        // the bb_handler needs to be spinned for a while in case there are pending updates to the global bb
+
+        // while (bb_handler_->updating_bb()) {
+        //   rclcpp::spin_some(bb_handler_);
+        //   std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        // }
+        while (std::chrono::high_resolution_clock::now() < end_time) {  
+          rclcpp::spin_some(bb_handler_);
+        }
         working_ = false;
         break;
       case BT::NodeStatus::FAILURE:
         status_msg.status = bf_msgs::msg::Mission::FAILURE;
         RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "FAILURE").c_str());
+        while (std::chrono::high_resolution_clock::now() < end_time) {  
+          rclcpp::spin_some(bb_handler_);
+        }
         working_ = false;
         break;
     }
@@ -155,7 +172,7 @@ RemoteDelegateActionNode::create_tree()
     if (load_plugins) {
       for (auto plugin : plugins) {
         factory.registerFromPlugin(loader.getOSName(plugin));
-        RCLCPP_INFO(get_logger(), "plugin %s  ", plugin.c_str());
+        RCLCPP_DEBUG(get_logger(), "plugin %s  ", plugin.c_str());
       }
     }
 

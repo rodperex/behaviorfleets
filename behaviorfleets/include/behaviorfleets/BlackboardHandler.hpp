@@ -37,6 +37,7 @@ public:
   BlackboardHandler(const std::string robot_id, BT::Blackboard::Ptr blackboard);
   // BlackboardHandler(const std::string robot_id, BT::Blackboard::Ptr blackboard, std::chrono::milliseconds milis);
   virtual ~BlackboardHandler();
+  bool updating_bb();
 
 private:
   void blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr msg);

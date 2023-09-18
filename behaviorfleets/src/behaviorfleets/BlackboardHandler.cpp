@@ -127,7 +127,7 @@ void BlackboardHandler::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr 
     RCLCPP_DEBUG(get_logger(), "UPDATING local blackboard");
     n_updates_++;
     for (int i = 0; i < msg->keys.size(); i++) {
-      // std::cout << "key: " << msg->keys.at(i) << " value: " << msg->values.at(i) << std::endl;
+      RCLCPP_DEBUG(get_logger(), "%s = %s", msg->keys.at(i).c_str(), msg->values.at(i).c_str());
       if (msg->key_types[i] == "string") {
         blackboard_->set(msg->keys.at(i), msg->values.at(i));
       } else if (msg->key_types[i] == "int") {
@@ -240,6 +240,11 @@ void BlackboardHandler::update_blackboard()
       }
     }
   }
+}
+
+bool BlackboardHandler::updating_bb()
+{
+  return access_granted_;
 }
 
 void BlackboardHandler::sync_bb()
