@@ -229,7 +229,7 @@ DelegateActionNode::tick()
       if ((elapsed.seconds() > timeout_) && (timeout_ != -1)) {
         RCLCPP_INFO(
           node_->get_logger(), (std::string("remote ") + "[ " + remote_id_ + " ] " +
-          "timed out: looking for a new one").c_str());
+          "TIMED OUT: looking for a new one").c_str());
         n_tries_++;
         reset();
         RCLCPP_INFO(

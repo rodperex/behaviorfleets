@@ -179,6 +179,9 @@ RemoteDelegateActionNode::create_tree()
     auto blackboard = BT::Blackboard::create();
     // blackboard->set("node", shared_from_this())
     blackboard->set("node", node_);
+    // insert the name of the robot in case it is useful (excluded from sharing)
+    blackboard->set("efbb_robot_id", id_);
+    RCLCPP_DEBUG(get_logger(), "blackboard created + robot_id (%s) & node inserted", id_.c_str());
 
 
     // create a blackboard handler to work with a shared blackboard
