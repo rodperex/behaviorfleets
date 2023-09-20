@@ -44,13 +44,13 @@ DelegateActionNode::DelegateActionNode(
   std::string plugins_str;
   getInput("plugins", plugins_str);
   decode(plugins_str, &plugins_);
-  
+
   std::string exclude_str;
   getInput("exclude", exclude_str);
   decode(exclude_str, &excluded_);
 
   RCLCPP_INFO(node_->get_logger(), "plugins to propagate: %ld", plugins_.size());
-  
+
   for (const auto & str : plugins_) {
     RCLCPP_DEBUG(node_->get_logger(), str.c_str());
   }
@@ -69,7 +69,7 @@ DelegateActionNode::DelegateActionNode(
   //   "/mission_poll", 100);
 
   poll_pub_ = node_->create_publisher<bf_msgs::msg::Mission>(
-  "/mission_poll", 100);
+    "/mission_poll", 100);
 
   poll_sub_ = node_->create_subscription<bf_msgs::msg::Mission>(
     "/mission_poll", rclcpp::SensorDataQoS(),
@@ -87,7 +87,7 @@ DelegateActionNode::reset()
   } else {
     RCLCPP_INFO(node_->get_logger(), "remote_id_ not set");
   }
-  
+
   mission_pub_ = node_->create_publisher<bf_msgs::msg::Mission>(
     "/mission_poll", 100);
   remote_sub_.reset();
@@ -157,7 +157,7 @@ DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
       mission_pub_->publish(reject_msg);
       return;
     }
-    
+
     poll_answ_ = std::move(msg);
     remote_id_ = poll_answ_->robot_id;
     RCLCPP_INFO(
@@ -165,7 +165,7 @@ DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
       "[ " + remote_id_ + " : " + poll_answ_->mission_id + " ]").c_str());
 
     // '/' removed from topics to make it work with namespaces
-    
+
     remote_sub_ = node_->create_subscription<bf_msgs::msg::Mission>(
       "" + remote_id_ + "/mission_status", rclcpp::SensorDataQoS(),
       std::bind(&DelegateActionNode::remote_status_callback, this, std::placeholders::_1));
@@ -173,7 +173,7 @@ DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
     mission_pub_ = node_->create_publisher<bf_msgs::msg::Mission>(
       "" + remote_id_ + "/mission_command", 100);
 
-        
+
     RCLCPP_DEBUG(
       node_->get_logger(), "subscriptors created (%s)", me_.c_str());
     bf_msgs::msg::Mission mission_msg;
@@ -183,8 +183,12 @@ DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
     mission_msg.mission_tree = remote_tree_;
     mission_msg.plugins = plugins_;
     mission_pub_->publish(mission_msg);
-    RCLCPP_INFO(node_->get_logger(), "(%s) MISSION publised in /%s/mission_command", me_.c_str(), remote_id_.c_str());
-    RCLCPP_INFO(node_->get_logger(), "(%s) STATUS in /%s/mission_status", me_.c_str(), remote_id_.c_str());
+    RCLCPP_INFO(
+      node_->get_logger(), "(%s) MISSION publised in /%s/mission_command",
+      me_.c_str(), remote_id_.c_str());
+    RCLCPP_INFO(
+      node_->get_logger(), "(%s) STATUS in /%s/mission_status",
+      me_.c_str(), remote_id_.c_str());
 
     remote_identified_ = true;
     t_last_status_ = node_->now();
@@ -221,8 +225,9 @@ DelegateActionNode::tick()
     poll_pub_->publish(msg);
 
     t_last_poll_ = node_->now();
-    RCLCPP_DEBUG(node_->get_logger(), "OFFER sent (me: %s - mission: %s)",
-      me_.c_str(),mission_id_.c_str());
+    RCLCPP_DEBUG(
+      node_->get_logger(), "OFFER sent (me: %s - mission: %s)",
+      me_.c_str(), mission_id_.c_str());
   } else {
     if (remote_status_ != nullptr) {  // remote status has been receieved at some point
       auto elapsed = node_->now() - t_last_status_;
@@ -278,8 +283,8 @@ DelegateActionNode::tick()
       auto elapsed = node_->now() - t_last_poll_;
       if ((elapsed.seconds() > poll_timeout_)) {
         RCLCPP_INFO(
-        node_->get_logger(), (std::string("(" + me_ + ") remote ") + "[ " + remote_id_ + " ] " +
-        "requested a mission, but NEVER reported status: looking for a new one").c_str());
+          node_->get_logger(), (std::string("(" + me_ + ") remote ") + "[ " + remote_id_ + " ] " +
+          "requested a mission, but NEVER reported status: looking for a new one").c_str());
         remote_identified_ = false;
       }
     }
