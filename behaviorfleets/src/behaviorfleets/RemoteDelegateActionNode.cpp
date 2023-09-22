@@ -104,6 +104,16 @@ RemoteDelegateActionNode::control_cycle()
   }
 
   if (working_) {
+    // if nobody is waiting for the mission status, do not publish it and stop working
+    if (status_pub_->get_subscription_count() == 0) {
+      RCLCPP_INFO(
+        get_logger(),
+        ("[ " + id_ + " ] " + "nobody is waiting for the status, STOPPING tree").c_str());
+      working_ = false;
+      return;
+    }
+
+
     BT::NodeStatus status = tree_.rootNode()->executeTick();
 
     // spin bb_handler_ activate the callbacks to keep the shared blackboard updated
@@ -273,12 +283,17 @@ void
 RemoteDelegateActionNode::mission_callback(bf_msgs::msg::Mission::UniquePtr msg)
 {
   RCLCPP_DEBUG(get_logger(), ("[ " + id_ + " ] " + "mission callback").c_str());
-  if (msg->msg_type != bf_msgs::msg::Mission::COMMAND) {
+  if ((msg->msg_type != bf_msgs::msg::Mission::COMMAND) &&
+    msg->msg_type != bf_msgs::msg::Mission::HALT)
+  {
+    RCLCPP_INFO(
+      get_logger(),
+      ("[ " + id_ + " ] " + "Wrong message type received").c_str());
     return;
   }
 
   if (msg->msg_type == bf_msgs::msg::Mission::HALT) {
-    RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "halt signal received").c_str());
+    RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "HALT signal received").c_str());
     bf_msgs::msg::Mission status_msg;
     status_msg.msg_type = bf_msgs::msg::Mission::STATUS;
     status_msg.robot_id = id_;
