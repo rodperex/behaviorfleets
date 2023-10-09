@@ -112,10 +112,36 @@ ax2.fill_between(nodes,
                  [m + s for m, s in zip(waiting_time_n['mean'], waiting_time_n['std'])], 
                  color='orange', alpha=0.3)
 
+# Create a second y-axis for n_upd_f and n_upd_n on the right side
+ax3 = ax.twinx()
+
+# Plot n_upd_f with freqs as x-axis on the right y-axis
+ax3.plot(freqs, n_upd_f['mean'], marker='s', label='Mean n_upd (Frequency)', color='green')
+
+# Fill the area around the line with a shadow representing errors
+ax3.fill_between(freqs, 
+                 [m - s for m, s in zip(n_upd_f['mean'], n_upd_f['std'])], 
+                 [m + s for m, s in zip(n_upd_f['mean'], n_upd_f['std'])], 
+                 color='green', alpha=0.3)
+
+# Create a separate plot for n_upd_n on the right side
+ax4 = ax.twinx()
+
+# Plot n_upd_n with nodes as x-axis on the right y-axis
+ax4.plot(nodes, n_upd_n['mean'], marker='s', label='Mean n_upd (Nodes)', color='red')
+
+# Fill the area around the line with a shadow representing errors
+ax4.fill_between(nodes, 
+                 [m - s for m, s in zip(n_upd_n['mean'], n_upd_n['std'])], 
+                 [m + s for m, s in zip(n_upd_n['mean'], n_upd_n['std'])], 
+                 color='red', alpha=0.3)
+
 # Set labels and title for the x-axis and y-axis
 ax.set_xlabel('Frequency - Nodes', fontsize=12)  # Updated x-axis label
 ax.set_ylabel('Mean Waiting Time (Frequency)', color='blue')
 ax2.set_ylabel('Mean Waiting Time (Nodes)', color='orange')
+ax3.set_ylabel('Mean n_upd (Frequency)', color='green')
+ax4.set_ylabel('Mean n_upd (Nodes)', color='red')
 ax.set_title('Mean Waiting Time vs. Frequency - Nodes')  # Updated title
 
 # Adjust x-axis label positioning and rotation
@@ -129,7 +155,9 @@ ax2.set_xlabel('Nodes', labelpad=10)  # Set x-axis label for the second plot
 # Display the legend
 lines, labels = ax.get_legend_handles_labels()
 lines2, labels2 = ax2.get_legend_handles_labels()
-ax.legend(lines + lines2, labels + labels2, loc='upper left')
+lines3, labels3 = ax3.get_legend_handles_labels()
+lines4, labels4 = ax4.get_legend_handles_labels()
+ax.legend(lines + lines2 + lines3 + lines4, labels + labels2 + labels3 + labels4, loc='upper left')
 
 # Customize the appearance of the plot
 ax.grid(True, linestyle='--', alpha=0.6)  # Add grid lines with transparency
@@ -139,36 +167,53 @@ ax.tick_params(axis='both', which='both', length=6, width=1, labelsize=12)  # Cu
 ax.set_axisbelow(True)  # Place grid lines behind the plot elements
 
 # Create a new figure for Time data
-fig2, ax3 = plt.subplots(figsize=(10, 5))
+fig2, ax5 = plt.subplots(figsize=(10, 5))
 
 # Plot waiting_time_t with times as x-axis
-ax3.plot(times, waiting_time_t['mean'], marker='o', label='Time', color='green')
+ax5.plot(times, waiting_time_t['mean'], marker='o', label='Mean Waiting Time (Time)', color='green')
 
 # Fill the area around the line with a shadow representing errors
-ax3.fill_between(times, 
+ax5.fill_between(times, 
                  [m - s for m, s in zip(waiting_time_t['mean'], waiting_time_t['std'])], 
                  [m + s for m, s in zip(waiting_time_t['mean'], waiting_time_t['std'])], 
                  color='green', alpha=0.3)
 
 # Set labels and title for the x-axis and y-axis
-ax3.set_xlabel('Time', fontsize=12)
-ax3.set_ylabel('Mean Waiting Time (Time)', color='green')
-ax3.set_title('Mean Waiting Time vs. Time')
+ax5.set_xlabel('Time', fontsize=12)
+ax5.set_ylabel('Mean Waiting Time (Time)', color='green')
+ax5.set_title('Mean Waiting Time vs. Time')
 
-# Display the legend for the Time data
-lines3, labels3 = ax3.get_legend_handles_labels()
-ax3.legend(lines3, labels3, loc='upper left')
+# Create a second y-axis on the right side for n_upd_t
+ax6 = ax5.twinx()
+
+# Plot n_upd_t with times as x-axis on the right y-axis
+ax6.plot(times, n_upd_t['mean'], marker='s', label='Mean n_upd (Time)', color='blue')
+
+# Fill the area around the line with a shadow representing errors
+ax6.fill_between(times, 
+                 [m - s for m, s in zip(n_upd_t['mean'], n_upd_t['std'])], 
+                 [m + s for m, s in zip(n_upd_t['mean'], n_upd_t['std'])], 
+                 color='blue', alpha=0.3)
+
+# Set labels and color for the right y-axis
+ax6.set_ylabel('Mean n_upd (Time)', color='blue')
+
+# Display the legend for both lines on the plot
+lines5, labels5 = ax5.get_legend_handles_labels()
+lines6, labels6 = ax6.get_legend_handles_labels()
+ax5.legend(lines5 + lines6, labels5 + labels6, loc='upper left')
 
 # Customize the appearance of the Time plot
-ax3.grid(True, linestyle='--', alpha=0.6)
-ax3.spines['top'].set_visible(False)
-ax3.spines['right'].set_visible(False)
-ax3.tick_params(axis='both', which='both', length=6, width=1, labelsize=12)
-ax3.set_axisbelow(True)
+ax5.grid(True, linestyle='--', alpha=0.6)
+ax5.spines['top'].set_visible(False)
+ax5.spines['right'].set_visible(False)
+ax5.tick_params(axis='both', which='both', length=6, width=1, labelsize=12)
+ax5.set_axisbelow(True)
 
 # Adjust spacing between subplots
 plt.subplots_adjust(wspace=0.4)
 plt.show(block=False)
+
 while True:
     user_input = input("Press Enter to close the plots...")
     if user_input == "":
