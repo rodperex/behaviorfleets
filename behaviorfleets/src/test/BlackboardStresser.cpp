@@ -37,11 +37,12 @@ BlackboardStresser::BlackboardStresser(
   // spin the handler in a separate thread
   spin_thread_ = std::thread(
     [this]() {
-      while (bb_handler_spinning_) {
-        rclcpp::spin_some(bb_handler_);
-      }
-      bb_handler_->get_node_base_interface()->get_context()->shutdown("stress test finished");
-      RCLCPP_INFO(get_logger(), "blackboard handler %s finished", robot_id_.c_str());
+      // while (bb_handler_spinning_) {
+      //   rclcpp::spin_some(bb_handler_);
+      // }
+      // bb_handler_->get_node_base_interface()->get_context()->shutdown("stress test finished");
+      // RCLCPP_INFO(get_logger(), "blackboard handler %s finished", robot_id_.c_str());
+      rclcpp::spin(bb_handler_);
     });
   spin_thread_.detach();
 
@@ -56,6 +57,12 @@ BlackboardStresser::BlackboardStresser(
 
   timer_ = create_wall_timer(milis, std::bind(&BlackboardStresser::control_cycle, this));
 
+  // double durationInSeconds = 0.001; // 0.001 seconds
+  // std::chrono::milliseconds durationMillis = std::chrono::duration_cast<std::chrono::milliseconds>(
+  //     std::chrono::duration<double>(durationInSeconds)
+  // );
+  // timer2_ = create_wall_timer(durationMillis, std::bind(&BlackboardStresser::control_cycle2, this));
+
   t_start_ = rclcpp::Clock().now();
 
   // rclcpp::on_shutdown([this]() {dump_blackboard();});
@@ -63,10 +70,11 @@ BlackboardStresser::BlackboardStresser(
   rclcpp::on_shutdown(
     [this]() {
       std::cout << "on_shutdown" << std::endl;
-      bb_handler_spinning_ = false;
+      // bb_handler_spinning_ = false;
       if (spin_thread_.joinable()) {
         spin_thread_.join();
       }
+      std::cout << "spin_thread JOINED" << std::endl;
     });
 }
 
@@ -81,6 +89,7 @@ void BlackboardStresser::control_cycle()
   if ((rclcpp::Clock().now() - t_start_ < delay_) && delay_ != std::chrono::seconds(0)) {
     return;
   }
+  
 
   if (op_time_ == std::chrono::seconds(0) ||
     rclcpp::Clock().now() - t_start_ < op_time_)
@@ -97,6 +106,14 @@ void BlackboardStresser::control_cycle()
   }
 
   // rclcpp::spin_some(bb_handler_);
+}
+
+void BlackboardStresser::control_cycle2()
+{
+  if ((rclcpp::Clock().now() - t_start_ < delay_) && delay_ != std::chrono::seconds(0)) {
+    return;
+  }
+  rclcpp::spin_some(bb_handler_);
 }
 
 void BlackboardStresser::dump_blackboard()

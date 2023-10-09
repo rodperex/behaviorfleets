@@ -96,17 +96,23 @@ int main(int argc, char * argv[])
 
 
   std::signal(SIGINT, signal_handler);
-  while (!g_signal_received) {
+  while (!g_signal_received && rclcpp::ok()) {
     exec.spin_some();  // Process pending work in the executor
   }
+
+  
 
   for (auto node : nodes) {
     std::cout << "Shutting down node " << node->get_name() << std::endl;
     node->get_node_base_interface()->get_context()->shutdown("Test finished");
-  }
+    exec.remove_node(node);
+    }
 
+  exec.cancel();
+
+  std::cout << "Stopping RCLCPP" << std::endl;
   // exec.spin();
-  // rclcpp::shutdown();
+  rclcpp::shutdown();
   return 0;
 }
 
