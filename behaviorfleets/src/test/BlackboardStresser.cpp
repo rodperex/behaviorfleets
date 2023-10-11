@@ -108,14 +108,6 @@ void BlackboardStresser::control_cycle()
   // rclcpp::spin_some(bb_handler_);
 }
 
-void BlackboardStresser::control_cycle2()
-{
-  if ((rclcpp::Clock().now() - t_start_ < delay_) && delay_ != std::chrono::seconds(0)) {
-    return;
-  }
-  rclcpp::spin_some(bb_handler_);
-}
-
 void BlackboardStresser::dump_blackboard()
 {
   std::string filename = "results/" + robot_id_ + ".txt";

@@ -338,6 +338,9 @@ std::string BlackboardManager::get_type(BT::Blackboard::Ptr bb, const char * por
   std::string type(port_type);
   std::free(port_type);
 
+  if (type.find("Any") != std::string::npos) {
+    return "string";
+  }
   if (type.find("string") != std::string::npos) {
     return "string";
   }
@@ -365,6 +368,9 @@ std::string BlackboardManager::get_type(const char * port_name)
   std::string type(port_type);
   std::free(port_type);
 
+  if (type.find("Any") != std::string::npos) {
+    return "string";
+  }
   if (type.find("string") != std::string::npos) {
     return "string";
   }

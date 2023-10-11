@@ -265,6 +265,9 @@ std::string BlackboardHandler::get_type(const char * port_name)
   std::string type(port_type);
   std::free(port_type);
 
+  if (type.find("Any") != std::string::npos) {
+    return "string";
+  }
   if (type.find("string") != std::string::npos) {
     return "string";
   }
@@ -282,6 +285,12 @@ std::string BlackboardHandler::get_type(const char * port_name)
   }
 
   return "unknown";
+}
+
+void BlackboardHandler::reset()
+{
+  blackboard_->clear();
+  cache_blackboard();
 }
 
 }  // namespace BF

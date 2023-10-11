@@ -108,9 +108,10 @@ RemoteDelegateActionNode::control_cycle()
     if (status_pub_->get_subscription_count() == 0) {
       RCLCPP_INFO(
         get_logger(),
-        ("[ " + id_ + " ] " + "nobody is waiting for the status, STOPPING tree").c_str());
-      working_ = false;
-      return;
+        ("[ " + id_ + " ] " + "nobody is waiting for the status, STOPPING tree (?)").c_str());
+      // working_ = false;
+      // bb_handler_.reset();
+      // return;
     }
 
 
@@ -142,6 +143,7 @@ RemoteDelegateActionNode::control_cycle()
           rclcpp::spin_some(bb_handler_);
         }
         working_ = false;
+        bb_handler_.reset();
         break;
       case BT::NodeStatus::FAILURE:
         status_msg.status = bf_msgs::msg::Mission::FAILURE;
@@ -150,11 +152,16 @@ RemoteDelegateActionNode::control_cycle()
           rclcpp::spin_some(bb_handler_);
         }
         working_ = false;
+        bb_handler_.reset();
         break;
     }
     status_msg.source_id = mission_->source_id;
     status_pub_->publish(status_msg);
   } else {
+    if (bb_handler_.get() != nullptr) {
+      bb_handler_.reset();
+      RCLCPP_DEBUG(get_logger(), ("[ " + id_ + " ] " + "bb_handler reset").c_str());
+    }
     status_msg.status = bf_msgs::msg::Mission::IDLE;
   }
 }
@@ -301,6 +308,7 @@ RemoteDelegateActionNode::mission_callback(bf_msgs::msg::Mission::UniquePtr msg)
     status_msg.source_id = mission_->source_id;
     status_pub_->publish(status_msg);
     working_ = false;
+    bb_handler_.reset();
   }
 
   // ignore missions if already working

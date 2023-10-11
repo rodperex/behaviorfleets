@@ -88,7 +88,9 @@ print('Averaged success rate (Frequency): ', statistics.mean(success_rate_f['mea
 print('Averaged success rate (Nodes): ', statistics.mean(success_rate_n['mean'] * 10) * 100, '%')
 print('Averaged success rate (Time): ', statistics.mean(success_rate_t['mean'] * 10) * 100, '%')
 
-
+print('Max. waiting time (Frequency): ', max(waiting_time_f['mean']))
+print('Max. waiting time (Nodes): ', max(waiting_time_n['mean']))
+print('Max. waiting time (Time): ', max(waiting_time_t['mean']))
 
 # Create a single plot for Mean Waiting Time vs. Frequency, Nodes, and Time
 fig, ax1 = plt.subplots(figsize=(10, 5))
@@ -115,9 +117,9 @@ ax1.fill_between(times,
                  color='green', alpha=0.3)
 
 # Set labels and title for the x-axis and primary y-axis
-ax1.set_xlabel('Frequency (Hz) - Nodes (no.) - Time (min.)', fontsize=12)
-ax1.set_ylabel('Mean Waiting Time', fontsize=12)
-ax1.set_title('Mean Waiting Time vs. Frequency - Nodes - Time', fontsize=14)
+ax1.set_xlabel('Frequency (Hz) - Nodes (no.) - Time (min.)', fontsize=25)
+ax1.set_ylabel('Mean Waiting Time', fontsize=25)
+# ax1.set_title('Mean Waiting Time vs. Frequency - Nodes - Time', fontsize=25)
 
 # Create a secondary y-axis for n_upd_f, n_upd_n, and n_upd_t
 ax2 = ax1.twinx()
@@ -132,12 +134,12 @@ ax2.plot(nodes, n_upd_n['mean'], marker='x', label='n_upd_n', color='darkorange'
 ax2.plot(times, n_upd_t['mean'], marker='x', label='n_upd_t', color='lightgreen')
 
 # Set labels for the secondary y-axis
-ax2.set_ylabel('Number of Updates', fontsize=12, color='black')
+ax2.set_ylabel('Number of Updates', fontsize=18, color='black')
 
 # Display the legend for both primary and secondary y-axes
 lines1, labels1 = ax1.get_legend_handles_labels()
 lines2, labels2 = ax2.get_legend_handles_labels()
-ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left')
+ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper left', fontsize=14)
 
 # Customize the appearance of the plot
 ax1.grid(True, linestyle='--', alpha=0.6)
