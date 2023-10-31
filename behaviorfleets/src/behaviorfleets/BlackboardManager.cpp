@@ -333,6 +333,9 @@ std::string BlackboardManager::get_type(BT::Blackboard::Ptr bb, const char * por
 {
 
   const BT::PortInfo * port = bb->portInfo(port_name);
+  // thirdparty library updated, so this is not working anymore. Not tested
+  // const BT::TypeInfo * port = bb->entryInfo(port_name);
+
   int status;
   char * port_type = abi::__cxa_demangle(port->type().name(), nullptr, nullptr, &status);
   std::string type(port_type);
@@ -363,6 +366,8 @@ std::string BlackboardManager::get_type(const char * port_name)
 {
 
   const BT::PortInfo * port = blackboard_->portInfo(port_name);
+  // thirdparty library updated, so this is not working anymore. Not tested
+  // const BT::TypeInfo * port = bb->entryInfo(port_name);
   int status;
   char * port_type = abi::__cxa_demangle(port->type().name(), nullptr, nullptr, &status);
   std::string type(port_type);
