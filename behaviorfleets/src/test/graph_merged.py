@@ -117,8 +117,8 @@ ax1.fill_between(times,
                  color='green', alpha=0.3)
 
 # Set labels and title for the x-axis and primary y-axis
-ax1.set_xlabel('Frequency (Hz) - Nodes (no.) - Time (min.)', fontsize=25)
-ax1.set_ylabel('Mean Waiting Time', fontsize=25)
+ax1.set_xlabel('Frequency (Hz) - Nodes (count) - Time (min.)', fontsize=25)
+ax1.set_ylabel('Mean Waiting Time (s)', fontsize=25)
 # ax1.set_title('Mean Waiting Time vs. Frequency - Nodes - Time', fontsize=25)
 
 # Create a secondary y-axis for n_upd_f, n_upd_n, and n_upd_t
