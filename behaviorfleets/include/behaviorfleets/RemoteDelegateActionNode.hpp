@@ -31,6 +31,12 @@
 
 #include "behaviorfleets/BlackboardHandler.hpp"
 
+// disconnection simulation
+#include "tf2_ros/transform_listener.h"
+#include "tf2_ros/buffer.h"
+#include <cmath>
+#include <random>
+
 namespace BF
 {
 
@@ -47,6 +53,10 @@ private:
   bool create_tree();
   void control_cycle();
   void init();
+
+  // disconnection simulation
+  void sim_connectivity(); 
+  double gaussian_probability(double distance);
 
   const int MAX_REQUEST_TRIES_ = 10;
   const double MAX_WAITING_TIME_ = 10.0;
@@ -67,6 +77,16 @@ private:
   rclcpp::TimerBase::SharedPtr timer_;
 
   rclcpp::Node::SharedPtr node_;  // new
+
+  // disconnection simulation
+  // tf2::BufferCore tf_buffer_;
+  tf2_ros::Buffer tf_buffer_;
+  tf2_ros::TransformListener tf_listener_;
+  rclcpp::TimerBase::SharedPtr tdisc_;
+  double x_hotspot_, y_hotspot_;
+  double disc_mean_, disc_stddev_;
+  double dist_to_hotspot_;
+  bool disconnected_ = false;
 };
 
 }  // namespace BF

@@ -23,10 +23,15 @@
 #include <vector>
 
 #include "rclcpp/rclcpp.hpp"
-
 #include "behaviortree_cpp/blackboard.h"
-
 #include "bf_msgs/msg/blackboard.hpp"
+
+// disconnection simulation
+#include "geometry_msgs/msg/pose_stamped.hpp"
+#include "tf2_ros/transform_listener.h"
+#include "tf2_ros/buffer.h"
+#include <cmath>
+#include <random>
 
 namespace BF
 {
@@ -35,10 +40,10 @@ class BlackboardHandler : public rclcpp::Node
 {
 public:
   BlackboardHandler(const std::string robot_id, BT::Blackboard::Ptr blackboard);
-  // BlackboardHandler(const std::string robot_id, BT::Blackboard::Ptr blackboard, std::chrono::milliseconds milis);
   virtual ~BlackboardHandler();
   bool updating_bb();
   void reset();
+  
 
 private:
   void blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr msg);
@@ -50,6 +55,10 @@ private:
   void dump_data();
   void sync_bb();
 
+  // disconnection simulation
+  void sim_connectivity(); 
+  double gaussian_probability(double distance);
+  
 
   BT::Blackboard::Ptr blackboard_, bb_cache_;
   std::string robot_id_;
@@ -68,6 +77,16 @@ private:
   rclcpp::Time waiting_time_;
   double avg_waiting_time_;
   int n_success_, n_requests_, n_updates_;
+
+  // disconnection simulation
+  tf2::BufferCore tf_buffer_;
+  tf2_ros::TransformListener tf_listener_;
+  rclcpp::TimerBase::SharedPtr tdisc_;
+  double x_hotspot_, y_hotspot_;
+  double disc_mean_, disc_stddev_;
+  double dist_to_hotspot_;
+  bool disconnected_ = false;
+
 };
 
 }   // namespace BF

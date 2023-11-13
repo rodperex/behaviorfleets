@@ -21,6 +21,8 @@ BlackboardHandler::BlackboardHandler(
   const std::string robot_id,
   BT::Blackboard::Ptr blackboard)
 : Node(robot_id + "_blackboard_handler"),
+  tf_buffer_(),
+  tf_listener_(tf_buffer_),
   robot_id_(robot_id),
   blackboard_(blackboard),
   access_granted_(false),
@@ -46,6 +48,16 @@ BlackboardHandler::BlackboardHandler(
   sync_rcvd_ = false;
 
   sync_bb();
+
+  // disconnection simulation
+  // tdisc_ = create_wall_timer(1ms, std::bind(&BlackboardHandler::sim_connectivity, this));
+  this->declare_parameter<double>("x_hotspot", 0.0);
+  this->declare_parameter<double>("y_hotspot", 0.0);
+  this->declare_parameter<double>("range_hotspot", 0.0);
+  this->declare_parameter<double>("disc_stddev", 0.0);
+  this->get_parameter("x_hotspot", x_hotspot_);
+  this->get_parameter("y_hotspot", y_hotspot_);
+  this->get_parameter("range_hotspot", disc_mean_);
 
   // rclcpp::on_shutdown([this]() {dump_data();});
 }
@@ -75,12 +87,11 @@ void BlackboardHandler::dump_data()
 
 void BlackboardHandler::control_cycle()
 {
-  if (has_bb_changed()) {
+  if (has_bb_changed() && !disconnected_) {
     update_blackboard();
     cache_blackboard();
   }
-  // old
-  // dump_data();
+
 }
 
 bool BlackboardHandler::has_bb_changed()
@@ -111,6 +122,9 @@ bool BlackboardHandler::has_bb_changed()
 
 void BlackboardHandler::blackboard_callback(bf_msgs::msg::Blackboard::UniquePtr msg)
 {
+  if (disconnected_) {
+    return;
+  }
   RCLCPP_DEBUG(get_logger(), "blackboard_callback");
   if ((msg->type == bf_msgs::msg::Blackboard::GRANT) && (msg->robot_id == robot_id_)) {
     RCLCPP_DEBUG(get_logger(), "access to blackboard GRANTED");
@@ -293,6 +307,40 @@ void BlackboardHandler::reset()
 {
   blackboard_->clear();
   cache_blackboard();
+}
+
+// disconnection simulation
+void BlackboardHandler::sim_connectivity() {
+  try {
+      geometry_msgs::msg::TransformStamped transform = tf_buffer_.lookupTransform(
+        "map", "base_link", tf2::TimePoint());
+      
+      double x = transform.transform.translation.x;
+      double y = transform.transform.translation.y;
+
+      double dist = std::sqrt(std::pow(x_hotspot_ - x, 2) + std::pow(y_hotspot_ - y, 2));
+
+      std::random_device rd;
+      std::mt19937 gen(rd());
+      std::uniform_real_distribution<double> distribution(0.0, 1.0);
+
+      disconnected_ = distribution(gen) > gaussian_probability(dist);
+      
+      RCLCPP_INFO(get_logger(), "Current robot pose: x=%.2f, y=%.2f", x, y);
+      if (disconnected_) {
+        RCLCPP_INFO(get_logger(), "Robot disconnected");
+      }
+  }
+  catch (tf2::TransformException &ex) {
+      RCLCPP_ERROR(get_logger(), "Failed to lookup transform: %s", ex.what());
+  }
+}
+double BlackboardHandler::gaussian_probability(double distance) {
+  // Calculate the z-score
+  double z = (distance - disc_mean_) / disc_stddev_;
+
+  // Use the error function (erf) to get the cumulative probability
+  return 0.5 * (1.0 + std::erf(z / std::sqrt(2.0)));
 }
 
 }  // namespace BF

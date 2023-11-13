@@ -20,8 +20,10 @@ namespace BF
 
 RemoteDelegateActionNode::RemoteDelegateActionNode()
 : Node("remote_delegate_action_node"),
+  tf_buffer_(this->get_clock()),
+  tf_listener_(tf_buffer_),
   id_("remote"),
-  mission_id_("generic")
+  mission_id_("generic")  
 {
   init();
 }
@@ -30,6 +32,8 @@ RemoteDelegateActionNode::RemoteDelegateActionNode(
   const std::string robot_id,
   const std::string mission_id)
 : Node(robot_id + "_remote_delegate_action_node"),
+  tf_buffer_(this->get_clock()),
+  tf_listener_(tf_buffer_),
   id_(robot_id),
   mission_id_(mission_id)
 {
@@ -82,6 +86,9 @@ RemoteDelegateActionNode::init()
 
   // new
   node_ = rclcpp::Node::make_shared("bt_node");
+
+  // disconnection simulation
+  tdisc_ = create_wall_timer(1ms, std::bind(&RemoteDelegateActionNode::sim_connectivity, this));
 }
 
 
@@ -118,7 +125,9 @@ RemoteDelegateActionNode::control_cycle()
     BT::NodeStatus status = tree_.rootNode()->executeTick();
 
     // spin bb_handler_ activate the callbacks to keep the shared blackboard updated
-    rclcpp::spin_some(bb_handler_);
+    if (!disconnected_) {
+      rclcpp::spin_some(bb_handler_);
+    }
     RCLCPP_DEBUG(get_logger(), "blackboard handler spinned");
 
     auto start_time = std::chrono::high_resolution_clock::now();
@@ -336,6 +345,41 @@ void
 RemoteDelegateActionNode::setID(std::string id)
 {
   id_ = id;
+}
+
+// disconnection simulation
+void RemoteDelegateActionNode::sim_connectivity() {
+  try {
+      std::cout << tf_buffer_.allFramesAsString() << std::endl;
+      std::cout << "-------------------" << std::endl;
+      geometry_msgs::msg::TransformStamped transform = tf_buffer_ .lookupTransform("map", "base_link", tf2::TimePoint());
+
+      double x = transform.transform.translation.x;
+      double y = transform.transform.translation.y;
+
+      double dist = std::sqrt(std::pow(x_hotspot_ - x, 2) + std::pow(y_hotspot_ - y, 2));
+
+      std::random_device rd;
+      std::mt19937 gen(rd());
+      std::uniform_real_distribution<double> distribution(0.0, 1.0);
+
+      disconnected_ = distribution(gen) > gaussian_probability(dist);
+      
+      RCLCPP_INFO(get_logger(), "Current robot pose: x=%.2f, y=%.2f", x, y);
+      if (disconnected_) {
+        RCLCPP_INFO(get_logger(), "Robot disconnected");
+      }
+  }
+  catch (tf2::TransformException &ex) {
+      RCLCPP_ERROR(get_logger(), "Failed to lookup transform: %s", ex.what());
+  }
+}
+double RemoteDelegateActionNode::gaussian_probability(double distance) {
+  // Calculate the z-score
+  double z = (distance - disc_mean_) / disc_stddev_;
+
+  // Use the error function (erf) to get the cumulative probability
+  return 0.5 * (1.0 + std::erf(z / std::sqrt(2.0)));
 }
 
 }  // namespace BF
