@@ -79,8 +79,10 @@ private:
   int n_success_, n_requests_, n_updates_;
 
   // disconnection simulation
-  tf2::BufferCore tf_buffer_;
-  tf2_ros::TransformListener tf_listener_;
+  // tf2::BufferCore tf_buffer_;
+  // tf2_ros::TransformListener tf_listener_;
+  std::shared_ptr<tf2::BufferCore> tf_buffer_;
+  std::shared_ptr<tf2_ros::TransformListener> tf_listener_;
   rclcpp::TimerBase::SharedPtr tdisc_;
   double x_hotspot_, y_hotspot_;
   double disc_mean_, disc_stddev_;

@@ -20,8 +20,8 @@ namespace BF
 
 RemoteDelegateActionNode::RemoteDelegateActionNode()
 : Node("remote_delegate_action_node"),
-  tf_buffer_(this->get_clock()),
-  tf_listener_(tf_buffer_),
+  // tf_buffer_(),
+  // tf_listener_(tf_buffer_),
   id_("remote"),
   mission_id_("generic")  
 {
@@ -32,8 +32,8 @@ RemoteDelegateActionNode::RemoteDelegateActionNode(
   const std::string robot_id,
   const std::string mission_id)
 : Node(robot_id + "_remote_delegate_action_node"),
-  tf_buffer_(this->get_clock()),
-  tf_listener_(tf_buffer_),
+  // tf_buffer_(),
+  // tf_listener_(tf_buffer_),
   id_(robot_id),
   mission_id_(mission_id)
 {
@@ -89,6 +89,8 @@ RemoteDelegateActionNode::init()
 
   // disconnection simulation
   tdisc_ = create_wall_timer(1ms, std::bind(&RemoteDelegateActionNode::sim_connectivity, this));
+  tf_buffer_ = std::make_shared<tf2::BufferCore>();
+  tf_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
 }
 
 
@@ -350,9 +352,9 @@ RemoteDelegateActionNode::setID(std::string id)
 // disconnection simulation
 void RemoteDelegateActionNode::sim_connectivity() {
   try {
-      std::cout << tf_buffer_.allFramesAsString() << std::endl;
+      std::cout << tf_buffer_->allFramesAsString() << std::endl;
       std::cout << "-------------------" << std::endl;
-      geometry_msgs::msg::TransformStamped transform = tf_buffer_ .lookupTransform("map", "base_link", tf2::TimePoint());
+      geometry_msgs::msg::TransformStamped transform = tf_buffer_->lookupTransform("map", "base_footprint", tf2::TimePoint());
 
       double x = transform.transform.translation.x;
       double y = transform.transform.translation.y;

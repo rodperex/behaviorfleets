@@ -21,8 +21,8 @@ BlackboardHandler::BlackboardHandler(
   const std::string robot_id,
   BT::Blackboard::Ptr blackboard)
 : Node(robot_id + "_blackboard_handler"),
-  tf_buffer_(),
-  tf_listener_(tf_buffer_),
+  // tf_buffer_(),
+  // tf_listener_(tf_buffer_),
   robot_id_(robot_id),
   blackboard_(blackboard),
   access_granted_(false),
@@ -49,14 +49,10 @@ BlackboardHandler::BlackboardHandler(
 
   sync_bb();
 
-<<<<<<< HEAD
-
   // disconnection simulation
+  tf_buffer_ = std::make_shared<tf2::BufferCore>();
+  tf_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
   // tdisc_ = create_wall_timer(1ms, std::bind(&BlackboardHandler::sim_connectivity, this));
-=======
-  // disconnection simulation
-  tdisc_ = create_wall_timer(1ms, std::bind(&BlackboardHandler::sim_connectivity, this));
->>>>>>> 6b9ba841e9ba41b346c36e884105f7b7aa6f8297
   this->declare_parameter<double>("x_hotspot", 0.0);
   this->declare_parameter<double>("y_hotspot", 0.0);
   this->declare_parameter<double>("range_hotspot", 0.0);
@@ -318,13 +314,9 @@ void BlackboardHandler::reset()
 // disconnection simulation
 void BlackboardHandler::sim_connectivity() {
   try {
-<<<<<<< HEAD
-      geometry_msgs::msg::TransformStamped transform = tf_buffer_.lookupTransform(
-        "map", "base_link", tf2::TimePoint());
-=======
-      geometry_msgs::msg::TransformStamped transform = tf_buffer_.lookupTransform("map", "base_link", tf2::TimePoint());
->>>>>>> 6b9ba841e9ba41b346c36e884105f7b7aa6f8297
-      
+
+      geometry_msgs::msg::TransformStamped transform = tf_buffer_->lookupTransform("map", "base_link", tf2::TimePoint());
+
       double x = transform.transform.translation.x;
       double y = transform.transform.translation.y;
 
