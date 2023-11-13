@@ -49,6 +49,7 @@ BlackboardHandler::BlackboardHandler(
 
   sync_bb();
 
+
   // disconnection simulation
   // tdisc_ = create_wall_timer(1ms, std::bind(&BlackboardHandler::sim_connectivity, this));
   this->declare_parameter<double>("x_hotspot", 0.0);
