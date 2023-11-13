@@ -332,7 +332,7 @@ void BlackboardManager::dump_waiting_times()
 std::string BlackboardManager::get_type(BT::Blackboard::Ptr bb, const char * port_name)
 {
 
-  const BT::PortInfo * port = bb->portInfo(port_name);
+  const BT::TypeInfo * port = bb->entryInfo(port_name);
   // thirdparty library updated, so this is not working anymore. Not tested
   // const BT::TypeInfo * port = bb->entryInfo(port_name);
 
@@ -365,7 +365,7 @@ std::string BlackboardManager::get_type(BT::Blackboard::Ptr bb, const char * por
 std::string BlackboardManager::get_type(const char * port_name)
 {
 
-  const BT::PortInfo * port = blackboard_->portInfo(port_name);
+  const BT::TypeInfo * port = blackboard_->entryInfo(port_name);
   // thirdparty library updated, so this is not working anymore. Not tested
   // const BT::TypeInfo * port = blackboard_->entryInfo(port_name);
   int status;
