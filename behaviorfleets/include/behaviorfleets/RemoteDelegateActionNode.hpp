@@ -56,7 +56,8 @@ private:
 
   // disconnection simulation
   void sim_connectivity(); 
-  double gaussian_probability(double distance);
+  double random_num(int min, int max);
+  double gaussian_probability(double x, double y, double amplitude, double x_ref, double y_ref, double sigma);
 
   const int MAX_REQUEST_TRIES_ = 10;
   const double MAX_WAITING_TIME_ = 10.0;
@@ -79,8 +80,6 @@ private:
   rclcpp::Node::SharedPtr node_;  // new
 
   // disconnection simulation
-  // tf2::BufferCore tf_buffer_;
-  // tf2_ros::TransformListener tf_listener_;
   std::shared_ptr<tf2::BufferCore> tf_buffer_;
   std::shared_ptr<tf2_ros::TransformListener> tf_listener_;
   rclcpp::TimerBase::SharedPtr tdisc_;

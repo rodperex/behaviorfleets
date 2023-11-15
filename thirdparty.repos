@@ -2,3 +2,6 @@ repositories:
   src/thirdparty/behaviortree_cpp:
       type: git
       url: https://github.com/BehaviorTree/BehaviorTree.CPP/tree/4.4
+  src/thirdparty/geometry2:
+      type: git
+      url: https://github.com/rodperex/geometry2

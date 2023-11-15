@@ -20,8 +20,6 @@ namespace BF
 
 RemoteDelegateActionNode::RemoteDelegateActionNode()
 : Node("remote_delegate_action_node"),
-  // tf_buffer_(),
-  // tf_listener_(tf_buffer_),
   id_("remote"),
   mission_id_("generic")  
 {
@@ -32,8 +30,6 @@ RemoteDelegateActionNode::RemoteDelegateActionNode(
   const std::string robot_id,
   const std::string mission_id)
 : Node(robot_id + "_remote_delegate_action_node"),
-  // tf_buffer_(),
-  // tf_listener_(tf_buffer_),
   id_(robot_id),
   mission_id_(mission_id)
 {
@@ -90,7 +86,13 @@ RemoteDelegateActionNode::init()
   // disconnection simulation
   tdisc_ = create_wall_timer(1ms, std::bind(&RemoteDelegateActionNode::sim_connectivity, this));
   tf_buffer_ = std::make_shared<tf2::BufferCore>();
-  tf_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
+  tf_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_, this, true, get_namespace());
+  this->declare_parameter<double>("x_hotspot", 0.0);
+  this->declare_parameter<double>("y_hotspot", 0.0);
+  this->declare_parameter<double>("range_hotspot", 0.0);
+  this->get_parameter("x_hotspot", x_hotspot_);
+  this->get_parameter("y_hotspot", y_hotspot_);
+  this->get_parameter("range_hotspot", disc_stddev_);
 }
 
 
@@ -352,36 +354,57 @@ RemoteDelegateActionNode::setID(std::string id)
 // disconnection simulation
 void RemoteDelegateActionNode::sim_connectivity() {
   try {
-      std::cout << tf_buffer_->allFramesAsString() << std::endl;
-      std::cout << "-------------------" << std::endl;
-      geometry_msgs::msg::TransformStamped transform = tf_buffer_->lookupTransform("map", "base_footprint", tf2::TimePoint());
+  
+      geometry_msgs::msg::TransformStamped tr = tf_buffer_->lookupTransform("map", "base_link", tf2::TimePoint());
 
-      double x = transform.transform.translation.x;
-      double y = transform.transform.translation.y;
+      double x = tr.transform.translation.x;
+      double y = tr.transform.translation.y;
 
+      double p = gaussian_probability(x, y, 1.0, x_hotspot_, y_hotspot_, (disc_stddev_ / sqrt(2.0)));
+      double r = random_num(0, 1);
       double dist = std::sqrt(std::pow(x_hotspot_ - x, 2) + std::pow(y_hotspot_ - y, 2));
 
-      std::random_device rd;
-      std::mt19937 gen(rd());
-      std::uniform_real_distribution<double> distribution(0.0, 1.0);
+      // disconnected_ = (r > p); // this is the original line, but destroys the random number, why? who knows...
 
-      disconnected_ = distribution(gen) > gaussian_probability(dist);
-      
-      RCLCPP_INFO(get_logger(), "Current robot pose: x=%.2f, y=%.2f", x, y);
       if (disconnected_) {
-        RCLCPP_INFO(get_logger(), "Robot disconnected");
+        if (r < p) {
+          disconnected_ = false;
+          RCLCPP_DEBUG(get_logger(), "Robot CONNECTED: at %.2f m from hotspot with range %.2f", 
+            dist, disc_stddev_);
+        }
+      } else {
+        if (r >= p) {
+          disconnected_ = true;
+          RCLCPP_DEBUG(get_logger(), "Robot DISCONNECTED: at %.2f m from hotspot with range %.2f",
+            dist, disc_stddev_);
+        }
       }
+
+      // if (r >= p) {
+      //   disconnected_ = true;
+      // } else {
+      //   disconnected_ = false;
+      //   std::cout << "Robot connected: " << dist << " m" << std::endl;
+      // }
+
+
   }
   catch (tf2::TransformException &ex) {
       RCLCPP_ERROR(get_logger(), "Failed to lookup transform: %s", ex.what());
   }
 }
-double RemoteDelegateActionNode::gaussian_probability(double distance) {
-  // Calculate the z-score
-  double z = (distance - disc_mean_) / disc_stddev_;
 
-  // Use the error function (erf) to get the cumulative probability
-  return 0.5 * (1.0 + std::erf(z / std::sqrt(2.0)));
+double RemoteDelegateActionNode::random_num(int min, int max) {
+  std::random_device seeder;
+  std::mt19937 engine(seeder());
+  // engine.seed(seeder());
+  std::uniform_real_distribution<double> distribution(min, max);
+
+  return distribution(engine);
+}
+
+double RemoteDelegateActionNode::gaussian_probability(double x, double y, double amplitude, double x_ref, double y_ref, double sigma) {
+  return amplitude * exp(-((pow(x - x_ref, 2) + pow(y - y_ref, 2)) / (2 * pow(sigma, 2))));
 }
 
 }  // namespace BF
