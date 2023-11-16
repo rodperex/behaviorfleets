@@ -83,9 +83,7 @@ private:
   std::shared_ptr<tf2::BufferCore> tf_buffer_;
   std::shared_ptr<tf2_ros::TransformListener> tf_listener_;
   rclcpp::TimerBase::SharedPtr tdisc_;
-  double x_hotspot_, y_hotspot_;
-  double disc_mean_, disc_stddev_;
-  double dist_to_hotspot_;
+  double x_hotspot_, y_hotspot_, disc_stddev_;
   bool disconnected_ = false;
 };
 

@@ -54,11 +54,7 @@ private:
   bool has_bb_changed();
   void dump_data();
   void sync_bb();
-
-  // disconnection simulation
-  void sim_connectivity(); 
-  double gaussian_probability(double distance);
-  
+ 
 
   BT::Blackboard::Ptr blackboard_, bb_cache_;
   std::string robot_id_;
@@ -78,16 +74,6 @@ private:
   double avg_waiting_time_;
   int n_success_, n_requests_, n_updates_;
 
-  // disconnection simulation
-  // tf2::BufferCore tf_buffer_;
-  // tf2_ros::TransformListener tf_listener_;
-  std::shared_ptr<tf2::BufferCore> tf_buffer_;
-  std::shared_ptr<tf2_ros::TransformListener> tf_listener_;
-  rclcpp::TimerBase::SharedPtr tdisc_;
-  double x_hotspot_, y_hotspot_;
-  double disc_mean_, disc_stddev_;
-  double dist_to_hotspot_;
-  bool disconnected_ = false;
 
 };
 
