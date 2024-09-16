@@ -1,4 +1,5 @@
 repositories:
   src/thirdparty/behaviortree_cpp:
       type: git
-      url: https://github.com/BehaviorTree/BehaviorTree.CPP/tree/4.4
+      url: https://github.com/BehaviorTree/BehaviorTree.CPP.git
+      version: d5ea17b5184feacac3f3763de0730713384bafc9
