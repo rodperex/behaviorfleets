@@ -85,6 +85,41 @@ RemoteDelegateActionNode::init()
 }
 
 
+bool
+RemoteDelegateActionNode::check_mission_assignment()
+{
+  srv_client_ = create_client<bf_msgs::srv::CheckMission>("check_mission");
+
+  bool srv_ready = srv_client_->wait_for_service(std::chrono::seconds(1));
+  if (!srv_ready) {
+    if (srv_retries_ > 10) {
+      RCLCPP_ERROR(get_logger(), "Service not available after multiple retries, STOPPING tree");
+      return false;
+    }
+    RCLCPP_DEBUG(get_logger(), "Service not available, retrying...");
+    srv_retries_++;
+    return false;
+  }
+
+  auto request = std::make_shared<bf_msgs::srv::CheckMission::Request>();
+  request->robot_id = id_;
+  request->mission_id = mission_id_;
+  auto result = srv_client_->async_send_request(request);
+
+  if (rclcpp::spin_until_future_complete(node_, result) == rclcpp::FutureReturnCode::SUCCESS) {
+    if (result.get()->assigned) {
+      RCLCPP_DEBUG(get_logger(), ("[ " + id_ + " ] " + "still responsible for the mission").c_str());
+      return true;
+    } else {
+      RCLCPP_INFO(get_logger(), ("[ " + id_ + " ] " + "NOT responsible for the mission anymore").c_str());
+      return false;
+    }
+  } else {
+    RCLCPP_ERROR(get_logger(), ("[ " + id_ + " ] " + "service call failed").c_str());
+    return false;
+  }
+}
+
 void
 RemoteDelegateActionNode::control_cycle()
 {
@@ -94,6 +129,12 @@ RemoteDelegateActionNode::control_cycle()
   status_msg.robot_id = id_;
   status_msg.mission_id = mission_id_;
   status_msg.status = bf_msgs::msg::Mission::RUNNING;
+  
+  if (!check_mission_assignment()) {
+    working_ = false;
+    bb_handler_.reset();
+    return;
+  }
 
   // in case the node has drained its requests trials, wait waiting_time_ seconds (randomized)
   auto elapsed = rclcpp::Clock().now() - t_last_request_;

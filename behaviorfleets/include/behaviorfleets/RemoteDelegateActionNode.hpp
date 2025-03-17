@@ -28,6 +28,7 @@
 
 #include "bf_msgs/msg/mission.hpp"
 #include "bf_msgs/msg/mission_status.hpp"
+#include "bf_msgs/srv/check_mission.hpp"
 
 #include "behaviorfleets/BlackboardHandler.hpp"
 
@@ -47,6 +48,7 @@ private:
   bool create_tree();
   void control_cycle();
   void init();
+  bool check_mission_assignment();
 
   const int MAX_REQUEST_TRIES_ = 10;
   const double MAX_WAITING_TIME_ = 10.0;
@@ -67,6 +69,10 @@ private:
   rclcpp::TimerBase::SharedPtr timer_;
 
   rclcpp::Node::SharedPtr node_;  // new
+
+  // service client to check if the robot is still responsible for the mission
+  rclcpp::Client<bf_msgs::srv::CheckMission>::SharedPtr srv_client_;
+  int srv_retries_ = 0;
 };
 
 }  // namespace BF

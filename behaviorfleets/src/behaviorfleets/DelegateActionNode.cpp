@@ -74,6 +74,14 @@ DelegateActionNode::DelegateActionNode(
   poll_sub_ = node_->create_subscription<bf_msgs::msg::Mission>(
     "/mission_poll", rclcpp::SensorDataQoS(),
     std::bind(&DelegateActionNode::mission_poll_callback, this, std::placeholders::_1));
+
+  check_srv_ = node_->create_service<bf_msgs::srv::CheckMission>(
+    "/check_mission",
+    [this](
+      const std::shared_ptr<bf_msgs::srv::CheckMission::Request> request,
+      std::shared_ptr<bf_msgs::srv::CheckMission::Response> response) {
+        response->assigned = (request->robot_id == remote_id_) && (request->mission_id == mission_id_);
+    }); 
 }
 
 void
@@ -192,6 +200,10 @@ DelegateActionNode::mission_poll_callback(bf_msgs::msg::Mission::UniquePtr msg)
 
     remote_identified_ = true;
     t_last_status_ = node_->now();
+
+    // Annotate the assignment in the blackboard
+    // std::string assign_table = config().blackboard->get("assign_table");
+    // assign_table += remote_id_ + "::" + mission_id_ + "\n";
   }
 }
 
@@ -286,6 +298,8 @@ DelegateActionNode::tick()
           node_->get_logger(), (std::string("(" + me_ + ") remote ") + "[ " + remote_id_ + " ] " +
           "requested a mission, but NEVER reported status: looking for a new one").c_str());
         remote_identified_ = false;
+
+        // Send cancelation in case the remote is executing the mission
       }
     }
   }

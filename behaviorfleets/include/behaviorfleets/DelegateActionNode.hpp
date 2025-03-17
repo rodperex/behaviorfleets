@@ -28,6 +28,7 @@
 #include "behaviortree_cpp/utils/shared_library.h"
 #include "ament_index_cpp/get_package_share_directory.hpp"
 
+#include "bf_msgs/srv/check_mission.hpp"
 
 #include "bf_msgs/msg/mission.hpp"
 
@@ -83,6 +84,9 @@ private:
   double timeout_, poll_timeout_;
   int MAX_TRIES_, n_tries_ = 0;
   int tick_count_ = 0;
+
+  // service server to check if a remote node is sill in charge
+  rclcpp::Service<bf_msgs::srv::CheckMission>::SharedPtr check_srv_;
 
   BT::NodeStatus tick() override;
 };
