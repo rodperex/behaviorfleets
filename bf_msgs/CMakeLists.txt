@@ -12,6 +12,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/MissionStatus.msg"
   "msg/Mission.msg"
   "msg/Blackboard.msg"
+  "srv/CheckMission.srv"
   DEPENDENCIES builtin_interfaces
 )
 

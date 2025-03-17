@@ -1,0 +1,4 @@
+string robot_id
+string mission_id
+---
+bool assigned
