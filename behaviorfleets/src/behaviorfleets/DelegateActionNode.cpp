@@ -243,7 +243,7 @@ DelegateActionNode::tick()
   } else {
     if (remote_status_ != nullptr) {  // remote status has been receieved at some point
       auto elapsed = node_->now() - t_last_status_;
-      if ((elapsed.seconds() > timeout_) && (timeout_ != -1)) {
+      if ((elapsed.seconds() > timeout_) && (timeout_ != -1)) { // remote timed out, need to look for a new one
         RCLCPP_INFO(
           node_->get_logger(), (std::string("remote ") + "[ " + remote_id_ + " ] " +
           "TIMED OUT: looking for a new one").c_str());
